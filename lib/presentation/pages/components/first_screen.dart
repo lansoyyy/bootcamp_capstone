@@ -2,7 +2,7 @@ import 'package:capston/presentation/pages/afterclick_pages/worker_details_page.
 import 'package:capston/presentation/utils/constant/colors.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/text_widget.dart';
+import '../../widgets/text_widget.dart';
 
 class FirstTab extends StatefulWidget {
   const FirstTab({Key? key}) : super(key: key);
@@ -125,6 +125,7 @@ class _FirstTabState extends State<FirstTab> {
             ),
             child: DropdownButton(
                 dropdownColor: appBarColor,
+                iconEnabledColor: Colors.white,
                 isExpanded: true,
                 value: _value,
                 items: [

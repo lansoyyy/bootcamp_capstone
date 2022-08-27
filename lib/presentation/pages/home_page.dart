@@ -1,6 +1,7 @@
-import 'package:capston/presentation/screens/first_screen.dart';
-import 'package:capston/presentation/screens/second_tab.dart';
-import 'package:capston/presentation/screens/third_tab.dart';
+import 'package:capston/presentation/pages/components/first_screen.dart';
+import 'package:capston/presentation/pages/components/second_tab.dart';
+import 'package:capston/presentation/pages/components/third_tab.dart';
+
 import 'package:capston/presentation/utils/constant/colors.dart';
 import 'package:capston/presentation/widgets/drawer_widget.dart';
 import 'package:capston/presentation/widgets/text_widget.dart';

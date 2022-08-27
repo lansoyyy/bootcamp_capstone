@@ -1,7 +1,7 @@
 import 'package:capston/presentation/pages/afterclick_pages/job_offer_page.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/text_widget.dart';
+import '../../widgets/text_widget.dart';
 
 class SecondTab extends StatelessWidget {
   const SecondTab({Key? key}) : super(key: key);
