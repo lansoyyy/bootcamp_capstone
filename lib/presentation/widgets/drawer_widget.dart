@@ -35,8 +35,8 @@ class _MyDrawerState extends State<DrawerWidget> {
             ),
             ListTile(
               leading: Icon(Icons.engineering_rounded),
-              title:
-                  TextBold(text: 'Request', color: Colors.black, fontSize: 12),
+              title: TextBold(
+                  text: 'Request (0)', color: Colors.black, fontSize: 12),
             ),
             ListTile(
               leading: Icon(Icons.info),

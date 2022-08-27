@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 Widget searchBarUI() {
   return FloatingSearchBar(
-    hint: 'Search Workers',
+    hint: 'Search Workers...',
     openAxisAlignment: 0.0,
     axisAlignment: 0.0,
     scrollPadding: const EdgeInsets.only(top: 16, bottom: 20),
@@ -13,6 +13,7 @@ Widget searchBarUI() {
       //Your methods will be here
     },
     automaticallyImplyDrawerHamburger: false,
+    automaticallyImplyBackButton: false,
     transitionCurve: Curves.easeInOut,
     transitionDuration: const Duration(milliseconds: 500),
     transition: CircularFloatingSearchBarTransition(),

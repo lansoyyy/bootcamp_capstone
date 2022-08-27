@@ -16,6 +16,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late int selectedIndex = 0;
 
+  appBarTitle(int myIndex) {
+    if (myIndex == 0) {
+      return 'Skilled Workers';
+    } else if (myIndex == 1) {
+      return 'Job Offers';
+    } else {
+      return 'Post';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -25,8 +35,10 @@ class _HomePageState extends State<HomePage> {
         drawer: const DrawerWidget(),
         appBar: AppBar(
           backgroundColor: appBarColor,
-          title:
-              const TextBold(text: 'Home', color: Colors.white, fontSize: 22),
+          title: TextBold(
+              text: appBarTitle(selectedIndex),
+              color: Colors.white,
+              fontSize: 22),
           centerTitle: true,
           actions: [
             Padding(
@@ -48,7 +60,7 @@ class _HomePageState extends State<HomePage> {
         ),
         bottomNavigationBar: FloatingNavbar(
           backgroundColor: appBarColor,
-          selectedItemColor: Colors.black,
+          selectedItemColor: appBarColor,
           onTap: (int val) {
             setState(() {
               selectedIndex = val;

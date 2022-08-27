@@ -20,6 +20,7 @@ class TextBold extends StatelessWidget {
         fontFamily: 'QBold',
         color: color,
         fontSize: fontSize,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }

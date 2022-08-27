@@ -1,3 +1,5 @@
+import 'package:capston/presentation/pages/post_page/post_job_offer_page.dart';
+import 'package:capston/presentation/pages/post_page/post_service.dart';
 import 'package:capston/presentation/utils/constant/colors.dart';
 import 'package:capston/presentation/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +14,10 @@ class ThirdTab extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => PostService()));
+            },
             splashColor: Colors.grey,
             child: Ink(
               child: Container(
@@ -44,7 +49,10 @@ class ThirdTab extends StatelessWidget {
           ),
           InkWell(
             splashColor: Colors.grey,
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const PostJobOfferPage()));
+            },
             child: Ink(
               child: Container(
                 margin: const EdgeInsets.all(20),
