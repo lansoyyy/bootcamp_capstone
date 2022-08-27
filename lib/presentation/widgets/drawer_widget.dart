@@ -16,8 +16,8 @@ class _MyDrawerState extends State<DrawerWidget> {
       child: Drawer(
         child: ListView(
           padding: const EdgeInsets.only(top: 0),
-          children: const <Widget>[
-            UserAccountsDrawerHeader(
+          children: <Widget>[
+            const UserAccountsDrawerHeader(
               decoration: BoxDecoration(),
               accountEmail: TextRegular(
                   text: '09090104355', color: Colors.black, fontSize: 10),
@@ -29,23 +29,61 @@ class _MyDrawerState extends State<DrawerWidget> {
                 backgroundImage: AssetImage('assets/images/profile.png'),
               ),
             ),
-            ListTile(
+            const ListTile(
+              leading: Icon(Icons.person),
+              title:
+                  TextBold(text: 'My Post', color: Colors.black, fontSize: 12),
+            ),
+            const ListTile(
               leading: Icon(Icons.home),
               title: TextBold(text: 'Home', color: Colors.black, fontSize: 12),
             ),
-            ListTile(
+            const ListTile(
               leading: Icon(Icons.engineering_rounded),
               title: TextBold(
                   text: 'Request (0)', color: Colors.black, fontSize: 12),
             ),
-            ListTile(
+            const ListTile(
               leading: Icon(Icons.info),
               title: TextBold(text: 'About', color: Colors.black, fontSize: 12),
             ),
             ListTile(
-              leading: Icon(Icons.logout),
-              title:
-                  TextBold(text: 'Logout', color: Colors.black, fontSize: 12),
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          title: const TextBold(
+                              text: 'Logout Confirmation',
+                              color: Colors.black,
+                              fontSize: 14),
+                          content: const TextRegular(
+                              text: 'Are you sure you want to logout?',
+                              color: Colors.black,
+                              fontSize: 12),
+                          actions: <Widget>[
+                            FlatButton(
+                              onPressed: () => Navigator.of(context).pop(true),
+                              child: const TextBold(
+                                  text: 'Close',
+                                  color: Colors.black,
+                                  fontSize: 12),
+                            ),
+                            FlatButton(
+                              onPressed: () => Navigator.of(context).pop(true),
+                              child: const TextBold(
+                                  text: 'Continue',
+                                  color: Colors.black,
+                                  fontSize: 12),
+                            ),
+                          ],
+                        ));
+              },
+              leading: Icon(
+                Icons.logout,
+                color: Colors.red[700],
+              ),
+              title: TextBold(
+                  text: 'Logout', color: Colors.red[700]!, fontSize: 12),
             ),
           ],
         ),
