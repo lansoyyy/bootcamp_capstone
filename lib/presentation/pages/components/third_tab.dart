@@ -50,8 +50,8 @@ class ThirdTab extends StatelessWidget {
           InkWell(
             splashColor: Colors.grey,
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const PostJobOfferPage()));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => PostJobOffer()));
             },
             child: Ink(
               child: Container(

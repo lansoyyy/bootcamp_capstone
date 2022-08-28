@@ -1,11 +1,80 @@
+import 'package:capston/presentation/pages/home_page.dart';
 import 'package:capston/presentation/utils/constant/colors.dart';
 import 'package:capston/presentation/widgets/button_widget.dart';
 import 'package:capston/presentation/widgets/text_widget.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class WorkerDetailsPage extends StatelessWidget {
-  const WorkerDetailsPage({Key? key}) : super(key: key);
+class WorkerDetailsPage extends StatefulWidget {
+  @override
+  State<WorkerDetailsPage> createState() => _WorkerDetailsPageState();
+}
+
+class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
+  late String dateOfService;
+
+  DateTime selectedDate = DateTime.now();
+
+  TimeOfDay selectedTime = TimeOfDay.now();
+
+  DateTime dateTime = DateTime.now();
+
+  bool showDate = false;
+
+  bool showTime = false;
+
+  bool showDateTime = false;
+
+  // Select for Date
+  Future<DateTime> _selectDate() async {
+    final selected = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2025),
+    );
+    if (selected != null && selected != selectedDate) {
+      setState(() {
+        selectedDate = selected;
+      });
+      print(getDate());
+    }
+    return selectedDate;
+  }
+
+// Select for Time
+  Future<TimeOfDay> _selectTime() async {
+    final selected = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+    );
+    if (selected != null && selected != selectedTime) {
+      setState(() {
+        selectedTime = selected;
+      });
+
+      print(getTime(selectedTime));
+    }
+    return selectedTime;
+  }
+
+  String getDate() {
+    if (selectedDate == null) {
+      return 'select date';
+    } else {
+      return DateFormat('MMM d, yyyy').format(selectedDate);
+    }
+  }
+
+  String getTime(TimeOfDay tod) {
+    final now = DateTime.now();
+
+    final dt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
+    final format = DateFormat.jm();
+    return format.format(dt);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +220,27 @@ class WorkerDetailsPage extends StatelessWidget {
             ),
             ButtonWidget(
               text: 'Hire Me',
-              onPressed: () {},
+              onPressed: () {
+                CoolAlert.show(
+                  barrierDismissible: false,
+                  context: context,
+                  backgroundColor: appBarColor,
+                  type: CoolAlertType.success,
+                  confirmBtnColor: appBarColor,
+                  confirmBtnTextStyle: const TextStyle(
+                    fontFamily: 'QRegular',
+                    color: Colors.white,
+                  ),
+                  title: '',
+                  onConfirmBtnTap: () {
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => HomePage()));
+                  },
+                  text: "Service Booked Successfully!",
+                );
+                _selectTime();
+                _selectDate();
+              },
             ),
             const SizedBox(
               height: 20,

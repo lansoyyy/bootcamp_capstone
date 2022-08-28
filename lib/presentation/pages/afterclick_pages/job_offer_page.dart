@@ -134,7 +134,7 @@ class JobOfferPage extends StatelessWidget {
               height: 20,
             ),
             const TextRegular(
-                text: 'Where to pass the job requirements',
+                text: 'Where to pass the job requirements?',
                 color: Colors.grey,
                 fontSize: 15),
             const SizedBox(
@@ -146,6 +146,24 @@ class JobOfferPage extends StatelessWidget {
                   text: '> Email @olanalans12345@gmail.com',
                   color: Colors.grey,
                   fontSize: 12),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            const TextRegular(
+                text: 'Posted by', color: Colors.grey, fontSize: 10),
+            const SizedBox(
+              height: 5,
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: TextBold(
+                  text: 'Lance Olana', color: Colors.black, fontSize: 15),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: TextRegular(
+                  text: '09090104355', color: Colors.black, fontSize: 12),
             ),
             const SizedBox(
               height: 20,

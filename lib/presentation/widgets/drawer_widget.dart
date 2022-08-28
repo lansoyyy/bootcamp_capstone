@@ -1,3 +1,6 @@
+import 'package:capston/presentation/pages/home_page.dart';
+import 'package:capston/presentation/pages/my_post..dart';
+import 'package:capston/presentation/pages/request_page.dart';
 import 'package:capston/presentation/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -29,23 +32,48 @@ class _MyDrawerState extends State<DrawerWidget> {
                 backgroundImage: AssetImage('assets/images/profile.png'),
               ),
             ),
-            const ListTile(
-              leading: Icon(Icons.person),
-              title:
-                  TextBold(text: 'My Post', color: Colors.black, fontSize: 12),
+            ListTile(
+              onTap: () {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => HomePage()));
+              },
+              leading: const Icon(Icons.home),
+              title: const TextBold(
+                  text: 'Home', color: Colors.black, fontSize: 12),
             ),
-            const ListTile(
-              leading: Icon(Icons.home),
-              title: TextBold(text: 'Home', color: Colors.black, fontSize: 12),
+            ListTile(
+              onTap: () {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => const MyPost()));
+              },
+              leading: const Icon(Icons.person),
+              title: const TextBold(
+                  text: 'My Post', color: Colors.black, fontSize: 12),
             ),
-            const ListTile(
-              leading: Icon(Icons.engineering_rounded),
-              title: TextBold(
-                  text: 'Request (0)', color: Colors.black, fontSize: 12),
+            ListTile(
+              onTap: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const ResquestPage()));
+              },
+              leading: const Icon(Icons.engineering_rounded),
+              title: const TextBold(
+                  text: 'Request (5)', color: Colors.black, fontSize: 12),
             ),
-            const ListTile(
-              leading: Icon(Icons.info),
-              title: TextBold(text: 'About', color: Colors.black, fontSize: 12),
+            ListTile(
+              onTap: () {
+                showAboutDialog(
+                    context: context,
+                    applicationName: 'Hire Me',
+                    applicationIcon: Image.asset(
+                      'assets/images/fblogo.png',
+                      height: 20,
+                    ),
+                    applicationLegalese: "For Cagayan De Oro only",
+                    applicationVersion: 'v1.0');
+              },
+              leading: const Icon(Icons.info),
+              title: const TextBold(
+                  text: 'About', color: Colors.black, fontSize: 12),
             ),
             ListTile(
               onTap: () {
@@ -69,7 +97,7 @@ class _MyDrawerState extends State<DrawerWidget> {
                                   fontSize: 12),
                             ),
                             FlatButton(
-                              onPressed: () => Navigator.of(context).pop(true),
+                              onPressed: () {},
                               child: const TextBold(
                                   text: 'Continue',
                                   color: Colors.black,

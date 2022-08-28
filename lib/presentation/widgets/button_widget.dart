@@ -17,7 +17,7 @@ class ButtonWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       color: appBarColor,
-      onPressed: () async {},
+      onPressed: onPressed,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
         child: TextRegular(text: text, color: Colors.white, fontSize: 14),

@@ -12,6 +12,8 @@ class _PostServiceState extends State<PostService> {
   late String service;
 
   late String description;
+  late String contactNumber;
+  late String address;
 
   int _value = 0;
 
@@ -59,6 +61,7 @@ class _PostServiceState extends State<PostService> {
                   child: DropdownButton(
                       dropdownColor: appBarColor,
                       isExpanded: true,
+                      iconEnabledColor: Colors.white,
                       value: _value,
                       items: [
                         DropdownMenuItem(
@@ -74,7 +77,7 @@ class _PostServiceState extends State<PostService> {
                                 width: 30,
                               ),
                               TextBold(
-                                  text: 'Programmer',
+                                  text: 'Carpenter',
                                   color: Colors.white,
                                   fontSize: 22),
                             ]),
@@ -92,7 +95,7 @@ class _PostServiceState extends State<PostService> {
                               width: 30,
                             ),
                             TextBold(
-                                text: 'Technician',
+                                text: 'Mason',
                                 color: Colors.white,
                                 fontSize: 22),
                           ])),
@@ -109,11 +112,283 @@ class _PostServiceState extends State<PostService> {
                               width: 30,
                             ),
                             TextBold(
-                                text: 'Plumer',
+                                text: 'Air Conditioning Repair',
                                 color: Colors.white,
                                 fontSize: 22),
                           ])),
                           value: 2,
+                        ),
+                        DropdownMenuItem(
+                          child: Center(
+                              child: Row(children: const [
+                            Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            TextBold(
+                                text: 'Cable TV Installer',
+                                color: Colors.white,
+                                fontSize: 22),
+                          ])),
+                          value: 3,
+                        ),
+                        DropdownMenuItem(
+                          child: Center(
+                              child: Row(children: const [
+                            Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            TextBold(
+                                text: 'CCTV Installer',
+                                color: Colors.white,
+                                fontSize: 22),
+                          ])),
+                          value: 4,
+                        ),
+                        DropdownMenuItem(
+                          child: Center(
+                              child: Row(children: const [
+                            Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            TextBold(
+                                text: 'Web Developer',
+                                color: Colors.white,
+                                fontSize: 22),
+                          ])),
+                          value: 5,
+                        ),
+                        DropdownMenuItem(
+                          child: Center(
+                              child: Row(children: const [
+                            Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            TextBold(
+                                text: 'Content Creator',
+                                color: Colors.white,
+                                fontSize: 22),
+                          ])),
+                          value: 6,
+                        ),
+                        DropdownMenuItem(
+                          child: Center(
+                              child: Row(children: const [
+                            Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            TextBold(
+                                text: 'Auto Mechanic',
+                                color: Colors.white,
+                                fontSize: 22),
+                          ])),
+                          value: 7,
+                        ),
+                        DropdownMenuItem(
+                          child: Center(
+                              child: Row(children: const [
+                            Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            TextBold(
+                                text: 'Manicurist',
+                                color: Colors.white,
+                                fontSize: 22),
+                          ])),
+                          value: 8,
+                        ),
+                        DropdownMenuItem(
+                          child: Center(
+                              child: Row(children: const [
+                            Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            TextBold(
+                                text: 'Photographer',
+                                color: Colors.white,
+                                fontSize: 22),
+                          ])),
+                          value: 9,
+                        ),
+                        DropdownMenuItem(
+                          child: Center(
+                              child: Row(children: const [
+                            Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            TextBold(
+                                text: 'Shoe Maker',
+                                color: Colors.white,
+                                fontSize: 22),
+                          ])),
+                          value: 10,
+                        ),
+                        DropdownMenuItem(
+                          child: Center(
+                              child: Row(children: const [
+                            Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            TextBold(
+                                text: 'Driver',
+                                color: Colors.white,
+                                fontSize: 22),
+                          ])),
+                          value: 11,
+                        ),
+                        DropdownMenuItem(
+                          child: Center(
+                              child: Row(children: const [
+                            Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            TextBold(
+                                text: 'Part Time Teacher',
+                                color: Colors.white,
+                                fontSize: 22),
+                          ])),
+                          value: 12,
+                        ),
+                        DropdownMenuItem(
+                          child: Center(
+                              child: Row(children: const [
+                            Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            TextBold(
+                                text: 'Tailoring',
+                                color: Colors.white,
+                                fontSize: 22),
+                          ])),
+                          value: 13,
+                        ),
+                        DropdownMenuItem(
+                          child: Center(
+                              child: Row(children: const [
+                            Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            TextBold(
+                                text: 'Housemaid',
+                                color: Colors.white,
+                                fontSize: 22),
+                          ])),
+                          value: 14,
+                        ),
+                        DropdownMenuItem(
+                          child: Center(
+                              child: Row(children: const [
+                            Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            TextBold(
+                                text: 'Engineer',
+                                color: Colors.white,
+                                fontSize: 22),
+                          ])),
+                          value: 15,
+                        ),
+                        DropdownMenuItem(
+                          child: Center(
+                              child: Row(children: const [
+                            Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            TextBold(
+                                text: 'Architect',
+                                color: Colors.white,
+                                fontSize: 22),
+                          ])),
+                          value: 16,
+                        ),
+                        DropdownMenuItem(
+                          child: Center(
+                              child: Row(children: const [
+                            Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            TextBold(
+                                text: 'Baby Sitter',
+                                color: Colors.white,
+                                fontSize: 22),
+                          ])),
+                          value: 17,
+                        ),
+                        DropdownMenuItem(
+                          child: Center(
+                              child: Row(children: const [
+                            Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            TextBold(
+                                text: 'Nanny Services',
+                                color: Colors.white,
+                                fontSize: 22),
+                          ])),
+                          value: 18,
                         ),
                       ],
                       onChanged: (value) {
@@ -122,6 +397,71 @@ class _PostServiceState extends State<PostService> {
                         });
                       },
                       hint: const Text("Remainders before Redeeming")),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  maxLength: 11,
+                  textCapitalization: TextCapitalization.words,
+                  style: const TextStyle(
+                      color: Colors.black, fontFamily: 'QRegular'),
+                  onChanged: (_input) {
+                    contactNumber = _input;
+                  },
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(width: 1, color: Colors.white),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(width: 1, color: Colors.black),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    labelText: 'Contact Number',
+                    labelStyle: const TextStyle(
+                      fontFamily: 'QRegular',
+                      color: Colors.black,
+                      fontSize: 12.0,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                child: TextFormField(
+                  maxLines: 3,
+                  textCapitalization: TextCapitalization.words,
+                  style: const TextStyle(
+                      color: Colors.black, fontFamily: 'QRegular'),
+                  onChanged: (_input) {
+                    address = _input;
+                  },
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(width: 1, color: Colors.white),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(width: 1, color: Colors.black),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    labelText: 'Address',
+                    labelStyle: const TextStyle(
+                      fontFamily: 'QRegular',
+                      color: Colors.black,
+                      fontSize: 12.0,
+                    ),
+                  ),
                 ),
               ),
               Padding(

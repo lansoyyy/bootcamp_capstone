@@ -45,7 +45,28 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.only(right: 10),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            title: const TextBold(
+                                text: '', color: Colors.black, fontSize: 14),
+                            content: const TextRegular(
+                                text: 'No Content Yet',
+                                color: Colors.black,
+                                fontSize: 12),
+                            actions: <Widget>[
+                              FlatButton(
+                                onPressed: () =>
+                                    Navigator.of(context).pop(true),
+                                child: const TextBold(
+                                    text: 'Close',
+                                    color: Colors.black,
+                                    fontSize: 12),
+                              ),
+                            ],
+                          ));
+                },
                 icon: const Icon(Icons.info),
               ),
             )
@@ -60,6 +81,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         bottomNavigationBar: FloatingNavbar(
+          fontSize: 8,
           backgroundColor: appBarColor,
           selectedItemColor: appBarColor,
           onTap: (int val) {
@@ -73,8 +95,7 @@ class _HomePageState extends State<HomePage> {
                 icon: Icons.contact_mail_outlined, title: 'Workers'),
             FloatingNavbarItem(
                 icon: Icons.work_outline_rounded, title: 'Job Offers'),
-            FloatingNavbarItem(
-                icon: Icons.create_new_folder_rounded, title: 'Post'),
+            FloatingNavbarItem(icon: Icons.create, title: 'Post'),
           ],
         ),
       ),
