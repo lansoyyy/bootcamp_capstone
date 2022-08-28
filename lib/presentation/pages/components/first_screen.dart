@@ -12,7 +12,7 @@ class FirstTab extends StatefulWidget {
 }
 
 class _FirstTabState extends State<FirstTab> {
-  int _value = 1;
+  int _value = 0;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -142,12 +142,30 @@ class _FirstTabState extends State<FirstTab> {
                           width: 30,
                         ),
                         TextBold(
+                            text: 'All', color: Colors.white, fontSize: 22),
+                      ]),
+                    )),
+                    value: 0,
+                  ),
+                  DropdownMenuItem(
+                    child: Center(
+                        child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(children: const [
+                        Icon(
+                          Icons.person,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        TextBold(
                             text: 'Carpenter',
                             color: Colors.white,
                             fontSize: 22),
                       ]),
                     )),
-                    value: 0,
+                    value: 1,
                   ),
                   DropdownMenuItem(
                     child: Center(
@@ -162,7 +180,7 @@ class _FirstTabState extends State<FirstTab> {
                       TextBold(
                           text: 'Mason', color: Colors.white, fontSize: 22),
                     ])),
-                    value: 1,
+                    value: 2,
                   ),
                   DropdownMenuItem(
                     child: Center(
@@ -179,7 +197,7 @@ class _FirstTabState extends State<FirstTab> {
                           color: Colors.white,
                           fontSize: 22),
                     ])),
-                    value: 2,
+                    value: 3,
                   ),
                   DropdownMenuItem(
                     child: Center(
@@ -196,7 +214,7 @@ class _FirstTabState extends State<FirstTab> {
                           color: Colors.white,
                           fontSize: 22),
                     ])),
-                    value: 3,
+                    value: 4,
                   ),
                   DropdownMenuItem(
                     child: Center(
@@ -213,7 +231,7 @@ class _FirstTabState extends State<FirstTab> {
                           color: Colors.white,
                           fontSize: 22),
                     ])),
-                    value: 4,
+                    value: 5,
                   ),
                   DropdownMenuItem(
                     child: Center(
@@ -230,7 +248,7 @@ class _FirstTabState extends State<FirstTab> {
                           color: Colors.white,
                           fontSize: 22),
                     ])),
-                    value: 5,
+                    value: 6,
                   ),
                   DropdownMenuItem(
                     child: Center(
@@ -247,7 +265,7 @@ class _FirstTabState extends State<FirstTab> {
                           color: Colors.white,
                           fontSize: 22),
                     ])),
-                    value: 6,
+                    value: 7,
                   ),
                   DropdownMenuItem(
                     child: Center(
@@ -264,7 +282,7 @@ class _FirstTabState extends State<FirstTab> {
                           color: Colors.white,
                           fontSize: 22),
                     ])),
-                    value: 7,
+                    value: 8,
                   ),
                   DropdownMenuItem(
                     child: Center(
@@ -281,7 +299,7 @@ class _FirstTabState extends State<FirstTab> {
                           color: Colors.white,
                           fontSize: 22),
                     ])),
-                    value: 8,
+                    value: 9,
                   ),
                   DropdownMenuItem(
                     child: Center(
@@ -298,7 +316,7 @@ class _FirstTabState extends State<FirstTab> {
                           color: Colors.white,
                           fontSize: 22),
                     ])),
-                    value: 9,
+                    value: 10,
                   ),
                   DropdownMenuItem(
                     child: Center(
@@ -315,7 +333,7 @@ class _FirstTabState extends State<FirstTab> {
                           color: Colors.white,
                           fontSize: 22),
                     ])),
-                    value: 10,
+                    value: 11,
                   ),
                   DropdownMenuItem(
                     child: Center(
@@ -330,7 +348,7 @@ class _FirstTabState extends State<FirstTab> {
                       TextBold(
                           text: 'Driver', color: Colors.white, fontSize: 22),
                     ])),
-                    value: 11,
+                    value: 12,
                   ),
                   DropdownMenuItem(
                     child: Center(
@@ -347,7 +365,7 @@ class _FirstTabState extends State<FirstTab> {
                           color: Colors.white,
                           fontSize: 22),
                     ])),
-                    value: 12,
+                    value: 13,
                   ),
                   DropdownMenuItem(
                     child: Center(
@@ -362,7 +380,7 @@ class _FirstTabState extends State<FirstTab> {
                       TextBold(
                           text: 'Tailoring', color: Colors.white, fontSize: 22),
                     ])),
-                    value: 13,
+                    value: 14,
                   ),
                   DropdownMenuItem(
                     child: Center(
@@ -377,7 +395,7 @@ class _FirstTabState extends State<FirstTab> {
                       TextBold(
                           text: 'Housemaid', color: Colors.white, fontSize: 22),
                     ])),
-                    value: 14,
+                    value: 15,
                   ),
                   DropdownMenuItem(
                     child: Center(
@@ -392,7 +410,7 @@ class _FirstTabState extends State<FirstTab> {
                       TextBold(
                           text: 'Engineer', color: Colors.white, fontSize: 22),
                     ])),
-                    value: 15,
+                    value: 16,
                   ),
                   DropdownMenuItem(
                     child: Center(
@@ -407,7 +425,7 @@ class _FirstTabState extends State<FirstTab> {
                       TextBold(
                           text: 'Architect', color: Colors.white, fontSize: 22),
                     ])),
-                    value: 16,
+                    value: 17,
                   ),
                   DropdownMenuItem(
                     child: Center(
@@ -424,7 +442,7 @@ class _FirstTabState extends State<FirstTab> {
                           color: Colors.white,
                           fontSize: 22),
                     ])),
-                    value: 17,
+                    value: 18,
                   ),
                   DropdownMenuItem(
                     child: Center(
@@ -441,7 +459,7 @@ class _FirstTabState extends State<FirstTab> {
                           color: Colors.white,
                           fontSize: 22),
                     ])),
-                    value: 18,
+                    value: 19,
                   ),
                 ],
                 onChanged: (value) {

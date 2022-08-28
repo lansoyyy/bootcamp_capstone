@@ -1,3 +1,4 @@
+import 'package:capston/presentation/auth/login_page.dart';
 import 'package:capston/presentation/pages/home_page.dart';
 import 'package:capston/presentation/pages/my_post..dart';
 import 'package:capston/presentation/pages/request_page.dart';
@@ -97,7 +98,11 @@ class _MyDrawerState extends State<DrawerWidget> {
                                   fontSize: 12),
                             ),
                             FlatButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginPage()));
+                              },
                               child: const TextBold(
                                   text: 'Continue',
                                   color: Colors.black,

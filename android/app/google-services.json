@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "548680744442",
+    "project_id": "hire-me-cdc1f",
+    "storage_bucket": "hire-me-cdc1f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548680744442:android:4f0dbf093224bfe8c67843",
+        "android_client_info": {
+          "package_name": "com.example.capston"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548680744442-0f8039dhok22buu5urmsjk8jtpgqikm7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.capston",
+            "certificate_hash": "b655d389bcfd4ca257e583bc3416b224b6e9d1f8"
+          }
+        },
+        {
+          "client_id": "548680744442-o2uhu7fm7l3c5ce94sat2bj4916uoemh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_WR4y1HElKRWoa9eKYwcCnQkF-xof2pM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548680744442-o2uhu7fm7l3c5ce94sat2bj4916uoemh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
