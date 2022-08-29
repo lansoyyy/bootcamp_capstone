@@ -78,7 +78,7 @@ class _MyDrawerState extends State<DrawerWidget> {
             ListTile(
               onTap: () {
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => const MyPost()));
+                    MaterialPageRoute(builder: (context) => MyPost()));
               },
               leading: const Icon(Icons.person),
               title: const TextBold(

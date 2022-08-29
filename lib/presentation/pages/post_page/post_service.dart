@@ -866,20 +866,44 @@ class _PostServiceState extends State<PostService> {
                               ],
                             ));
                   } else {
-                    postService(
-                        name,
-                        username,
-                        password,
-                        contactNumber,
-                        profilePicture,
-                        getSkill(),
-                        rate,
-                        address,
-                        description,
-                        imageURL,
-                        imageURL1);
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => HomePage()));
+                    showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              title: const TextBold(
+                                  text: 'Post Status',
+                                  color: Colors.black,
+                                  fontSize: 14),
+                              content: const TextRegular(
+                                  text: 'Posted Succesfully!',
+                                  color: Colors.black,
+                                  fontSize: 12),
+                              actions: <Widget>[
+                                FlatButton(
+                                  onPressed: () async {
+                                    postService(
+                                        name,
+                                        username,
+                                        password,
+                                        contactNumber,
+                                        profilePicture,
+                                        getSkill(),
+                                        rate,
+                                        address,
+                                        description,
+                                        imageURL,
+                                        imageURL1);
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) => HomePage()));
+                                  },
+                                  child: const TextBold(
+                                      text: 'Continue',
+                                      color: Colors.black,
+                                      fontSize: 12),
+                                ),
+                              ],
+                            ));
                   }
                 },
                 child: const Padding(

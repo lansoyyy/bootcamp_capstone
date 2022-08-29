@@ -1,6 +1,8 @@
 import 'package:capston/presentation/pages/afterclick_pages/worker_details_page.dart';
 import 'package:capston/presentation/utils/constant/colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../widgets/text_widget.dart';
 
@@ -12,6 +14,7 @@ class FirstTab extends StatefulWidget {
 }
 
 class _FirstTabState extends State<FirstTab> {
+  final box = GetStorage();
   int _value = 0;
   @override
   Widget build(BuildContext context) {
@@ -19,101 +22,125 @@ class _FirstTabState extends State<FirstTab> {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 80),
-          child: ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            itemCount: 5,
-            itemBuilder: ((context, index) {
-              return InkWell(
-                splashColor: Colors.grey,
-                onTap: () {
-                  print(_value);
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => WorkerDetailsPage()));
-                },
-                child: Ink(
-                  child: Container(
-                    margin: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
-                      //border: Border.all(color: appBarColor, width: 2),
-                    ),
-                    height: 150,
-                    width: 200,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Image.asset('assets/images/profile.png',
-                                height: 80),
-                            const TextBold(
-                                text: 'Lance Olana',
-                                color: Colors.black,
-                                fontSize: 16),
-                            const TextBold(
-                                text: 'Hired: 12 times',
-                                color: Colors.green,
-                                fontSize: 12),
-                          ],
+          child: StreamBuilder<QuerySnapshot>(
+              stream:
+                  FirebaseFirestore.instance.collection('Service').snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  print('error');
+                  return const Center(child: Text('Error'));
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  print('waiting');
+                  return const Padding(
+                    padding: EdgeInsets.only(top: 50),
+                    child: Center(
+                        child: CircularProgressIndicator(
+                      color: Colors.black,
+                    )),
+                  );
+                }
+                final data = snapshot.requireData;
+                return ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: snapshot.data?.size ?? 0,
+                  itemBuilder: ((context, index) {
+                    return InkWell(
+                      splashColor: Colors.grey,
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => WorkerDetailsPage()));
+                      },
+                      child: Ink(
+                        child: Container(
+                          margin: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
+                            //border: Border.all(color: appBarColor, width: 2),
+                          ),
+                          height: 150,
+                          width: 200,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CircleAvatar(
+                                    maxRadius: 50,
+                                    minRadius: 50,
+                                    backgroundImage: NetworkImage(
+                                        data.docs[index]['profilePicture']),
+                                  ),
+                                  TextBold(
+                                      text: data.docs[index]['name'],
+                                      color: Colors.black,
+                                      fontSize: 16),
+                                  const TextBold(
+                                      text: 'Hired: 12 times',
+                                      color: Colors.green,
+                                      fontSize: 12),
+                                ],
+                              ),
+                              const SizedBox(
+                                width: 40,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  const Text(
+                                    'I am a',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      fontFamily: 'QReg',
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  Text(
+                                    data.docs[index]['skill'],
+                                    style: const TextStyle(
+                                      fontFamily: 'QBold',
+                                      fontSize: 24,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    data.docs[index]['rate'],
+                                    style: const TextStyle(
+                                      fontFamily: 'QRegular',
+                                      fontSize: 14,
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                                  const Expanded(
+                                    child: SizedBox(
+                                      height: 5,
+                                    ),
+                                  ),
+                                  TextRegular(
+                                      text: data.docs[index]['address'],
+                                      color: Colors.grey,
+                                      fontSize: 10),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                        const SizedBox(
-                          width: 40,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Text(
-                              'I am a',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                fontFamily: 'QReg',
-                                fontSize: 12,
-                              ),
-                            ),
-                            Text(
-                              'Technician',
-                              style: TextStyle(
-                                fontFamily: 'QBold',
-                                fontSize: 24,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              '350/day',
-                              style: TextStyle(
-                                fontFamily: 'QRegular',
-                                fontSize: 14,
-                                color: Colors.green,
-                              ),
-                            ),
-                            Expanded(
-                              child: SizedBox(
-                                height: 5,
-                              ),
-                            ),
-                            TextRegular(
-                                text: 'Zone 4, Cagayan De Oro City',
-                                color: Colors.grey,
-                                fontSize: 10),
-                            SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }),
-          ),
+                      ),
+                    );
+                  }),
+                );
+              }),
         ),
         Padding(
           padding:

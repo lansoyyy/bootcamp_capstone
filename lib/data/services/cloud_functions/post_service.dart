@@ -15,7 +15,7 @@ Future postService(
 ) async {
   final docUser = FirebaseFirestore.instance
       .collection('Service')
-      .doc(username + '-' + password);
+      .doc(username + '-' + password + '-' + skill);
 
   final json = {
     'name': name,

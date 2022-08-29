@@ -1,7 +1,17 @@
+import 'dart:io';
+
+import 'package:capston/data/services/cloud_functions/post_job_offer.dart';
+import 'package:capston/presentation/pages/home_page.dart';
 import 'package:capston/presentation/utils/constant/colors.dart';
 import 'package:capston/presentation/widgets/appbar_widget.dart';
 import 'package:capston/presentation/widgets/text_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class PostJobOffer extends StatefulWidget {
   @override
@@ -13,6 +23,7 @@ class _PostServiceState extends State<PostJobOffer> {
   late String name;
   late String contactNumber;
   late String companyName;
+
   late String companyAddress;
   late String jobDescription;
   late String jobQualifications;
@@ -20,6 +31,101 @@ class _PostServiceState extends State<PostJobOffer> {
   late String details;
 
   final int _value = 0;
+
+  bool hasLoaded = false;
+
+  firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
+
+  late String fileName = '';
+  late File imageFile;
+
+  late String imageURL = '';
+
+  final box = GetStorage();
+
+  @override
+  void initState() {
+    getData();
+
+    super.initState();
+  }
+
+  late String password = '';
+  late String username = '';
+
+  getData() async {
+    // Use provider
+    var collection = FirebaseFirestore.instance
+        .collection('Users')
+        .where('username', isEqualTo: box.read('username'))
+        .where('password', isEqualTo: box.read('password'))
+        .where('type', isEqualTo: 'user');
+
+    var querySnapshot = await collection.get();
+    setState(() {
+      for (var queryDocumentSnapshot in querySnapshot.docs) {
+        Map<String, dynamic> data = queryDocumentSnapshot.data();
+
+        password = data['password'];
+        username = data['username'];
+      }
+    });
+  }
+
+  Future<void> uploadPicture(String inputSource) async {
+    final picker = ImagePicker();
+    XFile pickedImage;
+    try {
+      pickedImage = (await picker.pickImage(
+          source: inputSource == 'camera'
+              ? ImageSource.camera
+              : ImageSource.gallery,
+          maxWidth: 1920))!;
+
+      fileName = path.basename(pickedImage.path);
+      imageFile = File(pickedImage.path);
+
+      try {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => const Padding(
+            padding: EdgeInsets.only(left: 30, right: 30),
+            child: AlertDialog(
+                title: Text(
+              '         Loading . . .',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Quicksand'),
+            )),
+          ),
+        );
+
+        await firebase_storage.FirebaseStorage.instance
+            .ref('Company/$fileName')
+            .putFile(imageFile);
+        imageURL = await firebase_storage.FirebaseStorage.instance
+            .ref('Company/$fileName')
+            .getDownloadURL();
+
+        setState(() {
+          hasLoaded = true;
+        });
+
+        Navigator.of(context).pop();
+      } on firebase_storage.FirebaseException catch (error) {
+        if (kDebugMode) {
+          print(error);
+        }
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        print(err);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +140,28 @@ class _PostServiceState extends State<PostJobOffer> {
               const SizedBox(
                 height: 20,
               ),
-              const CircleAvatar(
-                backgroundColor: Colors.grey,
-                minRadius: 40,
-                maxRadius: 40,
-                child: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 32,
-                ),
-              ),
+              hasLoaded
+                  ? CircleAvatar(
+                      backgroundColor: Colors.grey,
+                      minRadius: 40,
+                      maxRadius: 40,
+                      child: Image.network(imageURL),
+                    )
+                  : GestureDetector(
+                      onTap: () {
+                        uploadPicture('gallery');
+                      },
+                      child: const CircleAvatar(
+                        backgroundColor: Colors.grey,
+                        minRadius: 40,
+                        maxRadius: 40,
+                        child: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                          size: 32,
+                        ),
+                      ),
+                    ),
               const SizedBox(
                 height: 5,
               ),
@@ -347,7 +465,72 @@ class _PostServiceState extends State<PostJobOffer> {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 color: appBarColor,
-                onPressed: () {},
+                onPressed: () {
+                  if (imageURL == '') {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              title: const TextBold(
+                                  text: 'Cannot Procceed',
+                                  color: Colors.black,
+                                  fontSize: 14),
+                              content: const TextRegular(
+                                  text: 'Upload Company Logo',
+                                  color: Colors.black,
+                                  fontSize: 12),
+                              actions: <Widget>[
+                                FlatButton(
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(true),
+                                  child: const TextBold(
+                                      text: 'Close',
+                                      color: Colors.black,
+                                      fontSize: 12),
+                                ),
+                              ],
+                            ));
+                  } else {
+                    showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              title: const TextBold(
+                                  text: 'Post Status',
+                                  color: Colors.black,
+                                  fontSize: 14),
+                              content: const TextRegular(
+                                  text: 'Posted Succesfully!',
+                                  color: Colors.black,
+                                  fontSize: 12),
+                              actions: <Widget>[
+                                FlatButton(
+                                  onPressed: () async {
+                                    postJobOffer(
+                                        typeOfJob,
+                                        name,
+                                        contactNumber,
+                                        companyName,
+                                        imageURL,
+                                        companyAddress,
+                                        jobDescription,
+                                        jobQualifications,
+                                        jobRequirements,
+                                        details,
+                                        username,
+                                        password);
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) => HomePage()));
+                                  },
+                                  child: const TextBold(
+                                      text: 'Continue',
+                                      color: Colors.black,
+                                      fontSize: 12),
+                                ),
+                              ],
+                            ));
+                  }
+                },
                 child: const Padding(
                   padding: EdgeInsets.fromLTRB(50, 10, 50, 10),
                   child: TextRegular(
