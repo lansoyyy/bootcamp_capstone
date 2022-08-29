@@ -16,6 +16,7 @@ Future createAccountFirestore(
     'name': name,
     'profilePicture': profilePicture,
     'type': 'user',
+    'timesHired': 0,
   };
 
   await docUser.set(json);

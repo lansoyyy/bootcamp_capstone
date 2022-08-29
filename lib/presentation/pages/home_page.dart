@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.grey[200],
         drawer: const DrawerWidget(),
         appBar: AppBar(
+          elevation: 0,
           backgroundColor: appBarColor,
           title: TextBold(
               text: appBarTitle(selectedIndex),

@@ -143,13 +143,11 @@ class _FirstTabState extends State<FirstTab> {
               }),
         ),
         Padding(
-          padding:
-              const EdgeInsets.only(left: 30, right: 30, top: 20, bottom: 10),
+          padding: const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
           child: Container(
-            padding: const EdgeInsets.only(left: 20, bottom: 10, right: 20),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.only(left: 30, bottom: 10, right: 30),
+            decoration: const BoxDecoration(
               color: appBarColor,
-              borderRadius: BorderRadius.circular(5),
             ),
             child: DropdownButton(
                 dropdownColor: appBarColor,
