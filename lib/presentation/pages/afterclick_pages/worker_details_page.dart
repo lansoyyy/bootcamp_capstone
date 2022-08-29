@@ -169,7 +169,7 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
               height: 20,
             ),
             const TextRegular(
-                text: 'BIR Certificate', color: Colors.grey, fontSize: 15),
+                text: 'BIR Clearance', color: Colors.grey, fontSize: 15),
             const SizedBox(
               height: 10,
             ),

@@ -3,7 +3,10 @@ import 'package:capston/presentation/pages/home_page.dart';
 import 'package:capston/presentation/pages/my_post..dart';
 import 'package:capston/presentation/pages/request_page.dart';
 import 'package:capston/presentation/widgets/text_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({Key? key}) : super(key: key);
@@ -14,6 +17,36 @@ class DrawerWidget extends StatefulWidget {
 
 class _MyDrawerState extends State<DrawerWidget> {
   @override
+  void initState() {
+    getData();
+
+    super.initState();
+  }
+
+  late String name = '';
+  late String profilePicture = '';
+
+  getData() async {
+    // Use provider
+    var collection = FirebaseFirestore.instance
+        .collection('Users')
+        .where('username', isEqualTo: box.read('username'))
+        .where('password', isEqualTo: box.read('password'))
+        .where('type', isEqualTo: 'user');
+
+    var querySnapshot = await collection.get();
+    setState(() {
+      for (var queryDocumentSnapshot in querySnapshot.docs) {
+        Map<String, dynamic> data = queryDocumentSnapshot.data();
+        name = data['name'];
+
+        profilePicture = data['profilePicture'];
+      }
+    });
+  }
+
+  final box = GetStorage();
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 220,
@@ -21,16 +54,16 @@ class _MyDrawerState extends State<DrawerWidget> {
         child: ListView(
           padding: const EdgeInsets.only(top: 0),
           children: <Widget>[
-            const UserAccountsDrawerHeader(
-              decoration: BoxDecoration(),
-              accountEmail: TextRegular(
-                  text: '09090104355', color: Colors.black, fontSize: 10),
-              accountName: TextBold(
-                  text: 'Lance Olana', color: Colors.black, fontSize: 15),
+            UserAccountsDrawerHeader(
+              decoration: const BoxDecoration(),
+              accountEmail: const TextRegular(
+                  text: '', color: Colors.black, fontSize: 10),
+              accountName:
+                  TextBold(text: name, color: Colors.black, fontSize: 15),
               currentAccountPicture: CircleAvatar(
                 minRadius: 50,
                 maxRadius: 50,
-                backgroundImage: AssetImage('assets/images/profile.png'),
+                backgroundImage: NetworkImage(profilePicture),
               ),
             ),
             ListTile(
@@ -98,7 +131,8 @@ class _MyDrawerState extends State<DrawerWidget> {
                                   fontSize: 12),
                             ),
                             FlatButton(
-                              onPressed: () {
+                              onPressed: () async {
+                                await FirebaseAuth.instance.signOut();
                                 Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                         builder: (context) => LoginPage()));

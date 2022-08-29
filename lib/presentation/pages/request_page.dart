@@ -1,3 +1,4 @@
+import 'package:capston/presentation/pages/maps_page.dart';
 import 'package:capston/presentation/widgets/appbar_widget.dart';
 import 'package:capston/presentation/widgets/drawer_widget.dart';
 import 'package:capston/presentation/widgets/text_widget.dart';
@@ -53,7 +54,10 @@ class ResquestPage extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => MapSample()));
+                            },
                             icon: const Icon(
                               Icons.check_box_rounded,
                               color: Colors.green,

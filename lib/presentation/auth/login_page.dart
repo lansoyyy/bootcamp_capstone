@@ -1,7 +1,10 @@
 import 'package:capston/presentation/auth/signup_page.dart';
 import 'package:capston/presentation/pages/home_page.dart';
 import 'package:capston/presentation/widgets/text_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatelessWidget {
   final usernameController = TextEditingController();
@@ -64,9 +67,38 @@ class LoginPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(3),
                     ),
                     color: const Color(0xff303952),
-                    onPressed: () {
-                      Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => HomePage()));
+                    onPressed: () async {
+                      try {
+                        await FirebaseAuth.instance.signInWithEmailAndPassword(
+                            email:
+                                usernameController.text.trim() + '@hireme.cdo',
+                            password: passwordController.text.trim());
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => HomePage()));
+                      } catch (e) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: const TextBold(
+                                      text: 'Error',
+                                      color: Colors.black,
+                                      fontSize: 14),
+                                  content: TextRegular(
+                                      text: "$e",
+                                      color: Colors.black,
+                                      fontSize: 12),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(true),
+                                      child: const TextBold(
+                                          text: 'Close',
+                                          color: Colors.black,
+                                          fontSize: 12),
+                                    ),
+                                  ],
+                                ));
+                      }
                     },
                     child: const Padding(
                       padding: EdgeInsets.only(
@@ -87,7 +119,27 @@ class LoginPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(3),
                     ),
                     color: Colors.blue[700],
-                    onPressed: () {},
+                    onPressed: () async {
+                      try {
+                        final facebookLogInResult =
+                            await FacebookAuth.instance.login();
+
+                        final userData =
+                            await FacebookAuth.instance.getUserData();
+
+                        final facebookAuthCredential =
+                            FacebookAuthProvider.credential(
+                                facebookLogInResult.accessToken!.token);
+
+                        await FirebaseAuth.instance
+                            .signInWithCredential(facebookAuthCredential);
+
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => HomePage()));
+                      } on FirebaseAuthException catch (e) {
+                        print(e);
+                      }
+                    },
                     child: Padding(
                       padding: const EdgeInsets.only(top: 10, bottom: 10),
                       child: Row(
@@ -119,7 +171,31 @@ class LoginPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(3),
                     ),
                     color: Colors.white,
-                    onPressed: () {},
+                    onPressed: () async {
+                      final GoogleSignIn _googleSignIn =
+                          GoogleSignIn(scopes: ['email']);
+
+                      try {
+                        final googleSignInAccount =
+                            await _googleSignIn.signIn();
+
+                        if (googleSignInAccount == null) {
+                          return;
+                        }
+                        final googleSignInAuth =
+                            await googleSignInAccount.authentication;
+                        final credential = GoogleAuthProvider.credential(
+                          accessToken: googleSignInAuth.accessToken,
+                          idToken: googleSignInAuth.idToken,
+                        );
+                        await FirebaseAuth.instance
+                            .signInWithCredential(credential);
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => HomePage()));
+                      } on FirebaseAuthException catch (e) {
+                        print(e);
+                      }
+                    },
                     child: Padding(
                       padding: const EdgeInsets.only(top: 10, bottom: 10),
                       child: Row(

@@ -26,6 +26,7 @@ class _FirstTabState extends State<FirstTab> {
               return InkWell(
                 splashColor: Colors.grey,
                 onTap: () {
+                  print(_value);
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => WorkerDetailsPage()));
                 },

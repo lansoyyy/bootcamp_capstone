@@ -1,7 +1,17 @@
+import 'dart:io';
+
+import 'package:capston/data/services/cloud_functions/post_service.dart';
+import 'package:capston/presentation/pages/home_page.dart';
 import 'package:capston/presentation/utils/constant/colors.dart';
 import 'package:capston/presentation/widgets/appbar_widget.dart';
 import 'package:capston/presentation/widgets/text_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class PostService extends StatefulWidget {
   @override
@@ -9,6 +19,42 @@ class PostService extends StatefulWidget {
 }
 
 class _PostServiceState extends State<PostService> {
+  final box = GetStorage();
+
+  @override
+  void initState() {
+    getData();
+
+    super.initState();
+  }
+
+  late String name = '';
+  late String profilePicture = '';
+  late String password = '';
+  late String username = '';
+
+  getData() async {
+    // Use provider
+    var collection = FirebaseFirestore.instance
+        .collection('Users')
+        .where('username', isEqualTo: box.read('username'))
+        .where('password', isEqualTo: box.read('password'))
+        .where('type', isEqualTo: 'user');
+
+    var querySnapshot = await collection.get();
+    setState(() {
+      for (var queryDocumentSnapshot in querySnapshot.docs) {
+        Map<String, dynamic> data = queryDocumentSnapshot.data();
+        name = data['name'];
+
+        profilePicture = data['profilePicture'];
+
+        password = data['password'];
+        username = data['username'];
+      }
+    });
+  }
+
   late String service;
 
   late String description;
@@ -16,6 +62,172 @@ class _PostServiceState extends State<PostService> {
   late String address;
 
   int _value = 0;
+
+  late String rate;
+
+  bool hasLoaded = false;
+  bool hasLoaded1 = false;
+
+  firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
+
+  late String fileName = '';
+  late File imageFile;
+
+  late String imageURL = '';
+  late String imageURL1 = '';
+
+  Future<void> uploadPictureBIR(String inputSource) async {
+    final picker = ImagePicker();
+    XFile pickedImage;
+    try {
+      pickedImage = (await picker.pickImage(
+          source: inputSource == 'camera'
+              ? ImageSource.camera
+              : ImageSource.gallery,
+          maxWidth: 1920))!;
+
+      fileName = path.basename(pickedImage.path);
+      imageFile = File(pickedImage.path);
+
+      try {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => const Padding(
+            padding: EdgeInsets.only(left: 30, right: 30),
+            child: AlertDialog(
+                title: Text(
+              '         Loading . . .',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Quicksand'),
+            )),
+          ),
+        );
+
+        await firebase_storage.FirebaseStorage.instance
+            .ref('BIR/$fileName')
+            .putFile(imageFile);
+        imageURL = await firebase_storage.FirebaseStorage.instance
+            .ref('BIR/$fileName')
+            .getDownloadURL();
+
+        setState(() {
+          hasLoaded = true;
+        });
+
+        Navigator.of(context).pop();
+      } on firebase_storage.FirebaseException catch (error) {
+        if (kDebugMode) {
+          print(error);
+        }
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        print(err);
+      }
+    }
+  }
+
+  Future<void> uploadPicturePolice(String inputSource) async {
+    final picker = ImagePicker();
+    XFile pickedImage;
+    try {
+      pickedImage = (await picker.pickImage(
+          source: inputSource == 'camera'
+              ? ImageSource.camera
+              : ImageSource.gallery,
+          maxWidth: 1920))!;
+
+      fileName = path.basename(pickedImage.path);
+      imageFile = File(pickedImage.path);
+
+      try {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => const Padding(
+            padding: EdgeInsets.only(left: 30, right: 30),
+            child: AlertDialog(
+                title: Text(
+              '         Loading . . .',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Quicksand'),
+            )),
+          ),
+        );
+
+        await firebase_storage.FirebaseStorage.instance
+            .ref('Police/$fileName')
+            .putFile(imageFile);
+        imageURL1 = await firebase_storage.FirebaseStorage.instance
+            .ref('Police/$fileName')
+            .getDownloadURL();
+
+        setState(() {
+          hasLoaded1 = true;
+        });
+
+        Navigator.of(context).pop();
+      } on firebase_storage.FirebaseException catch (error) {
+        if (kDebugMode) {
+          print(error);
+        }
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        print(err);
+      }
+    }
+  }
+
+  getSkill() {
+    if (_value == 0) {
+      return 'Carpenter';
+    } else if (_value == 1) {
+      return 'Mason';
+    } else if (_value == 2) {
+      return 'Air Conditioning Repair';
+    } else if (_value == 3) {
+      return 'Cable TV Installer';
+    } else if (_value == 4) {
+      return 'CCTV Installer';
+    } else if (_value == 5) {
+      return 'Web Developer';
+    } else if (_value == 6) {
+      return 'Content Creator';
+    } else if (_value == 7) {
+      return 'Auto Mechanic';
+    } else if (_value == 8) {
+      return 'Manicurist';
+    } else if (_value == 9) {
+      return 'Photographer';
+    } else if (_value == 10) {
+      return 'Shoe Maker';
+    } else if (_value == 11) {
+      return 'Driver';
+    } else if (_value == 12) {
+      return 'Part Time Teacher';
+    } else if (_value == 13) {
+      return 'Tailoring';
+    } else if (_value == 14) {
+      return 'Tailoring';
+    } else if (_value == 15) {
+      return 'Housemaid';
+    } else if (_value == 16) {
+      return 'Engineer';
+    } else if (_value == 17) {
+      return 'Architect';
+    } else if (_value == 18) {
+      return 'Baby Sitter';
+    } else if (_value == 19) {
+      return 'Nanny Services';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,23 +242,15 @@ class _PostServiceState extends State<PostService> {
               const SizedBox(
                 height: 20,
               ),
-              const CircleAvatar(
-                backgroundColor: Colors.grey,
-                minRadius: 40,
-                maxRadius: 40,
-                child: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 32,
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              const TextRegular(
-                  text: 'Add Your Photo', color: Colors.grey, fontSize: 10),
               const SizedBox(
                 height: 20,
+              ),
+              const TextRegular(
+                  text: 'Choose your Expertise',
+                  color: Colors.grey,
+                  fontSize: 10),
+              const SizedBox(
+                height: 10,
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -402,6 +606,37 @@ class _PostServiceState extends State<PostService> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                 child: TextFormField(
+                  textCapitalization: TextCapitalization.words,
+                  style: const TextStyle(
+                      color: Colors.black, fontFamily: 'QRegular'),
+                  onChanged: (_input) {
+                    rate = _input;
+                  },
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(width: 1, color: Colors.white),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(width: 1, color: Colors.black),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    labelText: 'Rate (ex. 350pesos/day)',
+                    labelStyle: const TextStyle(
+                      fontFamily: 'QRegular',
+                      color: Colors.black,
+                      fontSize: 12.0,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                child: TextFormField(
                   keyboardType: TextInputType.number,
                   maxLength: 11,
                   textCapitalization: TextCapitalization.words,
@@ -496,80 +731,157 @@ class _PostServiceState extends State<PostService> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 20, right: 20, top: 20, bottom: 30),
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    height: 300,
-                    width: 300,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(
-                            Icons.add,
-                            color: Colors.white,
-                            size: 42,
+              hasLoaded
+                  ? Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20, right: 20, top: 20, bottom: 30),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        height: 300,
+                        width: 300,
+                        child: Image.network(
+                          imageURL,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20, right: 20, top: 20, bottom: 30),
+                      child: GestureDetector(
+                        onTap: () {
+                          uploadPictureBIR('gallery');
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          SizedBox(
-                            height: 10,
+                          height: 300,
+                          width: 300,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                  size: 42,
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                TextRegular(
+                                    text: 'Add Photo of BIR Certificate',
+                                    color: Colors.white,
+                                    fontSize: 15),
+                              ],
+                            ),
                           ),
-                          TextRegular(
-                              text: 'Add Photo of BIR Certificate',
-                              color: Colors.white,
-                              fontSize: 15),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 20, right: 20, top: 10, bottom: 30),
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    height: 300,
-                    width: 300,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(
-                            Icons.add,
-                            color: Colors.white,
-                            size: 42,
+              hasLoaded1
+                  ? Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20, right: 20, top: 10, bottom: 30),
+                      child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          SizedBox(
-                            height: 10,
+                          height: 300,
+                          width: 300,
+                          child: Image.network(
+                            imageURL1,
+                            fit: BoxFit.cover,
+                          )),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20, right: 20, top: 10, bottom: 30),
+                      child: GestureDetector(
+                        onTap: () {
+                          uploadPicturePolice('gallery');
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          TextRegular(
-                              text: 'Add Photo of Police Clearance',
-                              color: Colors.white,
-                              fontSize: 15),
-                        ],
+                          height: 300,
+                          width: 300,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                  size: 42,
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                TextRegular(
+                                    text: 'Add Photo of Police Clearance',
+                                    color: Colors.white,
+                                    fontSize: 15),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
               MaterialButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
                 color: appBarColor,
-                onPressed: () {},
+                onPressed: () {
+                  if (imageURL == '' || imageURL1 == '') {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              title: const TextBold(
+                                  text: 'Cannot Procceed',
+                                  color: Colors.black,
+                                  fontSize: 14),
+                              content: const TextRegular(
+                                  text: 'Upload needed forms',
+                                  color: Colors.black,
+                                  fontSize: 12),
+                              actions: <Widget>[
+                                FlatButton(
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(true),
+                                  child: const TextBold(
+                                      text: 'Close',
+                                      color: Colors.black,
+                                      fontSize: 12),
+                                ),
+                              ],
+                            ));
+                  } else {
+                    postService(
+                        name,
+                        username,
+                        password,
+                        contactNumber,
+                        profilePicture,
+                        getSkill(),
+                        rate,
+                        address,
+                        description,
+                        imageURL,
+                        imageURL1);
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => HomePage()));
+                  }
+                },
                 child: const Padding(
                   padding: EdgeInsets.fromLTRB(50, 10, 50, 10),
                   child: TextRegular(
