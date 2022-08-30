@@ -32,6 +32,7 @@ class _PostServiceState extends State<PostService> {
   late String profilePicture = '';
   late String password = '';
   late String username = '';
+  late int timesHired = 0;
 
   getData() async {
     // Use provider
@@ -51,6 +52,7 @@ class _PostServiceState extends State<PostService> {
 
         password = data['password'];
         username = data['username'];
+        timesHired = data['timesHired'];
       }
     });
   }
@@ -892,7 +894,8 @@ class _PostServiceState extends State<PostService> {
                                         address,
                                         description,
                                         imageURL,
-                                        imageURL1);
+                                        imageURL1,
+                                        timesHired);
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                             builder: (context) => HomePage()));

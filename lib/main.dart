@@ -1,4 +1,5 @@
-import 'package:capston/data/providers/post_provider.dart';
+import 'package:capston/data/providers/joboffer_details_provider.dart';
+import 'package:capston/data/providers/worker_details_provider.dart';
 import 'package:capston/presentation/auth/login_page.dart';
 import 'package:capston/presentation/pages/home_page.dart';
 import 'package:capston/presentation/utils/firebase_options.dart';
@@ -13,11 +14,14 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MultiProvider(
-          providers: [ChangeNotifierProvider(create: (_) => PostProvider())],
-          child: const MyApp())));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (_) => PostProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (_) => JobOfferProvider(),
+    ),
+  ], child: const MaterialApp(home: MyApp())));
 }
 
 class MyApp extends StatelessWidget {

@@ -1,8 +1,10 @@
+import 'package:capston/data/providers/worker_details_provider.dart';
 import 'package:capston/presentation/pages/afterclick_pages/worker_details_page.dart';
 import 'package:capston/presentation/utils/constant/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:provider/provider.dart';
 
 import '../../widgets/text_widget.dart';
 
@@ -16,6 +18,7 @@ class FirstTab extends StatefulWidget {
 class _FirstTabState extends State<FirstTab> {
   final box = GetStorage();
   int _value = 0;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -48,6 +51,18 @@ class _FirstTabState extends State<FirstTab> {
                     return InkWell(
                       splashColor: Colors.grey,
                       onTap: () {
+                        context.read<PostProvider>().getWorkerDetails(
+                            data.docs[index]['name'],
+                            data.docs[index]['contactNumber'],
+                            data.docs[index]['profilePicture'],
+                            data.docs[index]['username'],
+                            data.docs[index]['password'],
+                            data.docs[index]['rate'],
+                            data.docs[index]['skill'],
+                            data.docs[index]['capabilities'],
+                            data.docs[index]['bir'],
+                            data.docs[index]['police'],
+                            data.docs[index]['timesHired']);
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => WorkerDetailsPage()));
                       },

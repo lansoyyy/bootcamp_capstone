@@ -4,11 +4,14 @@ import 'package:capston/presentation/widgets/text_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatelessWidget {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+
+  final box = GetStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +76,9 @@ class LoginPage extends StatelessWidget {
                             email:
                                 usernameController.text.trim() + '@hireme.cdo',
                             password: passwordController.text.trim());
+                        box.write('username',
+                            usernameController.text + '@hireme.cdo');
+                        box.write('password', passwordController.text);
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (context) => HomePage()));
                       } catch (e) {

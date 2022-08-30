@@ -12,6 +12,7 @@ Future postService(
   String capabilities,
   String bir,
   String police,
+  int timesHired,
 ) async {
   final docUser = FirebaseFirestore.instance
       .collection('Service')
@@ -29,6 +30,7 @@ Future postService(
     'capabilities': capabilities,
     'bir': bir,
     'police': police,
+    'timesHired': timesHired,
   };
 
   await docUser.set(json);

@@ -110,7 +110,7 @@ class _SignupPageState extends State<SignupPage> {
                       backgroundColor: Colors.grey,
                       minRadius: 50,
                       maxRadius: 50,
-                      child: Image.network(imageURL, fit: BoxFit.cover),
+                      backgroundImage: NetworkImage(imageURL),
                     )
                   : GestureDetector(
                       onTap: () {

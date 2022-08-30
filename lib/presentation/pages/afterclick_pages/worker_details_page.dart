@@ -5,7 +5,10 @@ import 'package:capston/presentation/widgets/text_widget.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../data/providers/worker_details_provider.dart';
 
 class WorkerDetailsPage extends StatefulWidget {
   @override
@@ -76,6 +79,8 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
     return format.format(dt);
   }
 
+  late String contactNumber;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,15 +101,19 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
               children: [
                 Column(
                   children: [
-                    Image.asset(
-                      'assets/images/profile.png',
-                      height: 100,
+                    CircleAvatar(
+                      minRadius: 50,
+                      maxRadius: 50,
+                      backgroundImage: NetworkImage(
+                        context.read<PostProvider>().getProfilePicture(),
+                      ),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    const TextBold(
-                        text: 'Hired: 12 times',
+                    TextBold(
+                        text:
+                            'Hired: ${context.read<PostProvider>().getTimesHired()} times',
                         color: Colors.green,
                         fontSize: 14),
                   ],
@@ -114,17 +123,24 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
+                  children: [
                     TextBold(
-                        text: 'Lance Olana', color: Colors.black, fontSize: 24),
+                        text: context.read<PostProvider>().getName(),
+                        color: Colors.black,
+                        fontSize: 24),
                     TextRegular(
-                        text: '09090104355', color: Colors.black, fontSize: 14),
-                    SizedBox(
+                        text: context.read<PostProvider>().getContactNumber(),
+                        color: Colors.black,
+                        fontSize: 14),
+                    const SizedBox(
                       height: 10,
                     ),
-                    TextRegular(text: 'Rate', color: Colors.grey, fontSize: 10),
+                    const TextRegular(
+                        text: 'Rate', color: Colors.grey, fontSize: 10),
                     TextBold(
-                        text: '350/day', color: Colors.green, fontSize: 16),
+                        text: context.read<PostProvider>().getRate(),
+                        color: Colors.green,
+                        fontSize: 16),
                   ],
                 ),
               ],
@@ -141,9 +157,9 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
             const SizedBox(
               height: 10,
             ),
-            const Text(
-              'Technician',
-              style: TextStyle(
+            Text(
+              context.read<PostProvider>().getSkill(),
+              style: const TextStyle(
                   fontFamily: 'QBold',
                   color: Colors.black,
                   fontSize: 24,
@@ -157,11 +173,10 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
             const SizedBox(
               height: 10,
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 20, right: 20),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: TextRegular(
-                  text:
-                      '> Job Description Job Description Job Description Job Description Job Description Job Description Job Description Job Description Job DescriptionJob Description Job Description Job Description Job Descriptionv Job Descriptionv  vJob Description Job Description Job Description Job Description Job Description Job DescriptionJob Description Job DescriptionJob DescriptionJob Description Job Description Job DescriptionJob DescriptionJob DescriptionJob Description Job Description Job Description  Job Description',
+                  text: '> ${context.read<PostProvider>().getCapabilities()}',
                   color: Colors.grey,
                   fontSize: 12),
             ),
@@ -179,6 +194,10 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
                 color: Colors.grey,
                 height: 350,
                 width: 300,
+                child: Image.network(
+                  context.read<PostProvider>().getBir(),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             const SizedBox(
@@ -195,6 +214,10 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
                 color: Colors.grey,
                 height: 350,
                 width: 300,
+                child: Image.network(
+                  context.read<PostProvider>().getPolice(),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             const SizedBox(
@@ -206,7 +229,8 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
               ),
               color: appBarColor,
               onPressed: () async {
-                String driverContactNumber = '09090104355';
+                String driverContactNumber =
+                    context.read<PostProvider>().getContactNumber();
                 final _text = 'tel:$driverContactNumber';
                 if (await canLaunch(_text)) {
                   await launch(_text);
@@ -233,6 +257,7 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
                   ),
                   title: '',
                   onConfirmBtnTap: () {
+                    // Book
                     Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: (context) => HomePage()));
                   },
@@ -240,6 +265,45 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
                 );
                 _selectTime();
                 _selectDate();
+                showDialog(
+                    barrierColor: Colors.white,
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) => AlertDialog(
+                          title: const TextBold(
+                              text: 'Enter your Contact Number',
+                              color: Colors.black,
+                              fontSize: 14),
+                          content: Container(
+                              margin:
+                                  const EdgeInsets.only(left: 10, right: 10),
+                              padding: const EdgeInsets.only(top: 20),
+                              child: TextFormField(
+                                maxLength: 11,
+                                keyboardType: TextInputType.number,
+                                onChanged: (_input) {
+                                  contactNumber = _input;
+                                },
+                                decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Color(0xff303952)),
+                                        borderRadius: BorderRadius.circular(5)),
+                                    labelText: "Contact Number",
+                                    border: const OutlineInputBorder()),
+                              )),
+                          actions: <Widget>[
+                            FlatButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(true);
+                              },
+                              child: const TextBold(
+                                  text: 'Continue',
+                                  color: Colors.black,
+                                  fontSize: 12),
+                            ),
+                          ],
+                        ));
               },
             ),
             const SizedBox(
