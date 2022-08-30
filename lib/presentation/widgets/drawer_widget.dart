@@ -101,7 +101,7 @@ class _MyDrawerState extends State<DrawerWidget> {
                     context: context,
                     applicationName: 'Hire Me',
                     applicationIcon: Image.asset(
-                      'assets/images/fblogo.png',
+                      'assets/images/logo.png',
                       height: 20,
                     ),
                     applicationLegalese: "For Cagayan De Oro only",
