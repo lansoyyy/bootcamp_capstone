@@ -2,11 +2,12 @@ import 'package:capston/data/providers/dataonmap_provider.dart';
 import 'package:capston/data/providers/joboffer_details_provider.dart';
 import 'package:capston/data/providers/worker_details_provider.dart';
 import 'package:capston/presentation/screens/loading_screen.dart';
-import 'package:capston/presentation/screens/loading_screen2.dart';
+import 'package:capston/presentation/screens/onboarding_screen.dart';
 import 'package:capston/presentation/utils/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -25,11 +26,11 @@ void main() async {
     ChangeNotifierProvider(
       create: (_) => MapDataProvider(),
     ),
-  ], child: const MaterialApp(home: MyApp())));
+  ], child: MaterialApp(home: MyApp())));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final box = GetStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
           if (snapshot.hasData) {
             return LoadingScreenToHome();
           } else {
-            return LoadingScreenToLogin();
+            return OnboardingScreen();
           }
         });
   }

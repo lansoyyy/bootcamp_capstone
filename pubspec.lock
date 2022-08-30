@@ -463,7 +463,7 @@ packages:
       name: liquid_swipe
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "2.1.1"
   lottie:
     dependency: transitive
     description:
