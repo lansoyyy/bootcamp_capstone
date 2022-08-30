@@ -217,16 +217,14 @@ class _PostServiceState extends State<PostService> {
     } else if (_value == 13) {
       return 'Tailoring';
     } else if (_value == 14) {
-      return 'Tailoring';
-    } else if (_value == 15) {
       return 'Housemaid';
-    } else if (_value == 16) {
+    } else if (_value == 15) {
       return 'Engineer';
-    } else if (_value == 17) {
+    } else if (_value == 16) {
       return 'Architect';
-    } else if (_value == 18) {
+    } else if (_value == 17) {
       return 'Baby Sitter';
-    } else if (_value == 19) {
+    } else if (_value == 18) {
       return 'Nanny Services';
     }
   }

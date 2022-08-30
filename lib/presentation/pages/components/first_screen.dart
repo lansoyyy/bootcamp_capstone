@@ -19,6 +19,107 @@ class _FirstTabState extends State<FirstTab> {
   final box = GetStorage();
   int _value = 0;
 
+  getSkill() {
+    if (_value == 0) {
+      return FirebaseFirestore.instance.collection('Service').snapshots();
+    } else if (_value == 1) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Carpenter')
+          .snapshots();
+    } else if (_value == 2) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Mason')
+          .snapshots();
+    } else if (_value == 3) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Air Conditioning Repair')
+          .snapshots();
+    } else if (_value == 4) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Cable TV Installer')
+          .snapshots();
+    } else if (_value == 5) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'CCTV Installer')
+          .snapshots();
+    } else if (_value == 6) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Web Developer')
+          .snapshots();
+    } else if (_value == 7) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Content Creator')
+          .snapshots();
+    } else if (_value == 8) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Auto Mechanic')
+          .snapshots();
+    } else if (_value == 9) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Manicurist')
+          .snapshots();
+    } else if (_value == 10) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Photographer')
+          .snapshots();
+    } else if (_value == 11) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Shoe Maker')
+          .snapshots();
+    } else if (_value == 12) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Driver')
+          .snapshots();
+    } else if (_value == 13) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Part Time Teacher')
+          .snapshots();
+    } else if (_value == 14) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Tailoring')
+          .snapshots();
+    } else if (_value == 15) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Housemaid')
+          .snapshots();
+    } else if (_value == 16) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Engineer')
+          .snapshots();
+    } else if (_value == 17) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Architect')
+          .snapshots();
+    } else if (_value == 18) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Baby Sitter')
+          .snapshots();
+    } else if (_value == 19) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Nanny Services')
+          .snapshots();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -26,8 +127,7 @@ class _FirstTabState extends State<FirstTab> {
         Padding(
           padding: const EdgeInsets.only(top: 80),
           child: StreamBuilder<QuerySnapshot>(
-              stream:
-                  FirebaseFirestore.instance.collection('Service').snapshots(),
+              stream: getSkill(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   print('error');
