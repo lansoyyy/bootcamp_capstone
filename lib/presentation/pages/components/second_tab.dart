@@ -1,6 +1,8 @@
+import 'package:capston/data/providers/joboffer_details_provider.dart';
 import 'package:capston/presentation/pages/afterclick_pages/job_offer_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../widgets/text_widget.dart';
 
@@ -37,6 +39,17 @@ class SecondTab extends StatelessWidget {
                 return InkWell(
                   splashColor: Colors.grey,
                   onTap: () {
+                    context.read<JobOfferProvider>().getJobOfferDetails(
+                        data.docs[index]['companyLogo'],
+                        data.docs[index]['companyName'],
+                        data.docs[index]['companyAddress'],
+                        data.docs[index]['typeOfJob'],
+                        data.docs[index]['jobDescription'],
+                        data.docs[index]['jobQualifications'],
+                        data.docs[index]['jobRequirements'],
+                        data.docs[index]['details'],
+                        data.docs[index]['name'],
+                        data.docs[index]['contactNumber']);
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const JobOfferPage()));
                   },

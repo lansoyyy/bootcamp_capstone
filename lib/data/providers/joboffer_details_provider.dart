@@ -44,5 +44,6 @@ class JobOfferProvider extends ChangeNotifier {
     whereToPass = _whereToPass;
     name = _name;
     contactNumber = _contactNumber;
+    notifyListeners();
   }
 }

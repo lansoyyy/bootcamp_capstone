@@ -1,3 +1,4 @@
+import 'package:capston/data/providers/dataonmap_provider.dart';
 import 'package:capston/data/providers/joboffer_details_provider.dart';
 import 'package:capston/data/providers/worker_details_provider.dart';
 import 'package:capston/presentation/auth/login_page.dart';
@@ -20,6 +21,9 @@ void main() async {
     ),
     ChangeNotifierProvider(
       create: (_) => JobOfferProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (_) => MapDataProvider(),
     ),
   ], child: const MaterialApp(home: MyApp())));
 }

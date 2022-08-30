@@ -1,6 +1,8 @@
+import 'package:capston/data/providers/joboffer_details_provider.dart';
 import 'package:capston/presentation/utils/constant/colors.dart';
 import 'package:capston/presentation/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class JobOfferPage extends StatelessWidget {
   const JobOfferPage({Key? key}) : super(key: key);
@@ -23,9 +25,12 @@ class JobOfferPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  'assets/images/fblogo.png',
-                  height: 100,
+                CircleAvatar(
+                  minRadius: 50,
+                  maxRadius: 50,
+                  backgroundImage: NetworkImage(
+                    context.read<JobOfferProvider>().getCompanyLogo,
+                  ),
                 ),
                 const SizedBox(
                   width: 20,
@@ -33,24 +38,26 @@ class JobOfferPage extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const TextBold(
-                        text: 'Facebook Inc.',
+                    TextBold(
+                        text: context.read<JobOfferProvider>().getCompanyName,
                         color: Colors.black,
                         fontSize: 24),
                     Row(
-                      children: const [
-                        Icon(
+                      children: [
+                        const Icon(
                           Icons.location_on_rounded,
                           color: appBarColor,
                           size: 18,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         SizedBox(
                           width: 120,
                           child: TextRegular(
-                              text: 'Cagayan De Oro, Philippines',
+                              text: context
+                                  .read<JobOfferProvider>()
+                                  .getCompanyAddress,
                               color: Colors.grey,
                               fontSize: 14),
                         ),
@@ -74,9 +81,9 @@ class JobOfferPage extends StatelessWidget {
             ),
             const TextRegular(
                 text: 'Looking for a', color: Colors.grey, fontSize: 12),
-            const Text(
-              'Computer Engineer',
-              style: TextStyle(
+            Text(
+              context.read<JobOfferProvider>().getTypeOfJob,
+              style: const TextStyle(
                 fontFamily: 'QBold',
                 color: Colors.black,
                 fontSize: 24,
@@ -90,11 +97,11 @@ class JobOfferPage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 20, right: 20),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: TextRegular(
                   text:
-                      '> Job Description Job Description Job Description Job Description Job Description Job Description Job Description Job Description Job DescriptionJob Description Job Description Job Description Job Descriptionv Job Descriptionv  vJob Description Job Description Job Description Job Description Job Description Job DescriptionJob Description Job DescriptionJob DescriptionJob Description Job Description Job DescriptionJob DescriptionJob DescriptionJob Description Job Description Job Description  Job Description',
+                      '> ${context.read<JobOfferProvider>().getJobDescription}',
                   color: Colors.grey,
                   fontSize: 12),
             ),
@@ -106,11 +113,11 @@ class JobOfferPage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 20, right: 20),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: TextRegular(
                   text:
-                      '> Job Description Job Description Job Description Job Description Job Description Job Description Job Description Job Description Job DescriptionJob Description Job Description Job Description Job Descriptionv Job Descriptionv  vJob Description Job Description Job Description Job Description Job Description Job DescriptionJob Description Job DescriptionJob DescriptionJob Description Job Description Job DescriptionJob DescriptionJob DescriptionJob Description Job Description Job Description  Job Description',
+                      '> ${context.read<JobOfferProvider>().getJobQualification}',
                   color: Colors.grey,
                   fontSize: 12),
             ),
@@ -122,11 +129,11 @@ class JobOfferPage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 20, right: 20),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: TextRegular(
                   text:
-                      '> Job Description Job Description Job Description Job Description Job Description Job Description Job Description Job Description Job DescriptionJob Description Job Description Job Description Job Descriptionv Job Descriptionv  vJob Description Job Description Job Description Job Description Job Description Job DescriptionJob Description Job DescriptionJob DescriptionJob Description Job Description Job DescriptionJob DescriptionJob DescriptionJob Description Job Description Job Description  Job Description',
+                      '> ${context.read<JobOfferProvider>().getJobRequirements}',
                   color: Colors.grey,
                   fontSize: 12),
             ),
@@ -140,10 +147,10 @@ class JobOfferPage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 20, right: 20),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: TextRegular(
-                  text: '> Email @olanalans12345@gmail.com',
+                  text: '> ${context.read<JobOfferProvider>().getWhereToPass}',
                   color: Colors.grey,
                   fontSize: 12),
             ),
@@ -155,15 +162,19 @@ class JobOfferPage extends StatelessWidget {
             const SizedBox(
               height: 5,
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 20, right: 20),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: TextBold(
-                  text: 'Lance Olana', color: Colors.black, fontSize: 15),
+                  text: context.read<JobOfferProvider>().getName,
+                  color: Colors.black,
+                  fontSize: 15),
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 20, right: 20),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: TextRegular(
-                  text: '09090104355', color: Colors.black, fontSize: 12),
+                  text: context.read<JobOfferProvider>().getContactNumber,
+                  color: Colors.black,
+                  fontSize: 12),
             ),
             const SizedBox(
               height: 20,

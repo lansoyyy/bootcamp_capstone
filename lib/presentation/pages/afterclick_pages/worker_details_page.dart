@@ -1,9 +1,13 @@
+import 'package:capston/data/services/cloud_functions/booking.dart';
 import 'package:capston/presentation/pages/home_page.dart';
 import 'package:capston/presentation/utils/constant/colors.dart';
 import 'package:capston/presentation/widgets/button_widget.dart';
 import 'package:capston/presentation/widgets/text_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -16,6 +20,70 @@ class WorkerDetailsPage extends StatefulWidget {
 }
 
 class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
+  @override
+  void initState() {
+    super.initState();
+    _determinePosition();
+  }
+
+  late int timesHired = 0;
+
+  getData() async {
+    // Use provider
+    var collection = FirebaseFirestore.instance
+        .collection('Users')
+        .where('username',
+            isEqualTo: context.read<PostProvider>().getUsername())
+        .where('password',
+            isEqualTo: context.read<PostProvider>().getPassword())
+        .where('type', isEqualTo: 'user');
+
+    var querySnapshot = await collection.get();
+    setState(() {
+      for (var queryDocumentSnapshot in querySnapshot.docs) {
+        Map<String, dynamic> data = queryDocumentSnapshot.data();
+        timesHired = data['timesHired'];
+      }
+    });
+  }
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition();
+  }
+
   late String dateOfService;
 
   DateTime selectedDate = DateTime.now();
@@ -29,6 +97,8 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
   bool showTime = false;
 
   bool showDateTime = false;
+
+  final box = GetStorage();
 
   // Select for Date
   Future<DateTime> _selectDate() async {
@@ -244,66 +314,118 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
             ),
             ButtonWidget(
               text: 'Hire Me',
-              onPressed: () {
-                CoolAlert.show(
-                  barrierDismissible: false,
-                  context: context,
-                  backgroundColor: appBarColor,
-                  type: CoolAlertType.success,
-                  confirmBtnColor: appBarColor,
-                  confirmBtnTextStyle: const TextStyle(
-                    fontFamily: 'QRegular',
-                    color: Colors.white,
-                  ),
-                  title: '',
-                  onConfirmBtnTap: () {
-                    // Book
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => HomePage()));
-                  },
-                  text: "Service Booked Successfully!",
-                );
-                _selectTime();
-                _selectDate();
-                showDialog(
-                    barrierColor: Colors.white,
-                    context: context,
+              onPressed: () async {
+                bool serviceEnabled;
+                LocationPermission permission;
+
+                // Test if location services are enabled.
+                serviceEnabled = await Geolocator.isLocationServiceEnabled();
+                if (!serviceEnabled) {
+                  showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            title: const TextBold(
+                                text: 'Cannot Procceed',
+                                color: Colors.black,
+                                fontSize: 14),
+                            content: const TextRegular(
+                                text: 'Location is not turned on',
+                                color: Colors.black,
+                                fontSize: 12),
+                            actions: <Widget>[
+                              FlatButton(
+                                onPressed: () =>
+                                    Navigator.of(context).pop(true),
+                                child: const TextBold(
+                                    text: 'Close',
+                                    color: Colors.black,
+                                    fontSize: 12),
+                              ),
+                            ],
+                          ));
+                } else {
+                  Position position = await Geolocator.getCurrentPosition(
+                      desiredAccuracy: LocationAccuracy.high);
+
+                  CoolAlert.show(
                     barrierDismissible: false,
-                    builder: (context) => AlertDialog(
-                          title: const TextBold(
-                              text: 'Enter your Contact Number',
-                              color: Colors.black,
-                              fontSize: 14),
-                          content: Container(
-                              margin:
-                                  const EdgeInsets.only(left: 10, right: 10),
-                              padding: const EdgeInsets.only(top: 20),
-                              child: TextFormField(
-                                maxLength: 11,
-                                keyboardType: TextInputType.number,
-                                onChanged: (_input) {
-                                  contactNumber = _input;
+                    context: context,
+                    backgroundColor: appBarColor,
+                    type: CoolAlertType.success,
+                    confirmBtnColor: appBarColor,
+                    confirmBtnTextStyle: const TextStyle(
+                      fontFamily: 'QRegular',
+                      color: Colors.white,
+                    ),
+                    title: '',
+                    onConfirmBtnTap: () async {
+                      // Book
+                      bookAService(
+                          box.read('username'),
+                          box.read('password'),
+                          context.read<PostProvider>().getName(),
+                          contactNumber,
+                          getDate(),
+                          getTime(selectedTime),
+                          position.latitude,
+                          position.longitude,
+                          context.read<PostProvider>().getUsername(),
+                          context.read<PostProvider>().getPassword(),
+                          context.read<PostProvider>().getProfilePicture());
+                      FirebaseFirestore.instance
+                          .collection('Users')
+                          .doc(context.read<PostProvider>().getUsername() +
+                              '-' +
+                              context.read<PostProvider>().getPassword())
+                          .update({'timesHired': timesHired += 1});
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => HomePage()));
+                    },
+                    text: "Service Booked Successfully!",
+                  );
+                  _selectTime();
+                  _selectDate();
+                  showDialog(
+                      barrierColor: Colors.white,
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) => AlertDialog(
+                            title: const TextBold(
+                                text: 'Enter your Contact Number',
+                                color: Colors.black,
+                                fontSize: 14),
+                            content: Container(
+                                margin:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                padding: const EdgeInsets.only(top: 20),
+                                child: TextFormField(
+                                  maxLength: 11,
+                                  keyboardType: TextInputType.number,
+                                  onChanged: (_input) {
+                                    contactNumber = _input;
+                                  },
+                                  decoration: InputDecoration(
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Color(0xff303952)),
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                      labelText: "Contact Number",
+                                      border: const OutlineInputBorder()),
+                                )),
+                            actions: <Widget>[
+                              FlatButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(true);
                                 },
-                                decoration: InputDecoration(
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Color(0xff303952)),
-                                        borderRadius: BorderRadius.circular(5)),
-                                    labelText: "Contact Number",
-                                    border: const OutlineInputBorder()),
-                              )),
-                          actions: <Widget>[
-                            FlatButton(
-                              onPressed: () {
-                                Navigator.of(context).pop(true);
-                              },
-                              child: const TextBold(
-                                  text: 'Continue',
-                                  color: Colors.black,
-                                  fontSize: 12),
-                            ),
-                          ],
-                        ));
+                                child: const TextBold(
+                                    text: 'Continue',
+                                    color: Colors.black,
+                                    fontSize: 12),
+                              ),
+                            ],
+                          ));
+                }
               },
             ),
             const SizedBox(
