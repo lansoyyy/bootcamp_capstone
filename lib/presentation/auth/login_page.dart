@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class LoginPage extends StatelessWidget {
   final usernameController = TextEditingController();
@@ -71,34 +72,65 @@ class LoginPage extends StatelessWidget {
                     ),
                     color: const Color(0xff303952),
                     onPressed: () async {
-                      try {
-                        await FirebaseAuth.instance.signInWithEmailAndPassword(
-                            email:
-                                usernameController.text.trim() + '@hireme.cdo',
-                            password: passwordController.text.trim());
-                        box.write('username',
-                            usernameController.text + '@hireme.cdo');
-                        box.write('password', passwordController.text);
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => HomePage()));
-                      } catch (e) {
+                      bool hasInternet =
+                          await InternetConnectionChecker().hasConnection;
+                      if (hasInternet == true) {
+                        try {
+                          await FirebaseAuth.instance
+                              .signInWithEmailAndPassword(
+                                  email: usernameController.text.trim() +
+                                      '@hireme.cdo',
+                                  password: passwordController.text.trim());
+                          box.write('username',
+                              usernameController.text + '@hireme.cdo');
+                          box.write('password', passwordController.text);
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
+                        } catch (e) {
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: const TextBold(
+                                        text: 'Error',
+                                        color: Colors.black,
+                                        fontSize: 14),
+                                    content: TextRegular(
+                                        text: "$e",
+                                        color: Colors.black,
+                                        fontSize: 12),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(true),
+                                        child: const TextBold(
+                                            text: 'Close',
+                                            color: Colors.black,
+                                            fontSize: 12),
+                                      ),
+                                    ],
+                                  ));
+                        }
+                      } else {
                         showDialog(
                             context: context,
+                            barrierDismissible: false,
                             builder: (context) => AlertDialog(
                                   title: const TextBold(
-                                      text: 'Error',
+                                      text: 'Cannot Procceed',
                                       color: Colors.black,
                                       fontSize: 14),
-                                  content: TextRegular(
-                                      text: "$e",
+                                  content: const TextRegular(
+                                      text: 'NO INTERNET CONNECTION',
                                       color: Colors.black,
                                       fontSize: 12),
                                   actions: <Widget>[
                                     FlatButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(true),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
                                       child: const TextBold(
-                                          text: 'Close',
+                                          text: 'Continue',
                                           color: Colors.black,
                                           fontSize: 12),
                                     ),
@@ -126,7 +158,61 @@ class LoginPage extends StatelessWidget {
                     ),
                     color: Colors.blue[700],
                     onPressed: () async {
-                      if (box.read('username') == null) {
+                      bool hasInternet =
+                          await InternetConnectionChecker().hasConnection;
+                      if (hasInternet == true) {
+                        if (box.read('username') == null) {
+                          showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (context) => AlertDialog(
+                                    title: const TextBold(
+                                        text: 'Cannot Procceed',
+                                        color: Colors.black,
+                                        fontSize: 14),
+                                    content: const TextRegular(
+                                        text:
+                                            'Need to sign up and fill up users credentials first',
+                                        color: Colors.black,
+                                        fontSize: 12),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pushReplacement(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const SignupPage()));
+                                        },
+                                        child: const TextBold(
+                                            text: 'Continue',
+                                            color: Colors.black,
+                                            fontSize: 12),
+                                      ),
+                                    ],
+                                  ));
+                        } else {
+                          try {
+                            final facebookLogInResult =
+                                await FacebookAuth.instance.login();
+
+                            final userData =
+                                await FacebookAuth.instance.getUserData();
+
+                            final facebookAuthCredential =
+                                FacebookAuthProvider.credential(
+                                    facebookLogInResult.accessToken!.token);
+
+                            await FirebaseAuth.instance
+                                .signInWithCredential(facebookAuthCredential);
+
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()));
+                          } on FirebaseAuthException catch (e) {
+                            print(e);
+                          }
+                        }
+                      } else {
                         showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -136,17 +222,13 @@ class LoginPage extends StatelessWidget {
                                       color: Colors.black,
                                       fontSize: 14),
                                   content: const TextRegular(
-                                      text:
-                                          'Need to sign up and fill up users credentials first',
+                                      text: 'NO INTERNET CONNECTION',
                                       color: Colors.black,
                                       fontSize: 12),
                                   actions: <Widget>[
                                     FlatButton(
                                       onPressed: () {
-                                        Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const SignupPage()));
+                                        Navigator.of(context).pop();
                                       },
                                       child: const TextBold(
                                           text: 'Continue',
@@ -155,27 +237,6 @@ class LoginPage extends StatelessWidget {
                                     ),
                                   ],
                                 ));
-                      } else {
-                        try {
-                          final facebookLogInResult =
-                              await FacebookAuth.instance.login();
-
-                          final userData =
-                              await FacebookAuth.instance.getUserData();
-
-                          final facebookAuthCredential =
-                              FacebookAuthProvider.credential(
-                                  facebookLogInResult.accessToken!.token);
-
-                          await FirebaseAuth.instance
-                              .signInWithCredential(facebookAuthCredential);
-
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) => HomePage()));
-                        } on FirebaseAuthException catch (e) {
-                          print(e);
-                        }
                       }
                     },
                     child: Padding(
@@ -210,7 +271,66 @@ class LoginPage extends StatelessWidget {
                     ),
                     color: Colors.white,
                     onPressed: () async {
-                      if (box.read('username') == null) {
+                      bool hasInternet =
+                          await InternetConnectionChecker().hasConnection;
+                      if (hasInternet == true) {
+                        if (box.read('username') == null) {
+                          showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (context) => AlertDialog(
+                                    title: const TextBold(
+                                        text: 'Cannot Procceed',
+                                        color: Colors.black,
+                                        fontSize: 14),
+                                    content: const TextRegular(
+                                        text:
+                                            'Need to sign up and fill up users credentials first',
+                                        color: Colors.black,
+                                        fontSize: 12),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pushReplacement(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const SignupPage()));
+                                        },
+                                        child: const TextBold(
+                                            text: 'Continue',
+                                            color: Colors.black,
+                                            fontSize: 12),
+                                      ),
+                                    ],
+                                  ));
+                        } else {
+                          final GoogleSignIn _googleSignIn =
+                              GoogleSignIn(scopes: ['email']);
+
+                          try {
+                            final googleSignInAccount =
+                                await _googleSignIn.signIn();
+
+                            if (googleSignInAccount == null) {
+                              return;
+                            }
+                            final googleSignInAuth =
+                                await googleSignInAccount.authentication;
+                            final credential = GoogleAuthProvider.credential(
+                              accessToken: googleSignInAuth.accessToken,
+                              idToken: googleSignInAuth.idToken,
+                            );
+
+                            await FirebaseAuth.instance
+                                .signInWithCredential(credential);
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()));
+                          } on FirebaseAuthException catch (e) {
+                            print(e);
+                          }
+                        }
+                      } else {
                         showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -220,17 +340,13 @@ class LoginPage extends StatelessWidget {
                                       color: Colors.black,
                                       fontSize: 14),
                                   content: const TextRegular(
-                                      text:
-                                          'Need to sign up and fill up users credentials first',
+                                      text: 'NO INTERNET CONNECTION',
                                       color: Colors.black,
                                       fontSize: 12),
                                   actions: <Widget>[
                                     FlatButton(
                                       onPressed: () {
-                                        Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const SignupPage()));
+                                        Navigator.of(context).pop();
                                       },
                                       child: const TextBold(
                                           text: 'Continue',
@@ -239,32 +355,6 @@ class LoginPage extends StatelessWidget {
                                     ),
                                   ],
                                 ));
-                      } else {
-                        final GoogleSignIn _googleSignIn =
-                            GoogleSignIn(scopes: ['email']);
-
-                        try {
-                          final googleSignInAccount =
-                              await _googleSignIn.signIn();
-
-                          if (googleSignInAccount == null) {
-                            return;
-                          }
-                          final googleSignInAuth =
-                              await googleSignInAccount.authentication;
-                          final credential = GoogleAuthProvider.credential(
-                            accessToken: googleSignInAuth.accessToken,
-                            idToken: googleSignInAuth.idToken,
-                          );
-
-                          await FirebaseAuth.instance
-                              .signInWithCredential(credential);
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) => HomePage()));
-                        } on FirebaseAuthException catch (e) {
-                          print(e);
-                        }
                       }
                     },
                     child: Padding(

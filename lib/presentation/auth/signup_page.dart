@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:path/path.dart' as path;
 
 class SignupPage extends StatefulWidget {
@@ -250,77 +251,109 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   color: const Color(0xff303952),
                   onPressed: () async {
-                    try {
-                      await FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                              email: _usernameController.text.trim() +
-                                  '@hireme.cdo',
-                              password: _passwordController.text.trim());
+                    bool hasInternet =
+                        await InternetConnectionChecker().hasConnection;
+                    if (hasInternet == true) {
+                      try {
+                        await FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                                email: _usernameController.text.trim() +
+                                    '@hireme.cdo',
+                                password: _passwordController.text.trim());
 
+                        showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: const TextBold(
+                                      text: 'Account Creation',
+                                      color: Colors.black,
+                                      fontSize: 14),
+                                  content: const TextRegular(
+                                      text: 'Account Created Succesfully!',
+                                      color: Colors.black,
+                                      fontSize: 12),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      onPressed: () async {
+                                        print(_usernameController.text +
+                                            '@hireme.cdo');
+
+                                        box.write(
+                                            'username',
+                                            _usernameController.text +
+                                                '@hireme.cdo');
+
+                                        box.write('number',
+                                            _contactNumberController.text);
+                                        box.write('password',
+                                            _passwordController.text);
+                                        createAccountFirestore(
+                                            _usernameController.text +
+                                                '@hireme.cdo',
+                                            _passwordController.text,
+                                            imageURL,
+                                            _fullnameController.text);
+
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    LoginPage()));
+                                      },
+                                      child: const TextBold(
+                                          text: 'Continue',
+                                          color: Colors.black,
+                                          fontSize: 12),
+                                    ),
+                                  ],
+                                ));
+                      } catch (e) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: const TextBold(
+                                      text: 'Error',
+                                      color: Colors.black,
+                                      fontSize: 14),
+                                  content: TextRegular(
+                                      text: "$e",
+                                      color: Colors.black,
+                                      fontSize: 12),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(true),
+                                      child: const TextBold(
+                                          text: 'Close',
+                                          color: Colors.black,
+                                          fontSize: 12),
+                                    ),
+                                  ],
+                                ));
+                      }
+                    } else {
                       showDialog(
-                          barrierDismissible: false,
                           context: context,
+                          barrierDismissible: false,
                           builder: (context) => AlertDialog(
                                 title: const TextBold(
-                                    text: 'Account Creation',
+                                    text: 'Cannot Procceed',
                                     color: Colors.black,
                                     fontSize: 14),
                                 content: const TextRegular(
-                                    text: 'Account Created Succesfully!',
+                                    text: 'NO INTERNET CONNECTION',
                                     color: Colors.black,
                                     fontSize: 12),
                                 actions: <Widget>[
                                   FlatButton(
-                                    onPressed: () async {
-                                      print(_usernameController.text +
-                                          '@hireme.cdo');
-
-                                      box.write(
-                                          'username',
-                                          _usernameController.text +
-                                              '@hireme.cdo');
-
-                                      box.write('number',
-                                          _contactNumberController.text);
-                                      box.write(
-                                          'password', _passwordController.text);
-                                      createAccountFirestore(
-                                          _usernameController.text +
-                                              '@hireme.cdo',
-                                          _passwordController.text,
-                                          imageURL,
-                                          _fullnameController.text);
-
+                                    onPressed: () {
                                       Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  LoginPage()));
+                                                  const SignupPage()));
                                     },
                                     child: const TextBold(
                                         text: 'Continue',
-                                        color: Colors.black,
-                                        fontSize: 12),
-                                  ),
-                                ],
-                              ));
-                    } catch (e) {
-                      showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                                title: const TextBold(
-                                    text: 'Error',
-                                    color: Colors.black,
-                                    fontSize: 14),
-                                content: TextRegular(
-                                    text: "$e",
-                                    color: Colors.black,
-                                    fontSize: 12),
-                                actions: <Widget>[
-                                  FlatButton(
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(true),
-                                    child: const TextBold(
-                                        text: 'Close',
                                         color: Colors.black,
                                         fontSize: 12),
                                   ),

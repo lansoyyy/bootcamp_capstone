@@ -55,6 +55,7 @@ dependencies:
   geolocator_web: ^2.1.6
   provider:
   liquid_swipe: ^3.0.0
+  internet_connection_checker:
   
 
 dev_dependencies:

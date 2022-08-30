@@ -10,6 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:path/path.dart' as path;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
@@ -841,62 +842,92 @@ class _PostServiceState extends State<PostService> {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 color: appBarColor,
-                onPressed: () {
-                  if (imageURL == '' || imageURL1 == '') {
+                onPressed: () async {
+                  bool hasInternet =
+                      await InternetConnectionChecker().hasConnection;
+                  if (hasInternet == true) {
+                    if (imageURL == '' || imageURL1 == '') {
+                      showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                title: const TextBold(
+                                    text: 'Cannot Procceed',
+                                    color: Colors.black,
+                                    fontSize: 14),
+                                content: const TextRegular(
+                                    text: 'Upload needed forms',
+                                    color: Colors.black,
+                                    fontSize: 12),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(true),
+                                    child: const TextBold(
+                                        text: 'Close',
+                                        color: Colors.black,
+                                        fontSize: 12),
+                                  ),
+                                ],
+                              ));
+                    } else {
+                      showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                title: const TextBold(
+                                    text: 'Post Status',
+                                    color: Colors.black,
+                                    fontSize: 14),
+                                content: const TextRegular(
+                                    text: 'Posted Succesfully!',
+                                    color: Colors.black,
+                                    fontSize: 12),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    onPressed: () async {
+                                      postService(
+                                          name,
+                                          username,
+                                          password,
+                                          contactNumber,
+                                          profilePicture,
+                                          getSkill(),
+                                          rate,
+                                          address,
+                                          description,
+                                          imageURL,
+                                          imageURL1,
+                                          timesHired);
+                                      Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HomePage()));
+                                    },
+                                    child: const TextBold(
+                                        text: 'Continue',
+                                        color: Colors.black,
+                                        fontSize: 12),
+                                  ),
+                                ],
+                              ));
+                    }
+                  } else {
                     showDialog(
                         context: context,
+                        barrierDismissible: false,
                         builder: (context) => AlertDialog(
                               title: const TextBold(
                                   text: 'Cannot Procceed',
                                   color: Colors.black,
                                   fontSize: 14),
                               content: const TextRegular(
-                                  text: 'Upload needed forms',
+                                  text: 'NO INTERNET CONNECTION',
                                   color: Colors.black,
                                   fontSize: 12),
                               actions: <Widget>[
                                 FlatButton(
-                                  onPressed: () =>
-                                      Navigator.of(context).pop(true),
-                                  child: const TextBold(
-                                      text: 'Close',
-                                      color: Colors.black,
-                                      fontSize: 12),
-                                ),
-                              ],
-                            ));
-                  } else {
-                    showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (context) => AlertDialog(
-                              title: const TextBold(
-                                  text: 'Post Status',
-                                  color: Colors.black,
-                                  fontSize: 14),
-                              content: const TextRegular(
-                                  text: 'Posted Succesfully!',
-                                  color: Colors.black,
-                                  fontSize: 12),
-                              actions: <Widget>[
-                                FlatButton(
-                                  onPressed: () async {
-                                    postService(
-                                        name,
-                                        username,
-                                        password,
-                                        contactNumber,
-                                        profilePicture,
-                                        getSkill(),
-                                        rate,
-                                        address,
-                                        description,
-                                        imageURL,
-                                        imageURL1,
-                                        timesHired);
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (context) => HomePage()));
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
                                   },
                                   child: const TextBold(
                                       text: 'Continue',
