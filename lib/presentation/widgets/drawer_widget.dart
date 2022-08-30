@@ -56,8 +56,8 @@ class _MyDrawerState extends State<DrawerWidget> {
           children: <Widget>[
             UserAccountsDrawerHeader(
               decoration: const BoxDecoration(),
-              accountEmail: const TextRegular(
-                  text: '', color: Colors.black, fontSize: 10),
+              accountEmail: TextRegular(
+                  text: box.read('number'), color: Colors.black, fontSize: 10),
               accountName:
                   TextBold(text: name, color: Colors.black, fontSize: 15),
               currentAccountPicture: CircleAvatar(

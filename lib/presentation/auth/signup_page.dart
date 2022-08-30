@@ -23,6 +23,8 @@ class _SignupPageState extends State<SignupPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  final _contactNumberController = TextEditingController();
+
   bool hasLoaded = false;
 
   firebase_storage.FirebaseStorage storage =
@@ -153,6 +155,21 @@ class _SignupPageState extends State<SignupPage> {
                   margin: const EdgeInsets.only(left: 40, right: 40),
                   padding: const EdgeInsets.only(top: 20),
                   child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    maxLength: 11,
+                    controller: _contactNumberController,
+                    decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Color(0xff303952)),
+                            borderRadius: BorderRadius.circular(5)),
+                        labelText: "Contact Number",
+                        border: const OutlineInputBorder()),
+                  )),
+              Container(
+                  margin: const EdgeInsets.only(left: 40, right: 40),
+                  padding: const EdgeInsets.only(top: 20),
+                  child: TextFormField(
                     controller: _usernameController,
                     decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
@@ -217,6 +234,9 @@ class _SignupPageState extends State<SignupPage> {
                                           'username',
                                           _usernameController.text +
                                               '@hireme.cdo');
+
+                                      box.write('number',
+                                          _contactNumberController.text);
                                       box.write(
                                           'password', _passwordController.text);
                                       createAccountFirestore(
