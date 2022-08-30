@@ -91,6 +91,8 @@ class _SignupPageState extends State<SignupPage> {
 
   final box = GetStorage();
 
+  int _value = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,6 +168,49 @@ class _SignupPageState extends State<SignupPage> {
                         labelText: "Contact Number",
                         border: const OutlineInputBorder()),
                   )),
+              const TextRegular(
+                  text: 'Pick Your Location',
+                  color: Colors.black,
+                  fontSize: 12),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 40, right: 40, top: 0, bottom: 0),
+                child: Container(
+                  padding:
+                      const EdgeInsets.only(left: 30, bottom: 10, right: 30),
+                  decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      borderRadius: BorderRadius.circular(5)),
+                  child: DropdownButton(
+                      isExpanded: true,
+                      iconEnabledColor: Colors.black,
+                      value: _value,
+                      items: [
+                        DropdownMenuItem(
+                          child: Center(
+                              child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(children: const [
+                              SizedBox(
+                                width: 30,
+                              ),
+                              TextBold(
+                                  text: 'Cagayan De Oro',
+                                  color: Colors.black,
+                                  fontSize: 16),
+                            ]),
+                          )),
+                          value: 0,
+                        ),
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          _value = int.parse(value.toString());
+                        });
+                      },
+                      hint: const Text("Remainders before Redeeming")),
+                ),
+              ),
               Container(
                   margin: const EdgeInsets.only(left: 40, right: 40),
                   padding: const EdgeInsets.only(top: 20),

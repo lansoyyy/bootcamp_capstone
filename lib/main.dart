@@ -1,8 +1,8 @@
 import 'package:capston/data/providers/dataonmap_provider.dart';
 import 'package:capston/data/providers/joboffer_details_provider.dart';
 import 'package:capston/data/providers/worker_details_provider.dart';
-import 'package:capston/presentation/auth/login_page.dart';
-import 'package:capston/presentation/pages/home_page.dart';
+import 'package:capston/presentation/screens/loading_screen.dart';
+import 'package:capston/presentation/screens/loading_screen2.dart';
 import 'package:capston/presentation/utils/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -37,9 +37,9 @@ class MyApp extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return HomePage();
+            return LoadingScreenToHome();
           } else {
-            return LoginPage();
+            return LoadingScreenToLogin();
           }
         });
   }

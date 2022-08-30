@@ -256,6 +256,7 @@ class LoginPage extends StatelessWidget {
                             accessToken: googleSignInAuth.accessToken,
                             idToken: googleSignInAuth.idToken,
                           );
+
                           await FirebaseAuth.instance
                               .signInWithCredential(credential);
                           Navigator.of(context).pushReplacement(
