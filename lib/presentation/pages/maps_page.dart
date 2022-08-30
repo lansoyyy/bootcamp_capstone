@@ -85,7 +85,7 @@ class MapSampleState extends State<MapSample> {
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(lat, long),
-    zoom: 12,
+    zoom: 18,
   );
 
   final Set<Marker> _marker = <Marker>{};

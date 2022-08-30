@@ -193,8 +193,9 @@ class _FirstTabState extends State<FirstTab> {
                                       text: data.docs[index]['name'],
                                       color: Colors.black,
                                       fontSize: 16),
-                                  const TextBold(
-                                      text: 'Hired: 12 times',
+                                  TextBold(
+                                      text:
+                                          'Hired: ${data.docs[index]['timesHired']} times',
                                       color: Colors.green,
                                       fontSize: 12),
                                 ],

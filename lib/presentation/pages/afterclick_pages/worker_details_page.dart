@@ -378,6 +378,14 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
                               '-' +
                               context.read<PostProvider>().getPassword())
                           .update({'timesHired': timesHired += 1});
+                      FirebaseFirestore.instance
+                          .collection('Service')
+                          .doc(context.read<PostProvider>().getUsername() +
+                              '-' +
+                              context.read<PostProvider>().getPassword() +
+                              '-' +
+                              context.read<PostProvider>().getSkill())
+                          .update({'timesHired': timesHired = timesHired + 1});
                       Navigator.of(context).pushReplacement(
                           MaterialPageRoute(builder: (context) => HomePage()));
                     },

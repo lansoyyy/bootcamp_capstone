@@ -91,7 +91,7 @@ class _MyDrawerState extends State<DrawerWidget> {
               },
               leading: const Icon(Icons.engineering_rounded),
               title: const TextBold(
-                  text: 'Request (5)', color: Colors.black, fontSize: 12),
+                  text: 'Request', color: Colors.black, fontSize: 12),
             ),
             ListTile(
               onTap: () {
