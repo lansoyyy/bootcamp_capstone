@@ -1,13 +1,19 @@
+import 'dart:async';
+
 import 'package:capston/presentation/pages/components/first_screen.dart';
 import 'package:capston/presentation/pages/components/second_tab.dart';
 import 'package:capston/presentation/pages/components/third_tab.dart';
+import 'package:capston/presentation/pages/request_page.dart';
 
 import 'package:capston/presentation/utils/constant/colors.dart';
 import 'package:capston/presentation/widgets/drawer_widget.dart';
 import 'package:capston/presentation/widgets/text_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get_storage/get_storage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,7 +21,72 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   late int selectedIndex = 0;
+  late Stream<QuerySnapshot> requests;
+  late StreamSubscription<QuerySnapshot> notifyWorker;
+  final box = GetStorage();
+
+  @override
+  void initState() {
+    var initializationSettingAndroid =
+        const AndroidInitializationSettings('ic_launcher');
+    var initializationSettings =
+        InitializationSettings(android: initializationSettingAndroid);
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectnotification);
+    notifyWorker = FirebaseFirestore.instance
+        .collection('Booking')
+        .where('userUsername', isEqualTo: box.read('username'))
+        .where('userPassword', isEqualTo: box.read('password'))
+        .snapshots()
+        .listen((event) {
+      for (var element in event.docChanges) {
+        if (element.type == DocumentChangeType.added ||
+            element.type == DocumentChangeType.modified) {
+          alertUserRequest();
+        }
+      }
+    });
+    super.initState();
+  }
+
+  Future onSelectnotification(payload) async {
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              title: const Text('Received Requests'),
+              content: Text(payload),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => ResquestPage()));
+                    },
+                    child: const Text('OK'))
+              ],
+            ));
+  }
+
+  Future alertUserRequest() async {
+    var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
+        "Job Request", "Pending Request",
+        channelDescription: "Notify User",
+        enableVibration: true,
+        playSound: true,
+        importance: Importance.max,
+        priority: Priority.high);
+    NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      "You receive a request",
+      "View in order to see details",
+      platformChannelSpecifics,
+      payload: "Navigating to Request Panel",
+    );
+  }
 
   appBarTitle(int myIndex) {
     if (myIndex == 0) {
