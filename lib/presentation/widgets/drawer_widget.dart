@@ -35,14 +35,16 @@ class _MyDrawerState extends State<DrawerWidget> {
         .where('type', isEqualTo: 'user');
 
     var querySnapshot = await collection.get();
-    setState(() {
-      for (var queryDocumentSnapshot in querySnapshot.docs) {
-        Map<String, dynamic> data = queryDocumentSnapshot.data();
-        name = data['name'];
+    if (mounted) {
+      setState(() {
+        for (var queryDocumentSnapshot in querySnapshot.docs) {
+          Map<String, dynamic> data = queryDocumentSnapshot.data();
+          name = data['name'];
 
-        profilePicture = data['profilePicture'];
-      }
-    });
+          profilePicture = data['profilePicture'];
+        }
+      });
+    }
   }
 
   final box = GetStorage();
