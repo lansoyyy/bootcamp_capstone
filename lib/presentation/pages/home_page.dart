@@ -39,8 +39,9 @@ class _HomePageState extends State<HomePage> {
         onSelectNotification: onSelectnotification);
     notifyWorker = FirebaseFirestore.instance
         .collection('Booking')
-        .where('userUsername', isEqualTo: box.read('username'))
-        .where('userPassword', isEqualTo: box.read('password'))
+        .where('workerUsername', isEqualTo: box.read('username'))
+        .where('workerPassword', isEqualTo: box.read('password'))
+        .where('workerRemove', isEqualTo: false)
         .snapshots()
         .listen((event) {
       for (var element in event.docChanges) {
