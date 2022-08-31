@@ -361,18 +361,20 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
                     onConfirmBtnTap: () async {
                       // Book
                       bookAService(
-                          box.read('username'),
-                          box.read('password'),
-                          context.read<PostProvider>().getName(),
-                          contactNumber,
-                          getDate(),
-                          getTime(selectedTime),
-                          position.latitude,
-                          position.longitude,
-                          context.read<PostProvider>().getUsername(),
-                          context.read<PostProvider>().getPassword(),
-                          context.read<PostProvider>().getProfilePicture(),
-                          context.read<PostProvider>().getSkill());
+                        box.read('username'),
+                        box.read('password'),
+                        context.read<PostProvider>().getName(),
+                        contactNumber,
+                        getDate(),
+                        getTime(selectedTime),
+                        position.latitude,
+                        position.longitude,
+                        context.read<PostProvider>().getUsername(),
+                        context.read<PostProvider>().getPassword(),
+                        context.read<PostProvider>().getProfilePicture(),
+                        context.read<PostProvider>().getSkill(),
+                        context.read<PostProvider>().getRate(),
+                      );
                       FirebaseFirestore.instance
                           .collection('Users')
                           .doc(context.read<PostProvider>().getUsername() +

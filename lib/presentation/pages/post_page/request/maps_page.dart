@@ -176,7 +176,7 @@ class MapSampleState extends State<MapSample> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      request != 'accepted'
+                      request != 'Accepted'
                           ? Padding(
                               padding: const EdgeInsets.only(bottom: 20),
                               child: Align(

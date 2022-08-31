@@ -13,6 +13,7 @@ Future bookAService(
   workerPassword,
   userProfilePicture,
   service,
+  rate,
 ) async {
   final docUser = FirebaseFirestore.instance.collection('Booking').doc();
 
@@ -32,6 +33,7 @@ Future bookAService(
     'workerRemove': false,
     'id': docUser.id,
     'service': service,
+    'rate': rate,
   };
 
   await docUser.set(json);

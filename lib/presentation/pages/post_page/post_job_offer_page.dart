@@ -146,7 +146,7 @@ class _PostServiceState extends State<PostJobOffer> {
                       backgroundColor: Colors.grey,
                       minRadius: 40,
                       maxRadius: 40,
-                      child: Image.network(imageURL),
+                      backgroundImage: NetworkImage(imageURL),
                     )
                   : GestureDetector(
                       onTap: () {

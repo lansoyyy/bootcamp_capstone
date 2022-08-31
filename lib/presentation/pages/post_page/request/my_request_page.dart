@@ -49,7 +49,9 @@ class MyRequestPage extends StatelessWidget {
                     ExpansionTile(
                       leading: const Icon(Icons.pending),
                       title: TextBold(
-                          text: data.docs[index]['request'],
+                          text: data.docs[index]['request'] +
+                              ' ' +
+                              data.docs[index]['rate'],
                           color: Colors.black,
                           fontSize: 18),
                       subtitle: TextRegular(
