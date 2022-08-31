@@ -70,8 +70,8 @@ class _ResquestPageState extends State<ResquestPage> {
       body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('Booking')
-              .where('userUsername', isEqualTo: box.read('username'))
-              .where('userPassword', isEqualTo: box.read('password'))
+              .where('workerUsername', isEqualTo: box.read('username'))
+              .where('workerPassword', isEqualTo: box.read('password'))
               .where('workerRemove', isEqualTo: false)
               .snapshots(),
           builder: (context, snapshot) {
