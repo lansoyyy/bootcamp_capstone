@@ -4,6 +4,7 @@ import 'package:capston/presentation/pages/components/first_screen.dart';
 import 'package:capston/presentation/pages/components/second_tab.dart';
 import 'package:capston/presentation/pages/components/third_tab.dart';
 import 'package:capston/presentation/pages/request_page.dart';
+import 'package:capston/presentation/screens/onboarding_screen2.dart';
 
 import 'package:capston/presentation/utils/constant/colors.dart';
 import 'package:capston/presentation/widgets/drawer_widget.dart';
@@ -118,26 +119,8 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(right: 10),
               child: IconButton(
                 onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                            title: const TextBold(
-                                text: '', color: Colors.black, fontSize: 14),
-                            content: const TextRegular(
-                                text: 'No Content Yet',
-                                color: Colors.black,
-                                fontSize: 12),
-                            actions: <Widget>[
-                              FlatButton(
-                                onPressed: () =>
-                                    Navigator.of(context).pop(true),
-                                child: const TextBold(
-                                    text: 'Close',
-                                    color: Colors.black,
-                                    fontSize: 12),
-                              ),
-                            ],
-                          ));
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => OnboardingScreen2()));
                 },
                 icon: const Icon(Icons.info),
               ),
