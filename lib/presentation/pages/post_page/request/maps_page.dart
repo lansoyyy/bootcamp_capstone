@@ -193,7 +193,7 @@ class MapSampleState extends State<MapSample> {
                                         .doc(context
                                             .read<MapDataProvider>()
                                             .getId)
-                                        .update({'request': 'accepted'});
+                                        .update({'request': 'Accepted'});
 
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(

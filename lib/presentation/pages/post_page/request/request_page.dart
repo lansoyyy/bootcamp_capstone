@@ -201,7 +201,7 @@ class _ResquestPageState extends State<ResquestPage> {
                                     FirebaseFirestore.instance
                                         .collection('Booking')
                                         .doc(data.docs[index].id)
-                                        .update({'request': 'declined'});
+                                        .update({'request': 'Declined'});
                                     FirebaseFirestore.instance
                                         .collection('Booking')
                                         .doc(data.docs[index].id)

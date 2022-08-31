@@ -371,7 +371,8 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
                           position.longitude,
                           context.read<PostProvider>().getUsername(),
                           context.read<PostProvider>().getPassword(),
-                          context.read<PostProvider>().getProfilePicture());
+                          context.read<PostProvider>().getProfilePicture(),
+                          context.read<PostProvider>().getSkill());
                       FirebaseFirestore.instance
                           .collection('Users')
                           .doc(context.read<PostProvider>().getUsername() +
