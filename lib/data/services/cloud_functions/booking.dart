@@ -27,6 +27,9 @@ Future bookAService(
     'workerUsername': workerUsername,
     'workerPassword': workerPassword,
     'userProfilePicture': userProfilePicture,
+    'request': 'pending',
+    'workerRemove': false,
+    'id': docUser.id,
   };
 
   await docUser.set(json);

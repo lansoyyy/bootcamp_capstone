@@ -1,7 +1,8 @@
 import 'package:capston/presentation/auth/login_page.dart';
 import 'package:capston/presentation/pages/home_page.dart';
 import 'package:capston/presentation/pages/my_post..dart';
-import 'package:capston/presentation/pages/request_page.dart';
+import 'package:capston/presentation/pages/post_page/request/my_request_page.dart';
+import 'package:capston/presentation/pages/post_page/request/request_page.dart';
 import 'package:capston/presentation/widgets/text_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -93,9 +94,18 @@ class _MyDrawerState extends State<DrawerWidget> {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => ResquestPage()));
               },
-              leading: const Icon(Icons.engineering_rounded),
+              leading: const Icon(Icons.list),
               title: const TextBold(
-                  text: 'Request', color: Colors.black, fontSize: 12),
+                  text: 'Customer Request', color: Colors.black, fontSize: 12),
+            ),
+            ListTile(
+              onTap: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const MyRequestPage()));
+              },
+              leading: const Icon(Icons.my_library_books_outlined),
+              title: const TextBold(
+                  text: 'My Request', color: Colors.black, fontSize: 12),
             ),
             ListTile(
               onTap: () {

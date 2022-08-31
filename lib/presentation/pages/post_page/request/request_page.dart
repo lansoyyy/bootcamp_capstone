@@ -1,5 +1,5 @@
 import 'package:capston/data/providers/dataonmap_provider.dart';
-import 'package:capston/presentation/pages/maps_page.dart';
+import 'package:capston/presentation/pages/post_page/request/maps_page.dart';
 import 'package:capston/presentation/widgets/appbar_widget.dart';
 import 'package:capston/presentation/widgets/drawer_widget.dart';
 import 'package:capston/presentation/widgets/text_widget.dart';
@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ResquestPage extends StatefulWidget {
   @override
@@ -67,17 +66,21 @@ class _ResquestPageState extends State<ResquestPage> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       drawer: const DrawerWidget(),
-      appBar: AppbarWidget('Request'),
+      appBar: AppbarWidget('Customer Request'),
       body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('Booking')
               .where('userUsername', isEqualTo: box.read('username'))
               .where('userPassword', isEqualTo: box.read('password'))
+              .where('workerRemove', isEqualTo: false)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               print('error');
-              return const Center(child: Text('Error'));
+              return const Center(
+                child: TextRegular(
+                    text: 'No Request', color: Colors.black, fontSize: 24),
+              );
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
               print('waiting');
@@ -186,7 +189,7 @@ class _ResquestPageState extends State<ResquestPage> {
                                     }
                                   },
                                   icon: const Icon(
-                                    Icons.check_box_rounded,
+                                    Icons.location_on_rounded,
                                     color: Colors.green,
                                     size: 38,
                                   )),
@@ -195,16 +198,18 @@ class _ResquestPageState extends State<ResquestPage> {
                               ),
                               IconButton(
                                   onPressed: () async {
-                                    String driverContactNumber =
-                                        data.docs[index]['contactNumber'];
-                                    final _text = 'tel:$driverContactNumber';
-                                    if (await canLaunch(_text)) {
-                                      await launch(_text);
-                                    }
+                                    FirebaseFirestore.instance
+                                        .collection('Booking')
+                                        .doc(data.docs[index].id)
+                                        .update({'request': 'declined'});
+                                    FirebaseFirestore.instance
+                                        .collection('Booking')
+                                        .doc(data.docs[index].id)
+                                        .update({'workerRemove': true});
                                   },
                                   icon: const Icon(
-                                    Icons.phone,
-                                    color: Colors.blue,
+                                    Icons.cancel,
+                                    color: Colors.red,
                                     size: 38,
                                   )),
                             ],

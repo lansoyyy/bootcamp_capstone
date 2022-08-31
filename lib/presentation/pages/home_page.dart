@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:capston/presentation/pages/components/first_screen.dart';
 import 'package:capston/presentation/pages/components/second_tab.dart';
 import 'package:capston/presentation/pages/components/third_tab.dart';
-import 'package:capston/presentation/pages/request_page.dart';
+import 'package:capston/presentation/pages/post_page/request/request_page.dart';
 import 'package:capston/presentation/screens/onboarding_screen2.dart';
 
 import 'package:capston/presentation/utils/constant/colors.dart';
