@@ -41,19 +41,17 @@ class _PostServiceState extends State<PostService> {
     // Use provider
     var collection = FirebaseFirestore.instance
         .collection('Users')
-        .where('username', isEqualTo: box.read('username'))
-        .where('type', isEqualTo: 'user');
+        .where('username', isEqualTo: box.read('username'));
 
     var querySnapshot = await collection.get();
     setState(() {
       for (var queryDocumentSnapshot in querySnapshot.docs) {
         Map<String, dynamic> data = queryDocumentSnapshot.data();
+        username = data['username'];
         name = data['name'];
 
         profilePicture = data['profilePicture'];
 
-        password = data['password'];
-        username = data['username'];
         timesHired = data['timesHired'];
       }
     });
@@ -878,6 +876,11 @@ class _PostServiceState extends State<PostService> {
                 ),
                 color: appBarColor,
                 onPressed: () async {
+                  print('username' + username);
+                  print('username box' + box.read('username'));
+                  print('name' + name);
+                  print('profilePicture' + profilePicture);
+
                   bool hasInternet =
                       await InternetConnectionChecker().hasConnection;
                   if (hasInternet == true) {
@@ -919,13 +922,20 @@ class _PostServiceState extends State<PostService> {
                                     fontSize: 12),
                                 actions: <Widget>[
                                   ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                      ),
+                                    ),
                                     onPressed: () async {
                                       String cdate2 =
                                           DateFormat("MMMM dd, yyyy")
                                               .format(DateTime.now());
                                       postService(
                                           name,
-                                          username,
+                                          box.read('username'),
                                           password,
                                           contactNumber,
                                           profilePicture,

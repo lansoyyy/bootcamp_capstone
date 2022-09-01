@@ -29,6 +29,7 @@ class _MyDrawerState extends State<DrawerWidget> {
 
   late String name = '';
   late String profilePicture = '';
+  late String username = '';
 
   getData() async {
     // Use provider
@@ -44,6 +45,7 @@ class _MyDrawerState extends State<DrawerWidget> {
           name = data['name'];
 
           profilePicture = data['profilePicture'];
+          username = data['username'];
         }
       });
     }
@@ -61,9 +63,7 @@ class _MyDrawerState extends State<DrawerWidget> {
             UserAccountsDrawerHeader(
               decoration: const BoxDecoration(),
               accountEmail: TextRegular(
-                  text: box.read('number') ?? '',
-                  color: Colors.black,
-                  fontSize: 10),
+                  text: username, color: Colors.black, fontSize: 10),
               accountName:
                   TextBold(text: name, color: Colors.black, fontSize: 15),
               currentAccountPicture: CircleAvatar(

@@ -283,10 +283,6 @@ class _SignupPageState extends State<SignupPage> {
                                             _usernameController.text +
                                                 '@hireme.cdo');
 
-                                        box.write('number',
-                                            _contactNumberController.text);
-                                        box.write('password',
-                                            _passwordController.text);
                                         createAccountFirestore(
                                             _usernameController.text +
                                                 '@hireme.cdo',

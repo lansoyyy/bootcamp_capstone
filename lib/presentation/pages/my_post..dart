@@ -97,8 +97,6 @@ class MyPost extends StatelessWidget {
                                             .collection('Service')
                                             .doc(data.docs[index]['username'] +
                                                 '-' +
-                                                data.docs[index]['password'] +
-                                                '-' +
                                                 data.docs[index]['skill'])
                                             .delete();
                                         Navigator.of(context).pop(true);

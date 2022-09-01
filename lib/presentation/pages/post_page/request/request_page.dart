@@ -64,6 +64,7 @@ class _ResquestPageState extends State<ResquestPage> {
   }
 
   bool isChecked = false;
+  late String mark;
 
   @override
   Widget build(BuildContext context) {
@@ -108,21 +109,37 @@ class _ResquestPageState extends State<ResquestPage> {
                     startActionPane: ActionPane(
                       motion: const ScrollMotion(),
                       children: [
-                        SlidableAction(
-                          onPressed: (context) {
-                            // Yaawa implement ni, okay?
-                            FirebaseFirestore.instance
-                                .collection('Booking')
-                                .doc(data.docs[index].id)
-                                .update({
-                              'employerMarkAsRead': true,
-                            });
-                          },
-                          backgroundColor: appBarColor,
-                          foregroundColor: Colors.white,
-                          icon: Icons.mark_email_read_rounded,
-                          label: 'Mark as Read',
-                        ),
+                        data.docs[index]['employerMarkAsRead'] != true
+                            ? SlidableAction(
+                                onPressed: (context) {
+                                  // Yaawa implement ni, okay?
+                                  FirebaseFirestore.instance
+                                      .collection('Booking')
+                                      .doc(data.docs[index].id)
+                                      .update({
+                                    'employerMarkAsRead': true,
+                                  });
+                                },
+                                backgroundColor: appBarColor,
+                                foregroundColor: Colors.white,
+                                icon: Icons.mark_email_read_rounded,
+                                label: 'Mark as Read',
+                              )
+                            : SlidableAction(
+                                onPressed: (context) {
+                                  // Yaawa implement ni, okay?
+                                  FirebaseFirestore.instance
+                                      .collection('Booking')
+                                      .doc(data.docs[index].id)
+                                      .update({
+                                    'employerMarkAsRead': false,
+                                  });
+                                },
+                                backgroundColor: Colors.green,
+                                foregroundColor: Colors.white,
+                                icon: Icons.mark_email_read_rounded,
+                                label: 'Marked as Read',
+                              )
                       ],
                     ),
                     child: Container(
@@ -130,7 +147,7 @@ class _ResquestPageState extends State<ResquestPage> {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      height: 170,
+                      height: 180,
                       width: double.infinity,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
