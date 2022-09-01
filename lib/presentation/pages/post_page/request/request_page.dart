@@ -1,5 +1,6 @@
 import 'package:capston/data/providers/dataonmap_provider.dart';
 import 'package:capston/presentation/pages/post_page/request/maps_page.dart';
+import 'package:capston/presentation/utils/constant/colors.dart';
 import 'package:capston/presentation/widgets/appbar_widget.dart';
 import 'package:capston/presentation/widgets/drawer_widget.dart';
 import 'package:capston/presentation/widgets/text_widget.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ResquestPage extends StatefulWidget {
   @override
@@ -61,6 +63,8 @@ class _ResquestPageState extends State<ResquestPage> {
     return await Geolocator.getCurrentPosition();
   }
 
+  bool isChecked = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,145 +105,172 @@ class _ResquestPageState extends State<ResquestPage> {
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    height: 170,
-                    width: double.infinity,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  child: Slidable(
+                    startActionPane: ActionPane(
+                      motion: const ScrollMotion(),
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 40, right: 40),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Column(children: [
-                                CircleAvatar(
-                                  maxRadius: 40,
-                                  minRadius: 40,
-                                  backgroundImage: NetworkImage(data.docs[index]
-                                              ['userProfilePicture'] ==
-                                          ''
-                                      ? 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
-                                      : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'),
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                TextRegular(
-                                    text: data.docs[index]['requesterName'],
-                                    color: Colors.black,
-                                    fontSize: 14),
-                              ]),
-                              const Expanded(
-                                child: SizedBox(
-                                  width: 30,
-                                ),
-                              ),
-                              IconButton(
-                                  onPressed: () async {
-                                    Position position =
-                                        await Geolocator.getCurrentPosition(
-                                            desiredAccuracy:
-                                                LocationAccuracy.high);
-                                    bool serviceEnabled;
-                                    LocationPermission permission;
-
-                                    // Test if location services are enabled.
-                                    serviceEnabled = await Geolocator
-                                        .isLocationServiceEnabled();
-                                    if (!serviceEnabled) {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) => AlertDialog(
-                                                title: const TextBold(
-                                                    text: 'Cannot Procceed',
-                                                    color: Colors.black,
-                                                    fontSize: 14),
-                                                content: const TextRegular(
-                                                    text:
-                                                        'Location is not turned on',
-                                                    color: Colors.black,
-                                                    fontSize: 12),
-                                                actions: <Widget>[
-                                                  FlatButton(
-                                                    onPressed: () =>
-                                                        Navigator.of(context)
-                                                            .pop(true),
-                                                    child: const TextBold(
-                                                        text: 'Close',
-                                                        color: Colors.black,
-                                                        fontSize: 12),
-                                                  ),
-                                                ],
-                                              ));
-                                    } else {
-                                      context
-                                          .read<MapDataProvider>()
-                                          .getMapData(
-                                            data.docs[index]['lat'],
-                                            data.docs[index]['long'],
-                                            data.docs[index].id,
-                                            position.latitude,
-                                            position.longitude,
-                                          );
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MapSample()));
-                                    }
-                                  },
-                                  icon: Image.asset('assets/images/map.png')),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              data.docs[index]['request'] != 'Accepted'
-                                  ? IconButton(
-                                      onPressed: () async {
-                                        FirebaseFirestore.instance
-                                            .collection('Booking')
-                                            .doc(data.docs[index].id)
-                                            .update({
-                                          'request': 'Declined',
-                                          'workerRemove': true,
-                                          'archive': true,
-                                        });
-                                      },
-                                      icon: const Icon(
-                                        Icons.cancel,
-                                        color: Colors.red,
-                                        size: 38,
-                                      ))
-                                  : Container(),
-                            ],
-                          ),
+                        SlidableAction(
+                          onPressed: (context) {
+                            // Yaawa implement ni, okay?
+                            FirebaseFirestore.instance
+                                .collection('Booking')
+                                .doc(data.docs[index].id)
+                                .update({
+                              'markAsRead': true,
+                            });
+                          },
+                          backgroundColor: appBarColor,
+                          foregroundColor: Colors.white,
+                          icon: Icons.mark_email_read_rounded,
+                          label: 'Mark as Read',
                         ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        TextBold(
-                            text: data.docs[index]['request'],
-                            color: Colors.green,
-                            fontSize: 14),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        const TextRegular(
-                            text: 'Requested on',
-                            color: Colors.grey,
-                            fontSize: 10),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        TextBold(
-                            text:
-                                '${data.docs[index]['date']} - ${data.docs[index]['time']}',
-                            color: Colors.black,
-                            fontSize: 12),
                       ],
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      height: 170,
+                      width: double.infinity,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 40, right: 40),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Column(children: [
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  CircleAvatar(
+                                    maxRadius: 40,
+                                    minRadius: 40,
+                                    backgroundImage: NetworkImage(data
+                                                    .docs[index]
+                                                ['userProfilePicture'] ==
+                                            ''
+                                        ? 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
+                                        : data.docs[index]
+                                            ['userProfilePicture']),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  TextRegular(
+                                      text: data.docs[index]['requesterName'],
+                                      color: Colors.black,
+                                      fontSize: 14),
+                                ]),
+                                const Expanded(
+                                  child: SizedBox(
+                                    width: 30,
+                                  ),
+                                ),
+                                IconButton(
+                                    onPressed: () async {
+                                      Position position =
+                                          await Geolocator.getCurrentPosition(
+                                              desiredAccuracy:
+                                                  LocationAccuracy.high);
+                                      bool serviceEnabled;
+                                      LocationPermission permission;
+
+                                      // Test if location services are enabled.
+                                      serviceEnabled = await Geolocator
+                                          .isLocationServiceEnabled();
+                                      if (!serviceEnabled) {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                                  title: const TextBold(
+                                                      text: 'Cannot Procceed',
+                                                      color: Colors.black,
+                                                      fontSize: 14),
+                                                  content: const TextRegular(
+                                                      text:
+                                                          'Location is not turned on',
+                                                      color: Colors.black,
+                                                      fontSize: 12),
+                                                  actions: <Widget>[
+                                                    FlatButton(
+                                                      onPressed: () =>
+                                                          Navigator.of(context)
+                                                              .pop(true),
+                                                      child: const TextBold(
+                                                          text: 'Close',
+                                                          color: Colors.black,
+                                                          fontSize: 12),
+                                                    ),
+                                                  ],
+                                                ));
+                                      } else {
+                                        context
+                                            .read<MapDataProvider>()
+                                            .getMapData(
+                                              data.docs[index]['lat'],
+                                              data.docs[index]['long'],
+                                              data.docs[index].id,
+                                              position.latitude,
+                                              position.longitude,
+                                            );
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MapSample()));
+                                      }
+                                    },
+                                    icon: Image.asset('assets/images/map.png')),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                data.docs[index]['request'] != 'Accepted'
+                                    ? IconButton(
+                                        onPressed: () async {
+                                          FirebaseFirestore.instance
+                                              .collection('Booking')
+                                              .doc(data.docs[index].id)
+                                              .update({
+                                            'request': 'Declined',
+                                            'workerRemove': true,
+                                            'archive': true,
+                                          });
+                                        },
+                                        icon: const Icon(
+                                          Icons.cancel,
+                                          color: Colors.red,
+                                          size: 38,
+                                        ))
+                                    : Container(),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          TextBold(
+                              text: data.docs[index]['request'],
+                              color: Colors.green,
+                              fontSize: 14),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          const TextRegular(
+                              text: 'Requested on',
+                              color: Colors.grey,
+                              fontSize: 10),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          TextBold(
+                              text:
+                                  '${data.docs[index]['date']} - ${data.docs[index]['time']}',
+                              color: Colors.black,
+                              fontSize: 12),
+                        ],
+                      ),
                     ),
                   ),
                 );

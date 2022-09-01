@@ -44,6 +44,7 @@ class _HomePageState extends State<HomePage> {
         .where('workerUsername', isEqualTo: box.read('username'))
         .where('workerPassword', isEqualTo: box.read('password'))
         .where('workerRemove', isEqualTo: false)
+        .where('markAsRead', isEqualTo: false)
         .snapshots()
         .listen((event) {
       for (var element in event.docChanges) {

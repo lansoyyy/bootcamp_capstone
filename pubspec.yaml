@@ -57,6 +57,7 @@ dependencies:
   liquid_swipe: ^2.0.0
   internet_connection_checker:
   flutter_local_notifications: ^9.9.0
+  flutter_slidable:
   
 
 dev_dependencies:

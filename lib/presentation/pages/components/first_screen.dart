@@ -204,7 +204,7 @@ class _FirstTabState extends State<FirstTab> {
                                                 ['profilePicture'] ==
                                             ''
                                         ? 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
-                                        : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'),
+                                        : data.docs[index]['profilePicture']),
                                   ),
                                   TextBold(
                                       text: (data.docs[index]['username'] ==

@@ -76,7 +76,7 @@ class SecondTab extends StatelessWidget {
                                             ['companyLogo'] ==
                                         ''
                                     ? 'https://cdn-icons-png.flaticon.com/512/16/16096.png'
-                                    : 'https://cdn-icons-png.flaticon.com/512/16/16096.png'),
+                                    : data.docs[index]['companyLogo']),
                               ),
                               TextBold(
                                   text: data.docs[index]['companyName'],

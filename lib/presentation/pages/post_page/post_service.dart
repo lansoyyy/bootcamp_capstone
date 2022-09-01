@@ -919,7 +919,7 @@ class _PostServiceState extends State<PostService> {
                                     color: Colors.black,
                                     fontSize: 12),
                                 actions: <Widget>[
-                                  FlatButton(
+                                  ElevatedButton(
                                     onPressed: () async {
                                       String cdate2 =
                                           DateFormat("MMMM dd, yyyy")
@@ -938,7 +938,7 @@ class _PostServiceState extends State<PostService> {
                                           imageURL1,
                                           timesHired,
                                           cdate2);
-                                      Navigator.of(context).pushReplacement(
+                                      Navigator.of(context).push(
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   HomePage()));

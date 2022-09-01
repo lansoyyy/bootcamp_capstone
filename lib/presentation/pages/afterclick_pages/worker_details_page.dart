@@ -347,99 +347,125 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
                             ],
                           ));
                 } else {
-                  Position position = await Geolocator.getCurrentPosition(
-                      desiredAccuracy: LocationAccuracy.high);
-
-                  CoolAlert.show(
-                    barrierDismissible: false,
-                    context: context,
-                    backgroundColor: appBarColor,
-                    type: CoolAlertType.success,
-                    confirmBtnColor: appBarColor,
-                    confirmBtnTextStyle: const TextStyle(
-                      fontFamily: 'QRegular',
-                      color: Colors.white,
-                    ),
-                    title: '',
-                    onConfirmBtnTap: () async {
-                      // Book
-                      bookAService(
-                          box.read('username'),
-                          box.read('password'),
-                          context.read<PostProvider>().getName(),
-                          contactNumber,
-                          getDate(),
-                          getTime(selectedTime),
-                          position.latitude,
-                          position.longitude,
-                          context.read<PostProvider>().getUsername(),
-                          context.read<PostProvider>().getPassword(),
-                          profilePicture,
-                          context.read<PostProvider>().getSkill(),
-                          context.read<PostProvider>().getRate(),
-                          requesterName,
-                          context.read<PostProvider>().getProfilePicture());
-                      FirebaseFirestore.instance
-                          .collection('Users')
-                          .doc(context.read<PostProvider>().getUsername() +
-                              '-' +
-                              context.read<PostProvider>().getPassword())
-                          .update({'timesHired': timesHired += 1});
-                      FirebaseFirestore.instance
-                          .collection('Service')
-                          .doc(context.read<PostProvider>().getUsername() +
-                              '-' +
-                              context.read<PostProvider>().getPassword() +
-                              '-' +
-                              context.read<PostProvider>().getSkill())
-                          .update({'timesHired': timesHired = timesHired + 1});
-                      Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => HomePage()));
-                    },
-                    text: "Service Booked Successfully!",
-                  );
-                  _selectTime();
-                  _selectDate();
-                  showDialog(
-                      barrierColor: Colors.white,
-                      context: context,
+                  if (context.read<PostProvider>().getUsername() ==
+                      box.read('username')) {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              title: const TextBold(
+                                  text: 'Cannot Procceed',
+                                  color: Colors.black,
+                                  fontSize: 14),
+                              content: const TextRegular(
+                                  text: "Can't book to own self",
+                                  color: Colors.black,
+                                  fontSize: 12),
+                              actions: <Widget>[
+                                FlatButton(
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(true),
+                                  child: const TextBold(
+                                      text: 'Close',
+                                      color: Colors.black,
+                                      fontSize: 12),
+                                ),
+                              ],
+                            ));
+                  } else {
+                    Position position = await Geolocator.getCurrentPosition(
+                        desiredAccuracy: LocationAccuracy.high);
+                    CoolAlert.show(
                       barrierDismissible: false,
-                      builder: (context) => AlertDialog(
-                            title: const TextBold(
-                                text: 'Enter your Contact Number',
-                                color: Colors.black,
-                                fontSize: 14),
-                            content: Container(
-                                margin:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                padding: const EdgeInsets.only(top: 20),
-                                child: TextFormField(
-                                  maxLength: 11,
-                                  keyboardType: TextInputType.number,
-                                  onChanged: (_input) {
-                                    contactNumber = _input;
+                      context: context,
+                      backgroundColor: appBarColor,
+                      type: CoolAlertType.success,
+                      confirmBtnColor: appBarColor,
+                      confirmBtnTextStyle: const TextStyle(
+                        fontFamily: 'QRegular',
+                        color: Colors.white,
+                      ),
+                      title: '',
+                      onConfirmBtnTap: () async {
+                        // Book
+                        bookAService(
+                            box.read('username'),
+                            box.read('password'),
+                            context.read<PostProvider>().getName(),
+                            contactNumber,
+                            getDate(),
+                            getTime(selectedTime),
+                            position.latitude,
+                            position.longitude,
+                            context.read<PostProvider>().getUsername(),
+                            context.read<PostProvider>().getPassword(),
+                            profilePicture,
+                            context.read<PostProvider>().getSkill(),
+                            context.read<PostProvider>().getRate(),
+                            requesterName,
+                            context.read<PostProvider>().getProfilePicture());
+                        FirebaseFirestore.instance
+                            .collection('Users')
+                            .doc(context.read<PostProvider>().getUsername() +
+                                '-' +
+                                context.read<PostProvider>().getPassword())
+                            .update({'timesHired': timesHired += 1});
+                        FirebaseFirestore.instance
+                            .collection('Service')
+                            .doc(context.read<PostProvider>().getUsername() +
+                                '-' +
+                                context.read<PostProvider>().getPassword() +
+                                '-' +
+                                context.read<PostProvider>().getSkill())
+                            .update(
+                                {'timesHired': timesHired = timesHired + 1});
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => HomePage()));
+                      },
+                      text: "Service Booked Successfully!",
+                    );
+                    _selectTime();
+                    _selectDate();
+                    showDialog(
+                        barrierColor: Colors.white,
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => AlertDialog(
+                              title: const TextBold(
+                                  text: 'Enter your Contact Number',
+                                  color: Colors.black,
+                                  fontSize: 14),
+                              content: Container(
+                                  margin: const EdgeInsets.only(
+                                      left: 10, right: 10),
+                                  padding: const EdgeInsets.only(top: 20),
+                                  child: TextFormField(
+                                    maxLength: 11,
+                                    keyboardType: TextInputType.number,
+                                    onChanged: (_input) {
+                                      contactNumber = _input;
+                                    },
+                                    decoration: InputDecoration(
+                                        enabledBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: Color(0xff303952)),
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                        labelText: "Contact Number",
+                                        border: const OutlineInputBorder()),
+                                  )),
+                              actions: <Widget>[
+                                FlatButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop(true);
                                   },
-                                  decoration: InputDecoration(
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: Color(0xff303952)),
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                      labelText: "Contact Number",
-                                      border: const OutlineInputBorder()),
-                                )),
-                            actions: <Widget>[
-                              FlatButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop(true);
-                                },
-                                child: const TextBold(
-                                    text: 'Continue',
-                                    color: Colors.black,
-                                    fontSize: 12),
-                              ),
-                            ],
-                          ));
+                                  child: const TextBold(
+                                      text: 'Continue',
+                                      color: Colors.black,
+                                      fontSize: 12),
+                                ),
+                              ],
+                            ));
+                  }
                 }
               },
             ),
