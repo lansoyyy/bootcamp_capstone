@@ -202,7 +202,8 @@ class _ResquestPageState extends State<ResquestPage> {
                                             .doc(data.docs[index].id)
                                             .update({
                                           'request': 'Declined',
-                                          'workerRemove': true
+                                          'workerRemove': true,
+                                          'archive': true,
                                         });
                                       },
                                       icon: const Icon(
