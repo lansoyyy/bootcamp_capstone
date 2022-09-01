@@ -103,8 +103,8 @@ class _MyDrawerState extends State<DrawerWidget> {
             ),
             ListTile(
               onTap: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const HistoryPage()));
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => HistoryPage()));
               },
               leading: const Icon(Icons.history),
               title: const TextBold(

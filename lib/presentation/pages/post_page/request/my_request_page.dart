@@ -1,3 +1,4 @@
+import 'package:capston/data/services/cloud_functions/create_history.dart';
 import 'package:capston/presentation/widgets/appbar_widget.dart';
 import 'package:capston/presentation/widgets/button_widget.dart';
 import 'package:capston/presentation/widgets/drawer_widget.dart';
@@ -143,8 +144,76 @@ class MyRequestPage extends StatelessWidget {
                                               actions: <Widget>[
                                                 FlatButton(
                                                   onPressed: () {
-                                                    Navigator.of(context)
-                                                        .pop(true);
+                                                    createHistory1(
+                                                        data.docs[index]
+                                                            ['userUsername'],
+                                                        data.docs[index]
+                                                            ['userPassword'],
+                                                        data.docs[index]
+                                                            ['userName'],
+                                                        data.docs[index]
+                                                            ['contactNumber'],
+                                                        data.docs[index]
+                                                            ['date'],
+                                                        data.docs[index]
+                                                            ['service'],
+                                                        data.docs[index]
+                                                            ['requesterName'],
+                                                        amountPaid);
+                                                    createHistory2(
+                                                        data.docs[index]
+                                                            ['workerUsername'],
+                                                        data.docs[index]
+                                                            ['workerPassword'],
+                                                        data.docs[index]
+                                                            ['userName'],
+                                                        data.docs[index]
+                                                            ['contactNumber'],
+                                                        data.docs[index]
+                                                            ['date'],
+                                                        data.docs[index]
+                                                            ['service'],
+                                                        data.docs[index]
+                                                            ['requesterName'],
+                                                        amountPaid);
+                                                    showDialog(
+                                                        barrierDismissible:
+                                                            false,
+                                                        context: context,
+                                                        builder: (context) =>
+                                                            AlertDialog(
+                                                              title: const TextBold(
+                                                                  text:
+                                                                      'Status',
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 14),
+                                                              content: const TextRegular(
+                                                                  text:
+                                                                      'Operation Successful',
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 12),
+                                                              actions: <Widget>[
+                                                                FlatButton(
+                                                                  onPressed:
+                                                                      () async {
+                                                                    Navigator.of(
+                                                                            context)
+                                                                        .pushReplacement(MaterialPageRoute(
+                                                                            builder: (context) =>
+                                                                                MyRequestPage()));
+                                                                  },
+                                                                  child: const TextBold(
+                                                                      text:
+                                                                          'Continue',
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          12),
+                                                                ),
+                                                              ],
+                                                            ));
                                                   },
                                                   child: const TextBold(
                                                       text: 'Continue',
