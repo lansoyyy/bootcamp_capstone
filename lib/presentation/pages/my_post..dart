@@ -20,12 +20,22 @@ class MyPost extends StatelessWidget {
           title: const TextRegular(
               text: 'My Post', color: Colors.white, fontSize: 18),
           backgroundColor: appBarColor,
-          bottom: const TabBar(
+          bottom: TabBar(
             tabs: [
               Tab(
+                icon: Image.asset(
+                  'assets/images/sw.png',
+                  color: Colors.white,
+                  height: 18,
+                ),
                 text: 'Service',
               ),
               Tab(
+                icon: Image.asset(
+                  'assets/images/jo.png',
+                  color: Colors.white,
+                  height: 18,
+                ),
                 text: 'Job Offer',
               ),
             ],
