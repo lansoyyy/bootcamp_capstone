@@ -163,35 +163,6 @@ class LoginPage extends StatelessWidget {
                       bool hasInternet =
                           await InternetConnectionChecker().hasConnection;
                       if (hasInternet == true) {
-                        showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (context) => AlertDialog(
-                                  title: const TextBold(
-                                      text: 'Cannot Procceed',
-                                      color: Colors.black,
-                                      fontSize: 14),
-                                  content: const TextRegular(
-                                      text:
-                                          'Need to sign up and fill up users credentials first',
-                                      color: Colors.black,
-                                      fontSize: 12),
-                                  actions: <Widget>[
-                                    FlatButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const SignupPage()));
-                                      },
-                                      child: const TextBold(
-                                          text: 'Continue',
-                                          color: Colors.black,
-                                          fontSize: 12),
-                                    ),
-                                  ],
-                                ));
-
                         try {
                           final facebookLogInResult =
                               await FacebookAuth.instance.login();
@@ -274,35 +245,6 @@ class LoginPage extends StatelessWidget {
                       bool hasInternet =
                           await InternetConnectionChecker().hasConnection;
                       if (hasInternet == true) {
-                        showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (context) => AlertDialog(
-                                  title: const TextBold(
-                                      text: 'Cannot Procceed',
-                                      color: Colors.black,
-                                      fontSize: 14),
-                                  content: const TextRegular(
-                                      text:
-                                          'Need to sign up and fill up users credentials first',
-                                      color: Colors.black,
-                                      fontSize: 12),
-                                  actions: <Widget>[
-                                    FlatButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const SignupPage()));
-                                      },
-                                      child: const TextBold(
-                                          text: 'Continue',
-                                          color: Colors.black,
-                                          fontSize: 12),
-                                    ),
-                                  ],
-                                ));
-
                         final GoogleSignIn _googleSignIn =
                             GoogleSignIn(scopes: ['email']);
 
