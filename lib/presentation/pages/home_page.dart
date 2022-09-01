@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:capston/presentation/pages/components/first_screen.dart';
 import 'package:capston/presentation/pages/components/second_tab.dart';
 import 'package:capston/presentation/pages/components/third_tab.dart';
+import 'package:capston/presentation/pages/post_page/request/my_request_page.dart';
 import 'package:capston/presentation/pages/post_page/request/request_page.dart';
 import 'package:capston/presentation/screens/onboarding_screen2.dart';
 
@@ -26,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   late int selectedIndex = 0;
   late Stream<QuerySnapshot> requests;
   late StreamSubscription<QuerySnapshot> notifyWorker;
+  late StreamSubscription<QuerySnapshot> notifyResponse;
   final box = GetStorage();
 
   @override
@@ -47,10 +49,29 @@ class _HomePageState extends State<HomePage> {
       for (var element in event.docChanges) {
         if (element.type == DocumentChangeType.added ||
             element.type == DocumentChangeType.modified) {
-          alertUserRequest();
+          alertUser('You receive a request', 'View in order to see details',
+              'Navigate to Request Panel');
         }
       }
     });
+
+    notifyResponse = FirebaseFirestore.instance
+        .collection('Booking')
+        .where('userUsername', isEqualTo: box.read('username'))
+        .where('userPassword', isEqualTo: box.read('password'))
+        .where('request', whereIn: ['Accepted', 'Declined'])
+        .snapshots()
+        .listen((event) {
+          for (var element in event.docChanges) {
+            if (element.type == DocumentChangeType.added ||
+                element.type == DocumentChangeType.modified) {
+              alertUser(
+                  'A worker responded to offer',
+                  'View in order to see details',
+                  'Navigate to My Request Panel');
+            }
+          }
+        });
     super.initState();
   }
 
@@ -63,15 +84,20 @@ class _HomePageState extends State<HomePage> {
               actions: <Widget>[
                 TextButton(
                     onPressed: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => ResquestPage()));
+                      (payload == 'Navigate to Request Panel')
+                          ? Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => ResquestPage()))
+                          : Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => MyRequestPage()));
                     },
                     child: const Text('OK'))
               ],
             ));
   }
 
-  Future alertUserRequest() async {
+  Future alertUser(header, subheader, payload) async {
     var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
         "Job Request", "Pending Request",
         channelDescription: "Notify User",
@@ -83,10 +109,10 @@ class _HomePageState extends State<HomePage> {
         NotificationDetails(android: androidPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
       0,
-      "You receive a request",
-      "View in order to see details",
+      header,
+      subheader,
       platformChannelSpecifics,
-      payload: "Navigating to Request Panel",
+      payload: payload,
     );
   }
 

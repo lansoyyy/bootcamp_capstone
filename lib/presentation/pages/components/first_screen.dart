@@ -190,7 +190,10 @@ class _FirstTabState extends State<FirstTab> {
                                         data.docs[index]['profilePicture']),
                                   ),
                                   TextBold(
-                                      text: data.docs[index]['name'],
+                                      text: (data.docs[index]['username'] ==
+                                              box.read('username'))
+                                          ? 'You'
+                                          : data.docs[index]['name'],
                                       color: Colors.black,
                                       fontSize: 16),
                                   TextBold(
