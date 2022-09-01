@@ -120,6 +120,16 @@ class _FirstTabState extends State<FirstTab> {
           .collection('Service')
           .where('skill', isEqualTo: 'Nanny Services')
           .snapshots();
+    } else if (_value == 20) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Make Up Artist')
+          .snapshots();
+    } else if (_value == 21) {
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .where('skill', isEqualTo: 'Massage Therapist')
+          .snapshots();
     }
   }
 
@@ -627,6 +637,40 @@ class _FirstTabState extends State<FirstTab> {
                           fontSize: 22),
                     ])),
                     value: 19,
+                  ),
+                  DropdownMenuItem(
+                    child: Center(
+                        child: Row(children: const [
+                      Icon(
+                        Icons.person,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      TextBold(
+                          text: 'Make Up Artist',
+                          color: Colors.white,
+                          fontSize: 22),
+                    ])),
+                    value: 20,
+                  ),
+                  DropdownMenuItem(
+                    child: Center(
+                        child: Row(children: const [
+                      Icon(
+                        Icons.person,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      TextBold(
+                          text: 'Massage Therapist',
+                          color: Colors.white,
+                          fontSize: 22),
+                    ])),
+                    value: 21,
                   ),
                 ],
                 onChanged: (value) {

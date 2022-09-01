@@ -597,6 +597,40 @@ class _PostServiceState extends State<PostService> {
                           ])),
                           value: 18,
                         ),
+                        DropdownMenuItem(
+                          child: Center(
+                              child: Row(children: const [
+                            Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            TextBold(
+                                text: 'Make Up Artist',
+                                color: Colors.white,
+                                fontSize: 22),
+                          ])),
+                          value: 19,
+                        ),
+                        DropdownMenuItem(
+                          child: Center(
+                              child: Row(children: const [
+                            Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            TextBold(
+                                text: 'Massage Therapist',
+                                color: Colors.white,
+                                fontSize: 22),
+                          ])),
+                          value: 20,
+                        ),
                       ],
                       onChanged: (value) {
                         setState(() {
