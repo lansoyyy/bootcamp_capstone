@@ -60,6 +60,7 @@ class _HomePageState extends State<HomePage> {
         .where('userUsername', isEqualTo: box.read('username'))
         .where('userPassword', isEqualTo: box.read('password'))
         .where('request', whereIn: ['Accepted', 'Declined'])
+        .where('archive', isEqualTo: false)
         .snapshots()
         .listen((event) {
           for (var element in event.docChanges) {

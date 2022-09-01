@@ -210,6 +210,25 @@ class _FirstTabState extends State<FirstTab> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   const SizedBox(
+                                    height: 10,
+                                  ),
+                                  const Text(
+                                    'Date Posted',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      fontFamily: 'QReg',
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                  Text(
+                                    data.docs[index]['datePosted'],
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      fontFamily: 'QBold',
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  const SizedBox(
                                     height: 30,
                                   ),
                                   const Text(

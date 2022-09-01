@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
@@ -886,6 +887,9 @@ class _PostServiceState extends State<PostService> {
                                 actions: <Widget>[
                                   FlatButton(
                                     onPressed: () async {
+                                      String cdate2 =
+                                          DateFormat("MMMM dd, yyyy")
+                                              .format(DateTime.now());
                                       postService(
                                           name,
                                           username,
@@ -898,7 +902,8 @@ class _PostServiceState extends State<PostService> {
                                           description,
                                           imageURL,
                                           imageURL1,
-                                          timesHired);
+                                          timesHired,
+                                          cdate2);
                                       Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                               builder: (context) =>
