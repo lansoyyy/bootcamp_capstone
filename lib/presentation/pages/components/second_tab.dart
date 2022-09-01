@@ -72,8 +72,11 @@ class SecondTab extends StatelessWidget {
                               CircleAvatar(
                                 maxRadius: 50,
                                 minRadius: 50,
-                                backgroundImage: NetworkImage(
-                                    data.docs[index]['companyLogo']),
+                                backgroundImage: NetworkImage(data.docs[index]
+                                            ['companyLogo'] ==
+                                        ''
+                                    ? 'https://cdn-icons-png.flaticon.com/512/16/16096.png'
+                                    : 'https://cdn-icons-png.flaticon.com/512/16/16096.png'),
                               ),
                               TextBold(
                                   text: data.docs[index]['companyName'],

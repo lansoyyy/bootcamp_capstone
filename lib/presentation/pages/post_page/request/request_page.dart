@@ -121,8 +121,10 @@ class _ResquestPageState extends State<ResquestPage> {
                                   maxRadius: 40,
                                   minRadius: 40,
                                   backgroundImage: NetworkImage(data.docs[index]
-                                          ['userProfilePicture'] ??
-                                      'https://cdn-icons-png.flaticon.com/512/149/149071.png'),
+                                              ['userProfilePicture'] ==
+                                          ''
+                                      ? 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
+                                      : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'),
                                 ),
                                 const SizedBox(
                                   height: 5,

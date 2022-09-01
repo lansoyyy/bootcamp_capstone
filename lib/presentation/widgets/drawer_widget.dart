@@ -70,7 +70,9 @@ class _MyDrawerState extends State<DrawerWidget> {
               currentAccountPicture: CircleAvatar(
                 minRadius: 50,
                 maxRadius: 50,
-                backgroundImage: NetworkImage(profilePicture),
+                backgroundImage: NetworkImage(profilePicture == ''
+                    ? 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
+                    : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'),
               ),
             ),
             Padding(

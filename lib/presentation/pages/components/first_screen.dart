@@ -199,8 +199,12 @@ class _FirstTabState extends State<FirstTab> {
                                   CircleAvatar(
                                     maxRadius: 50,
                                     minRadius: 50,
-                                    backgroundImage: NetworkImage(
-                                        data.docs[index]['profilePicture']),
+                                    backgroundImage: NetworkImage(data
+                                                    .docs[index]
+                                                ['profilePicture'] ==
+                                            ''
+                                        ? 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
+                                        : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'),
                                   ),
                                   TextBold(
                                       text: (data.docs[index]['username'] ==
