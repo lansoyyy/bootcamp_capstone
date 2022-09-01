@@ -101,136 +101,142 @@ class MyRequestPage extends StatelessWidget {
                                         .compareTo(data.docs[index]['date']) ==
                                     0
                             ? Container()
-                            : data.docs[index]['archive'] == false
-                                ? Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                    child: ButtonWidget(
-                                      text: 'Done Service',
-                                      onPressed: () {
-                                        showDialog(
-                                            context: context,
-                                            barrierDismissible: true,
-                                            builder: (context) => AlertDialog(
-                                                  title: const TextBold(
-                                                      text: 'Enter Amount Paid',
-                                                      color: Colors.black,
-                                                      fontSize: 14),
-                                                  content: Container(
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              left: 10,
-                                                              right: 10),
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 20),
-                                                      child: TextFormField(
-                                                        keyboardType:
-                                                            TextInputType
-                                                                .number,
-                                                        onChanged: (_input) {
-                                                          amountPaid = _input;
-                                                        },
-                                                        decoration: InputDecoration(
-                                                            suffixText: 'php',
-                                                            enabledBorder: OutlineInputBorder(
-                                                                borderSide: const BorderSide(
+                            : Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                child: ButtonWidget(
+                                  text: 'Done Service',
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        barrierDismissible: true,
+                                        builder: (context) => AlertDialog(
+                                              title: const TextBold(
+                                                  text: 'Enter Amount Paid',
+                                                  color: Colors.black,
+                                                  fontSize: 14),
+                                              content: Container(
+                                                  margin: const EdgeInsets.only(
+                                                      left: 10, right: 10),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 20),
+                                                  child: TextFormField(
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    onChanged: (_input) {
+                                                      amountPaid = _input;
+                                                    },
+                                                    decoration: InputDecoration(
+                                                        suffixText: 'php',
+                                                        enabledBorder: OutlineInputBorder(
+                                                            borderSide:
+                                                                const BorderSide(
                                                                     color: Colors
                                                                         .black),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            5)),
-                                                            labelText:
-                                                                "Amount Paid",
-                                                            border:
-                                                                const OutlineInputBorder()),
-                                                      )),
-                                                  actions: <Widget>[
-                                                    FlatButton(
-                                                      onPressed: () {
-                                                        createHistory1(
-                                                            data.docs[index][
-                                                                'userUsername'],
-                                                            data.docs[index][
-                                                                'userPassword'],
-                                                            data.docs[index]
-                                                                ['userName'],
-                                                            data.docs[index][
-                                                                'contactNumber'],
-                                                            data.docs[index]
-                                                                ['date'],
-                                                            data.docs[index]
-                                                                ['service'],
-                                                            data.docs[index][
-                                                                'requesterName'],
-                                                            amountPaid);
-                                                        createHistory2(
-                                                            data.docs[index][
-                                                                'workerUsername'],
-                                                            data.docs[index][
-                                                                'workerPassword'],
-                                                            data.docs[index]
-                                                                ['userName'],
-                                                            data.docs[index][
-                                                                'contactNumber'],
-                                                            data.docs[index]
-                                                                ['date'],
-                                                            data.docs[index]
-                                                                ['service'],
-                                                            data.docs[index][
-                                                                'requesterName'],
-                                                            amountPaid);
-                                                        showDialog(
-                                                            barrierDismissible:
-                                                                false,
-                                                            context: context,
-                                                            builder:
-                                                                (context) =>
-                                                                    AlertDialog(
-                                                                      title: const TextBold(
-                                                                          text:
-                                                                              'Status',
-                                                                          color: Colors
-                                                                              .black,
-                                                                          fontSize:
-                                                                              14),
-                                                                      content: const TextRegular(
-                                                                          text:
-                                                                              'Operation Successful',
-                                                                          color: Colors
-                                                                              .black,
-                                                                          fontSize:
-                                                                              12),
-                                                                      actions: <
-                                                                          Widget>[
-                                                                        FlatButton(
-                                                                          onPressed:
-                                                                              () async {
-                                                                            FirebaseFirestore.instance.collection('Booking').doc(data.docs[index]['id']).update({
-                                                                              'archive': true
-                                                                            });
-                                                                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyRequestPage()));
-                                                                          },
-                                                                          child: const TextBold(
-                                                                              text: 'Continue',
-                                                                              color: Colors.black,
-                                                                              fontSize: 12),
-                                                                        ),
-                                                                      ],
-                                                                    ));
-                                                      },
-                                                      child: const TextBold(
-                                                          text: 'Continue',
-                                                          color: Colors.black,
-                                                          fontSize: 12),
-                                                    ),
-                                                  ],
-                                                ));
-                                      },
-                                    ),
-                                  )
-                                : Container(),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5)),
+                                                        labelText:
+                                                            "Amount Paid",
+                                                        border:
+                                                            const OutlineInputBorder()),
+                                                  )),
+                                              actions: <Widget>[
+                                                FlatButton(
+                                                  onPressed: () {
+                                                    createHistory1(
+                                                        data.docs[index]
+                                                            ['userUsername'],
+                                                        data.docs[index]
+                                                            ['userPassword'],
+                                                        data.docs[index]
+                                                            ['userName'],
+                                                        data.docs[index]
+                                                            ['contactNumber'],
+                                                        data.docs[index]
+                                                            ['date'],
+                                                        data.docs[index]
+                                                            ['service'],
+                                                        data.docs[index]
+                                                            ['requesterName'],
+                                                        amountPaid);
+                                                    createHistory2(
+                                                        data.docs[index]
+                                                            ['workerUsername'],
+                                                        data.docs[index]
+                                                            ['workerPassword'],
+                                                        data.docs[index]
+                                                            ['userName'],
+                                                        data.docs[index]
+                                                            ['contactNumber'],
+                                                        data.docs[index]
+                                                            ['date'],
+                                                        data.docs[index]
+                                                            ['service'],
+                                                        data.docs[index]
+                                                            ['requesterName'],
+                                                        amountPaid);
+                                                    showDialog(
+                                                        barrierDismissible:
+                                                            false,
+                                                        context: context,
+                                                        builder: (context) =>
+                                                            AlertDialog(
+                                                              title: const TextBold(
+                                                                  text:
+                                                                      'Status',
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 14),
+                                                              content: const TextRegular(
+                                                                  text:
+                                                                      'Operation Successful',
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 12),
+                                                              actions: <Widget>[
+                                                                FlatButton(
+                                                                  onPressed:
+                                                                      () async {
+                                                                    FirebaseFirestore
+                                                                        .instance
+                                                                        .collection(
+                                                                            'Booking')
+                                                                        .doc(data.docs[index]
+                                                                            [
+                                                                            'id'])
+                                                                        .update({
+                                                                      'archive':
+                                                                          true
+                                                                    });
+                                                                    Navigator.of(
+                                                                            context)
+                                                                        .pushReplacement(MaterialPageRoute(
+                                                                            builder: (context) =>
+                                                                                MyRequestPage()));
+                                                                  },
+                                                                  child: const TextBold(
+                                                                      text:
+                                                                          'Continue',
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          12),
+                                                                ),
+                                                              ],
+                                                            ));
+                                                  },
+                                                  child: const TextBold(
+                                                      text: 'Continue',
+                                                      color: Colors.black,
+                                                      fontSize: 12),
+                                                ),
+                                              ],
+                                            ));
+                                  },
+                                ),
+                              )
                       ],
                     ),
                   ],
