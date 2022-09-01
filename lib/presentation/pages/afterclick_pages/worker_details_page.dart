@@ -116,6 +116,7 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
         selectedDate = selected;
       });
       print(getDate());
+      _selectTime();
     }
     return selectedDate;
   }
@@ -132,6 +133,56 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
       });
 
       print(getTime(selectedTime));
+      CoolAlert.show(
+        barrierDismissible: false,
+        context: context,
+        backgroundColor: appBarColor,
+        type: CoolAlertType.success,
+        confirmBtnColor: appBarColor,
+        confirmBtnTextStyle: const TextStyle(
+          fontFamily: 'QRegular',
+          color: Colors.white,
+        ),
+        title: '',
+        onConfirmBtnTap: () async {
+          Position position = await Geolocator.getCurrentPosition(
+              desiredAccuracy: LocationAccuracy.high);
+          // Book
+          bookAService(
+              box.read('username'),
+              box.read('password'),
+              context.read<PostProvider>().getName(),
+              contactNumber,
+              getDate(),
+              getTime(selectedTime),
+              position.latitude,
+              position.longitude,
+              context.read<PostProvider>().getUsername(),
+              context.read<PostProvider>().getPassword(),
+              profilePicture,
+              context.read<PostProvider>().getSkill(),
+              context.read<PostProvider>().getRate(),
+              requesterName,
+              context.read<PostProvider>().getProfilePicture());
+          FirebaseFirestore.instance
+              .collection('Users')
+              .doc(context.read<PostProvider>().getUsername() +
+                  '-' +
+                  context.read<PostProvider>().getPassword())
+              .update({'timesHired': timesHired += 1});
+          FirebaseFirestore.instance
+              .collection('Service')
+              .doc(context.read<PostProvider>().getUsername() +
+                  '-' +
+                  context.read<PostProvider>().getPassword() +
+                  '-' +
+                  context.read<PostProvider>().getSkill())
+              .update({'timesHired': timesHired = timesHired + 1});
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => HomePage()));
+        },
+        text: "Service Booked Successfully!",
+      );
     }
     return selectedTime;
   }
@@ -372,59 +423,6 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
                               ],
                             ));
                   } else {
-                    Position position = await Geolocator.getCurrentPosition(
-                        desiredAccuracy: LocationAccuracy.high);
-                    CoolAlert.show(
-                      barrierDismissible: false,
-                      context: context,
-                      backgroundColor: appBarColor,
-                      type: CoolAlertType.success,
-                      confirmBtnColor: appBarColor,
-                      confirmBtnTextStyle: const TextStyle(
-                        fontFamily: 'QRegular',
-                        color: Colors.white,
-                      ),
-                      title: '',
-                      onConfirmBtnTap: () async {
-                        // Book
-                        bookAService(
-                            box.read('username'),
-                            box.read('password'),
-                            context.read<PostProvider>().getName(),
-                            contactNumber,
-                            getDate(),
-                            getTime(selectedTime),
-                            position.latitude,
-                            position.longitude,
-                            context.read<PostProvider>().getUsername(),
-                            context.read<PostProvider>().getPassword(),
-                            profilePicture,
-                            context.read<PostProvider>().getSkill(),
-                            context.read<PostProvider>().getRate(),
-                            requesterName,
-                            context.read<PostProvider>().getProfilePicture());
-                        FirebaseFirestore.instance
-                            .collection('Users')
-                            .doc(context.read<PostProvider>().getUsername() +
-                                '-' +
-                                context.read<PostProvider>().getPassword())
-                            .update({'timesHired': timesHired += 1});
-                        FirebaseFirestore.instance
-                            .collection('Service')
-                            .doc(context.read<PostProvider>().getUsername() +
-                                '-' +
-                                context.read<PostProvider>().getPassword() +
-                                '-' +
-                                context.read<PostProvider>().getSkill())
-                            .update(
-                                {'timesHired': timesHired = timesHired + 1});
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => HomePage()));
-                      },
-                      text: "Service Booked Successfully!",
-                    );
-                    _selectTime();
-                    _selectDate();
                     showDialog(
                         barrierColor: Colors.white,
                         context: context,
@@ -456,7 +454,8 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
                               actions: <Widget>[
                                 FlatButton(
                                   onPressed: () {
-                                    Navigator.of(context).pop(true);
+                                    _selectDate();
+                                    // Navigator.of(context).pop(true);
                                   },
                                   child: const TextBold(
                                       text: 'Continue',
