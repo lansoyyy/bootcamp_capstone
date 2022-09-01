@@ -73,6 +73,7 @@ class _ResquestPageState extends State<ResquestPage> {
               .where('workerUsername', isEqualTo: box.read('username'))
               .where('workerPassword', isEqualTo: box.read('password'))
               .where('workerRemove', isEqualTo: false)
+              .where('archive', isEqualTo: false)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
@@ -189,11 +190,7 @@ class _ResquestPageState extends State<ResquestPage> {
                                                   MapSample()));
                                     }
                                   },
-                                  icon: const Icon(
-                                    Icons.location_on_rounded,
-                                    color: Colors.green,
-                                    size: 38,
-                                  )),
+                                  icon: Image.asset('assets/images/map.png')),
                               const SizedBox(
                                 width: 10,
                               ),
@@ -203,11 +200,10 @@ class _ResquestPageState extends State<ResquestPage> {
                                         FirebaseFirestore.instance
                                             .collection('Booking')
                                             .doc(data.docs[index].id)
-                                            .update({'request': 'Declined'});
-                                        FirebaseFirestore.instance
-                                            .collection('Booking')
-                                            .doc(data.docs[index].id)
-                                            .update({'workerRemove': true});
+                                            .update({
+                                          'request': 'Declined',
+                                          'workerRemove': true
+                                        });
                                       },
                                       icon: const Icon(
                                         Icons.cancel,

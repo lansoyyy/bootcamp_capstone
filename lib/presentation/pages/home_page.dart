@@ -166,23 +166,27 @@ class _HomePageState extends State<HomePage> {
             ThirdTab(),
           ],
         ),
-        bottomNavigationBar: FloatingNavbar(
-          fontSize: 8,
-          backgroundColor: appBarColor,
-          selectedItemColor: appBarColor,
-          onTap: (int val) {
-            setState(() {
-              selectedIndex = val;
-            });
-          },
-          currentIndex: selectedIndex,
-          items: [
-            FloatingNavbarItem(
-                icon: Icons.contact_mail_outlined, title: 'Workers'),
-            FloatingNavbarItem(
-                icon: Icons.work_outline_rounded, title: 'Job Offers'),
-            FloatingNavbarItem(icon: Icons.create, title: 'Post'),
-          ],
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: FloatingNavbar(
+            borderRadius: 10,
+            fontSize: 8,
+            backgroundColor: appBarColor,
+            selectedItemColor: appBarColor,
+            onTap: (int val) {
+              setState(() {
+                selectedIndex = val;
+              });
+            },
+            currentIndex: selectedIndex,
+            items: [
+              FloatingNavbarItem(
+                  icon: Icons.contact_mail_outlined, title: 'Workers'),
+              FloatingNavbarItem(
+                  icon: Icons.work_outline_rounded, title: 'Job Offers'),
+              FloatingNavbarItem(icon: Icons.create, title: 'Post'),
+            ],
+          ),
         ),
       ),
     );

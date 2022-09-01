@@ -26,6 +26,7 @@ class MyRequestPage extends StatelessWidget {
               .where('userUsername', isEqualTo: box.read('username'))
               .where('userPassword', isEqualTo: box.read('password'))
               .where('archive', isEqualTo: false)
+              .where('workerRemove', isEqualTo: false)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
