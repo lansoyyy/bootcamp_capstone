@@ -40,6 +40,7 @@ Future bookAService(
     'rate': rate,
     'requesterName': requesterName,
     'workerProfilePicture': workerProfilePicture,
+    'archive': false,
   };
 
   await docUser.set(json);

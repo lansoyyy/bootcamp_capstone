@@ -92,6 +92,13 @@ class _MyDrawerState extends State<DrawerWidget> {
                 ),
               ),
             ),
+            const Padding(
+              padding: EdgeInsets.only(left: 15, right: 15),
+              child: Divider(
+                color: Colors.grey,
+                thickness: 0.5,
+              ),
+            ),
             ListTile(
               onTap: () {
                 Navigator.of(context).pushReplacement(
@@ -100,6 +107,13 @@ class _MyDrawerState extends State<DrawerWidget> {
               leading: const Icon(Icons.home),
               title: const TextBold(
                   text: 'Home', color: Colors.black, fontSize: 12),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 15, right: 15),
+              child: Divider(
+                color: Colors.grey,
+                thickness: 0.5,
+              ),
             ),
             ListTile(
               onTap: () {
@@ -110,6 +124,13 @@ class _MyDrawerState extends State<DrawerWidget> {
               title: const TextBold(
                   text: 'History', color: Colors.black, fontSize: 12),
             ),
+            const Padding(
+              padding: EdgeInsets.only(left: 15, right: 15),
+              child: Divider(
+                color: Colors.grey,
+                thickness: 0.5,
+              ),
+            ),
             ListTile(
               onTap: () {
                 Navigator.of(context).pushReplacement(
@@ -118,6 +139,13 @@ class _MyDrawerState extends State<DrawerWidget> {
               leading: const Icon(Icons.person),
               title: const TextBold(
                   text: 'My Post', color: Colors.black, fontSize: 12),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 15, right: 15),
+              child: Divider(
+                color: Colors.grey,
+                thickness: 0.5,
+              ),
             ),
             ListTile(
               onTap: () {
@@ -128,6 +156,13 @@ class _MyDrawerState extends State<DrawerWidget> {
               title: const TextBold(
                   text: 'Customer Request', color: Colors.black, fontSize: 12),
             ),
+            const Padding(
+              padding: EdgeInsets.only(left: 15, right: 15),
+              child: Divider(
+                color: Colors.grey,
+                thickness: 0.5,
+              ),
+            ),
             ListTile(
               onTap: () {
                 Navigator.of(context).pushReplacement(
@@ -136,6 +171,13 @@ class _MyDrawerState extends State<DrawerWidget> {
               leading: const Icon(Icons.my_library_books_outlined),
               title: const TextBold(
                   text: 'My Request', color: Colors.black, fontSize: 12),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 15, right: 15),
+              child: Divider(
+                color: Colors.grey,
+                thickness: 0.5,
+              ),
             ),
             ListTile(
               onTap: () {
@@ -152,6 +194,13 @@ class _MyDrawerState extends State<DrawerWidget> {
               leading: const Icon(Icons.info),
               title: const TextBold(
                   text: 'About', color: Colors.black, fontSize: 12),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 15, right: 15),
+              child: Divider(
+                color: Colors.grey,
+                thickness: 0.5,
+              ),
             ),
             ListTile(
               onTap: () {
