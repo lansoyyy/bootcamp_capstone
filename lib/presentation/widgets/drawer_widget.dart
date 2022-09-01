@@ -1,5 +1,4 @@
 import 'package:capston/presentation/auth/login_page.dart';
-import 'package:capston/presentation/auth/signup_page.dart';
 import 'package:capston/presentation/pages/history_page.dart';
 import 'package:capston/presentation/pages/home_page.dart';
 import 'package:capston/presentation/pages/my_post..dart';
@@ -82,8 +81,8 @@ class _MyDrawerState extends State<DrawerWidget> {
                 ),
                 color: appBarColor,
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => const SignupPage()));
+                  // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  //     builder: (context) => const SignupPage()));
                 },
                 child: const Padding(
                   padding: EdgeInsets.fromLTRB(50, 10, 50, 10),
