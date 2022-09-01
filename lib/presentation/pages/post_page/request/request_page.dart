@@ -115,7 +115,7 @@ class _ResquestPageState extends State<ResquestPage> {
                                 .collection('Booking')
                                 .doc(data.docs[index].id)
                                 .update({
-                              'markAsRead': true,
+                              'employerMarkAsRead': true,
                             });
                           },
                           backgroundColor: appBarColor,

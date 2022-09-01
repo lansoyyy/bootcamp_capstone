@@ -163,56 +163,54 @@ class LoginPage extends StatelessWidget {
                       bool hasInternet =
                           await InternetConnectionChecker().hasConnection;
                       if (hasInternet == true) {
-                        if (box.read('username') == null) {
-                          showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (context) => AlertDialog(
-                                    title: const TextBold(
-                                        text: 'Cannot Procceed',
-                                        color: Colors.black,
-                                        fontSize: 14),
-                                    content: const TextRegular(
-                                        text:
-                                            'Need to sign up and fill up users credentials first',
-                                        color: Colors.black,
-                                        fontSize: 12),
-                                    actions: <Widget>[
-                                      FlatButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pushReplacement(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const SignupPage()));
-                                        },
-                                        child: const TextBold(
-                                            text: 'Continue',
-                                            color: Colors.black,
-                                            fontSize: 12),
-                                      ),
-                                    ],
-                                  ));
-                        } else {
-                          try {
-                            final facebookLogInResult =
-                                await FacebookAuth.instance.login();
+                        showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => AlertDialog(
+                                  title: const TextBold(
+                                      text: 'Cannot Procceed',
+                                      color: Colors.black,
+                                      fontSize: 14),
+                                  content: const TextRegular(
+                                      text:
+                                          'Need to sign up and fill up users credentials first',
+                                      color: Colors.black,
+                                      fontSize: 12),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SignupPage()));
+                                      },
+                                      child: const TextBold(
+                                          text: 'Continue',
+                                          color: Colors.black,
+                                          fontSize: 12),
+                                    ),
+                                  ],
+                                ));
 
-                            final userData =
-                                await FacebookAuth.instance.getUserData();
+                        try {
+                          final facebookLogInResult =
+                              await FacebookAuth.instance.login();
 
-                            final facebookAuthCredential =
-                                FacebookAuthProvider.credential(
-                                    facebookLogInResult.accessToken!.token);
+                          final userData =
+                              await FacebookAuth.instance.getUserData();
 
-                            await FirebaseAuth.instance
-                                .signInWithCredential(facebookAuthCredential);
+                          final facebookAuthCredential =
+                              FacebookAuthProvider.credential(
+                                  facebookLogInResult.accessToken!.token);
 
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()));
-                          } on FirebaseAuthException catch (e) {
-                            print(e);
-                          }
+                          await FirebaseAuth.instance
+                              .signInWithCredential(facebookAuthCredential);
+
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
+                        } on FirebaseAuthException catch (e) {
+                          print(e);
                         }
                       } else {
                         showDialog(
@@ -276,78 +274,76 @@ class LoginPage extends StatelessWidget {
                       bool hasInternet =
                           await InternetConnectionChecker().hasConnection;
                       if (hasInternet == true) {
-                        if (box.read('username') == null) {
-                          showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (context) => AlertDialog(
-                                    title: const TextBold(
-                                        text: 'Cannot Procceed',
-                                        color: Colors.black,
-                                        fontSize: 14),
-                                    content: const TextRegular(
-                                        text:
-                                            'Need to sign up and fill up users credentials first',
-                                        color: Colors.black,
-                                        fontSize: 12),
-                                    actions: <Widget>[
-                                      FlatButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pushReplacement(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const SignupPage()));
-                                        },
-                                        child: const TextBold(
-                                            text: 'Continue',
-                                            color: Colors.black,
-                                            fontSize: 12),
-                                      ),
-                                    ],
-                                  ));
-                        } else {
-                          final GoogleSignIn _googleSignIn =
-                              GoogleSignIn(scopes: ['email']);
+                        showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => AlertDialog(
+                                  title: const TextBold(
+                                      text: 'Cannot Procceed',
+                                      color: Colors.black,
+                                      fontSize: 14),
+                                  content: const TextRegular(
+                                      text:
+                                          'Need to sign up and fill up users credentials first',
+                                      color: Colors.black,
+                                      fontSize: 12),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SignupPage()));
+                                      },
+                                      child: const TextBold(
+                                          text: 'Continue',
+                                          color: Colors.black,
+                                          fontSize: 12),
+                                    ),
+                                  ],
+                                ));
 
-                          try {
-                            final googleSignInAccount =
-                                await _googleSignIn.signIn();
+                        final GoogleSignIn _googleSignIn =
+                            GoogleSignIn(scopes: ['email']);
 
-                            if (googleSignInAccount == null) {
-                              return;
-                            }
-                            final googleSignInAuth =
-                                await googleSignInAccount.authentication;
-                            final credential = GoogleAuthProvider.credential(
-                              accessToken: googleSignInAuth.accessToken,
-                              idToken: googleSignInAuth.idToken,
-                            );
+                        try {
+                          final googleSignInAccount =
+                              await _googleSignIn.signIn();
 
-                            await FirebaseAuth.instance
-                                .signInWithCredential(credential);
-
-                            if (box.read('signedIn') == false) {
-                              try {
-                                createAccountFirestore(
-                                    googleSignInAccount.email,
-                                    googleSignInAccount.photoUrl!,
-                                    googleSignInAccount.displayName!);
-
-                                box.write('signedIn', true);
-                                box.write(
-                                  'username',
-                                  googleSignInAccount.email,
-                                );
-                              } catch (e) {
-                                print(e);
-                              }
-                            }
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()));
-                          } on FirebaseAuthException catch (e) {
-                            print(e);
+                          if (googleSignInAccount == null) {
+                            return;
                           }
+                          final googleSignInAuth =
+                              await googleSignInAccount.authentication;
+                          final credential = GoogleAuthProvider.credential(
+                            accessToken: googleSignInAuth.accessToken,
+                            idToken: googleSignInAuth.idToken,
+                          );
+
+                          await FirebaseAuth.instance
+                              .signInWithCredential(credential);
+
+                          if (box.read('signedIn') == false) {
+                            try {
+                              createAccountFirestore(
+                                  googleSignInAccount.email,
+                                  googleSignInAccount.photoUrl!,
+                                  googleSignInAccount.displayName!);
+
+                              box.write('signedIn', true);
+                              box.write(
+                                'username',
+                                googleSignInAccount.email,
+                              );
+                            } catch (e) {
+                              print(e);
+                            }
+                          }
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
+                        } on FirebaseAuthException catch (e) {
+                          print(e);
                         }
                       } else {
                         showDialog(

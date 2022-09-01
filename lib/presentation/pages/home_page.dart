@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
         .collection('Booking')
         .where('workerUsername', isEqualTo: box.read('username'))
         .where('workerRemove', isEqualTo: false)
-        .where('markAsRead', isEqualTo: false)
+        .where('employerMarkAsRead', isEqualTo: false)
         .snapshots()
         .listen((event) {
       for (var element in event.docChanges) {
