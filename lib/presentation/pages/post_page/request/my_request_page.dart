@@ -96,10 +96,7 @@ class MyRequestPage extends StatelessWidget {
                             text: data.docs[index]['contactNumber'],
                             color: Colors.grey,
                             fontSize: 14),
-                        currentDate.compareTo(data.docs[index]['date']) > 0 ||
-                                currentDate
-                                        .compareTo(data.docs[index]['date']) ==
-                                    0
+                        currentDate.compareTo(data.docs[index]['date']) < 0
                             ? Container()
                             : Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
