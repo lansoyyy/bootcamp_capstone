@@ -78,10 +78,13 @@ class _HomePageState extends State<HomePage> {
 
   Future onSelectnotification(payload) async {
     showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (_) => AlertDialog(
-              title: const Text('Received Requests'),
-              content: Text(payload),
+              title: const TextBold(
+                  text: 'Received Requests', color: Colors.black, fontSize: 16),
+              content:
+                  TextRegular(text: payload, color: Colors.grey, fontSize: 12),
               actions: <Widget>[
                 TextButton(
                     onPressed: () {
