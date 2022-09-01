@@ -105,7 +105,7 @@ class _ResquestPageState extends State<ResquestPage> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    height: 150,
+                    height: 170,
                     width: double.infinity,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -196,25 +196,34 @@ class _ResquestPageState extends State<ResquestPage> {
                               const SizedBox(
                                 width: 10,
                               ),
-                              IconButton(
-                                  onPressed: () async {
-                                    FirebaseFirestore.instance
-                                        .collection('Booking')
-                                        .doc(data.docs[index].id)
-                                        .update({'request': 'Declined'});
-                                    FirebaseFirestore.instance
-                                        .collection('Booking')
-                                        .doc(data.docs[index].id)
-                                        .update({'workerRemove': true});
-                                  },
-                                  icon: const Icon(
-                                    Icons.cancel,
-                                    color: Colors.red,
-                                    size: 38,
-                                  )),
+                              data.docs[index]['request'] != 'Accepted'
+                                  ? IconButton(
+                                      onPressed: () async {
+                                        FirebaseFirestore.instance
+                                            .collection('Booking')
+                                            .doc(data.docs[index].id)
+                                            .update({'request': 'Declined'});
+                                        FirebaseFirestore.instance
+                                            .collection('Booking')
+                                            .doc(data.docs[index].id)
+                                            .update({'workerRemove': true});
+                                      },
+                                      icon: const Icon(
+                                        Icons.cancel,
+                                        color: Colors.red,
+                                        size: 38,
+                                      ))
+                                  : Container(),
                             ],
                           ),
                         ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        TextBold(
+                            text: data.docs[index]['request'],
+                            color: Colors.green,
+                            fontSize: 14),
                         const SizedBox(
                           height: 5,
                         ),

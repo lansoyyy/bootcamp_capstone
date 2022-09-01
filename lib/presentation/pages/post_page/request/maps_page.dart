@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:capston/data/providers/dataonmap_provider.dart';
-import 'package:capston/presentation/pages/post_page/request/request_page.dart';
 import 'package:capston/presentation/utils/constant/colors.dart';
 import 'package:capston/presentation/widgets/appbar_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -217,39 +216,7 @@ class MapSampleState extends State<MapSample> {
                                 ),
                               ),
                             )
-                          : Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: Align(
-                                alignment: Alignment.bottomCenter,
-                                child: MaterialButton(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  color: appBarColor,
-                                  onPressed: () async {
-                                    // Delete document to Firestore
-                                    FirebaseFirestore.instance
-                                        .collection('Booking')
-                                        .doc(context
-                                            .read<MapDataProvider>()
-                                            .getId)
-                                        .delete();
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ResquestPage()));
-                                  },
-                                  child: const Padding(
-                                    padding:
-                                        EdgeInsets.fromLTRB(80, 15, 80, 15),
-                                    child: TextRegular(
-                                        text: 'Done Servicing',
-                                        color: Colors.white,
-                                        fontSize: 14),
-                                  ),
-                                ),
-                              ),
-                            ),
+                          : Container(),
                     ],
                   ),
                 ],
@@ -260,3 +227,39 @@ class MapSampleState extends State<MapSample> {
               )));
   }
 }
+
+
+
+// Padding(
+//                               padding: const EdgeInsets.only(bottom: 10),
+//                               child: Align(
+//                                 alignment: Alignment.bottomCenter,
+//                                 child: MaterialButton(
+//                                   shape: RoundedRectangleBorder(
+//                                     borderRadius: BorderRadius.circular(5),
+//                                   ),
+//                                   color: appBarColor,
+//                                   onPressed: () async {
+//                                     // Delete document to Firestore
+//                                     FirebaseFirestore.instance
+//                                         .collection('Booking')
+//                                         .doc(context
+//                                             .read<MapDataProvider>()
+//                                             .getId)
+//                                         .delete();
+//                                     Navigator.of(context).pushReplacement(
+//                                         MaterialPageRoute(
+//                                             builder: (context) =>
+//                                                 ResquestPage()));
+//                                   },
+//                                   child: const Padding(
+//                                     padding:
+//                                         EdgeInsets.fromLTRB(80, 15, 80, 15),
+//                                     child: TextRegular(
+//                                         text: 'Done Servicing',
+//                                         color: Colors.white,
+//                                         fontSize: 14),
+//                                   ),
+//                                 ),
+//                               ),
+//                             ),

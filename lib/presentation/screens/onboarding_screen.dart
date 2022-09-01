@@ -13,7 +13,7 @@ class OnboardingScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: LiquidSwipe(
-          waveType: WaveType.liquidReveal,
+          waveType: WaveType.circularReveal,
           enableLoop: false,
           enableSideReveal: true,
           pages: [
