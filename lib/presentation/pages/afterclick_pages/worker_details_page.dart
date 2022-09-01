@@ -27,6 +27,7 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
   }
 
   late int timesHired = 0;
+  late String requesterName = '';
 
   getData() async {
     // Use provider
@@ -43,6 +44,7 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
       for (var queryDocumentSnapshot in querySnapshot.docs) {
         Map<String, dynamic> data = queryDocumentSnapshot.data();
         timesHired = data['timesHired'];
+        requesterName = data['name'];
       }
     });
   }
@@ -374,6 +376,7 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
                         context.read<PostProvider>().getProfilePicture(),
                         context.read<PostProvider>().getSkill(),
                         context.read<PostProvider>().getRate(),
+                        requesterName,
                       );
                       FirebaseFirestore.instance
                           .collection('Users')
