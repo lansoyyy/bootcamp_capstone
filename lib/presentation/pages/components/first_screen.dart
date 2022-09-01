@@ -21,7 +21,10 @@ class _FirstTabState extends State<FirstTab> {
 
   getSkill() {
     if (_value == 0) {
-      return FirebaseFirestore.instance.collection('Service').snapshots();
+      return FirebaseFirestore.instance
+          .collection('Service')
+          .orderBy('datePosted')
+          .snapshots();
     } else if (_value == 1) {
       return FirebaseFirestore.instance
           .collection('Service')
@@ -174,7 +177,7 @@ class _FirstTabState extends State<FirstTab> {
                             borderRadius: BorderRadius.circular(5),
                             //border: Border.all(color: appBarColor, width: 2),
                           ),
-                          height: 150,
+                          height: 160,
                           width: 200,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -229,7 +232,7 @@ class _FirstTabState extends State<FirstTab> {
                                     ),
                                   ),
                                   const SizedBox(
-                                    height: 30,
+                                    height: 20,
                                   ),
                                   const Text(
                                     'I am a',
