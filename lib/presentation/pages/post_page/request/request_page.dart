@@ -75,7 +75,6 @@ class _ResquestPageState extends State<ResquestPage> {
           stream: FirebaseFirestore.instance
               .collection('Booking')
               .where('workerUsername', isEqualTo: box.read('username'))
-              .where('workerPassword', isEqualTo: box.read('password'))
               .where('workerRemove', isEqualTo: false)
               .where('archive', isEqualTo: false)
               .snapshots(),

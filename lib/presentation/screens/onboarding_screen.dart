@@ -130,6 +130,7 @@ class OnboardingScreen extends StatelessWidget {
                           ),
                           color: appBarColor,
                           onPressed: () {
+                            box.write('signedIn', false);
                             Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
                                     builder: (context) =>

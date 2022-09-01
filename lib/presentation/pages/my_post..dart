@@ -46,7 +46,6 @@ class MyPost extends StatelessWidget {
               stream: FirebaseFirestore.instance
                   .collection('Service')
                   .where('username', isEqualTo: box.read('username'))
-                  .where('password', isEqualTo: box.read('password'))
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {

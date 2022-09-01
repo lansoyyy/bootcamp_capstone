@@ -42,7 +42,6 @@ class _HomePageState extends State<HomePage> {
     notifyWorker = FirebaseFirestore.instance
         .collection('Booking')
         .where('workerUsername', isEqualTo: box.read('username'))
-        .where('workerPassword', isEqualTo: box.read('password'))
         .where('workerRemove', isEqualTo: false)
         .where('markAsRead', isEqualTo: false)
         .snapshots()
@@ -59,7 +58,6 @@ class _HomePageState extends State<HomePage> {
     notifyResponse = FirebaseFirestore.instance
         .collection('Booking')
         .where('userUsername', isEqualTo: box.read('username'))
-        .where('userPassword', isEqualTo: box.read('password'))
         .where('request', whereIn: ['Accepted', 'Declined'])
         .where('archive', isEqualTo: false)
         .snapshots()

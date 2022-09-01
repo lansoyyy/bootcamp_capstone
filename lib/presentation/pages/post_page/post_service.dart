@@ -42,7 +42,6 @@ class _PostServiceState extends State<PostService> {
     var collection = FirebaseFirestore.instance
         .collection('Users')
         .where('username', isEqualTo: box.read('username'))
-        .where('password', isEqualTo: box.read('password'))
         .where('type', isEqualTo: 'user');
 
     var querySnapshot = await collection.get();

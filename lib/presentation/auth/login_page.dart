@@ -1,3 +1,4 @@
+import 'package:capston/data/services/cloud_functions/create_account.dart';
 import 'package:capston/presentation/auth/signup_page.dart';
 import 'package:capston/presentation/pages/home_page.dart';
 import 'package:capston/presentation/widgets/text_widget.dart';
@@ -84,7 +85,7 @@ class LoginPage extends StatelessWidget {
                                   password: passwordController.text.trim());
                           box.write('username',
                               usernameController.text + '@hireme.cdo');
-                          box.write('password', passwordController.text);
+
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                   builder: (context) => HomePage()));
@@ -324,6 +325,23 @@ class LoginPage extends StatelessWidget {
 
                             await FirebaseAuth.instance
                                 .signInWithCredential(credential);
+
+                            if (box.read('signedIn') == false) {
+                              try {
+                                createAccountFirestore(
+                                    googleSignInAccount.email,
+                                    googleSignInAccount.photoUrl!,
+                                    googleSignInAccount.displayName!);
+
+                                box.write('signedIn', true);
+                                box.write(
+                                  'username',
+                                  googleSignInAccount.email,
+                                );
+                              } catch (e) {
+                                print(e);
+                              }
+                            }
                             Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
                                     builder: (context) => HomePage()));

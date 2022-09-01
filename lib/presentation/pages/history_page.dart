@@ -20,7 +20,6 @@ class HistoryPage extends StatelessWidget {
           stream: FirebaseFirestore.instance
               .collection('History')
               .where('username', isEqualTo: box.read('username'))
-              .where('password', isEqualTo: box.read('password'))
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {

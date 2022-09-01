@@ -109,7 +109,6 @@ class _UpdateProfileDetailsState extends State<UpdateProfileDetails> {
     var collection = FirebaseFirestore.instance
         .collection('Users')
         .where('username', isEqualTo: box.read('username'))
-        .where('password', isEqualTo: box.read('password'))
         .where('type', isEqualTo: 'user');
 
     var querySnapshot = await collection.get();
@@ -202,7 +201,7 @@ class _UpdateProfileDetailsState extends State<UpdateProfileDetails> {
                                 print(username + '-' + password);
                                 FirebaseFirestore.instance
                                     .collection('Users')
-                                    .doc(username + '-' + password)
+                                    .doc(username)
                                     .update({
                                   'profilePicture': imageURL,
                                   'name': _fullnameController.text,

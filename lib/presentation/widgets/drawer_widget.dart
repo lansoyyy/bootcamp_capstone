@@ -34,9 +34,7 @@ class _MyDrawerState extends State<DrawerWidget> {
     // Use provider
     var collection = FirebaseFirestore.instance
         .collection('Users')
-        .where('username', isEqualTo: box.read('username'))
-        .where('password', isEqualTo: box.read('password'))
-        .where('type', isEqualTo: 'user');
+        .where('username', isEqualTo: box.read('username'));
 
     var querySnapshot = await collection.get();
     if (mounted) {

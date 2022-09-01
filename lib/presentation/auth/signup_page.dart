@@ -290,7 +290,6 @@ class _SignupPageState extends State<SignupPage> {
                                         createAccountFirestore(
                                             _usernameController.text +
                                                 '@hireme.cdo',
-                                            _passwordController.text,
                                             imageURL,
                                             _fullnameController.text);
 

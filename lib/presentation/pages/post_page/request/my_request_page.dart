@@ -24,7 +24,6 @@ class MyRequestPage extends StatelessWidget {
           stream: FirebaseFirestore.instance
               .collection('Booking')
               .where('userUsername', isEqualTo: box.read('username'))
-              .where('userPassword', isEqualTo: box.read('password'))
               .where('archive', isEqualTo: false)
               .where('workerRemove', isEqualTo: false)
               .snapshots(),
