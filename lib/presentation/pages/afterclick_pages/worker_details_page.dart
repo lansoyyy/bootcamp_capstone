@@ -1,5 +1,3 @@
-import 'package:capston/data/services/cloud_functions/booking.dart';
-import 'package:capston/presentation/pages/home_page.dart';
 import 'package:capston/presentation/utils/constant/colors.dart';
 import 'package:capston/presentation/widgets/button_widget.dart';
 import 'package:capston/presentation/widgets/text_widget.dart';
@@ -13,6 +11,8 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../data/providers/worker_details_provider.dart';
+import '../../../data/services/cloud_functions/booking.dart';
+import '../home_page.dart';
 
 class WorkerDetailsPage extends StatefulWidget {
   @override
@@ -24,19 +24,19 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
   void initState() {
     super.initState();
     _determinePosition();
+    getData();
   }
 
   late int timesHired = 0;
   late String requesterName = '';
+  late String profilePicture = '';
 
   getData() async {
     // Use provider
     var collection = FirebaseFirestore.instance
         .collection('Users')
-        .where('username',
-            isEqualTo: context.read<PostProvider>().getUsername())
-        .where('password',
-            isEqualTo: context.read<PostProvider>().getPassword())
+        .where('username', isEqualTo: box.read('username'))
+        .where('password', isEqualTo: box.read('password'))
         .where('type', isEqualTo: 'user');
 
     var querySnapshot = await collection.get();
@@ -45,6 +45,7 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
         Map<String, dynamic> data = queryDocumentSnapshot.data();
         timesHired = data['timesHired'];
         requesterName = data['name'];
+        profilePicture = data['profilePicture'];
       }
     });
   }
@@ -363,21 +364,21 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
                     onConfirmBtnTap: () async {
                       // Book
                       bookAService(
-                        box.read('username'),
-                        box.read('password'),
-                        context.read<PostProvider>().getName(),
-                        contactNumber,
-                        getDate(),
-                        getTime(selectedTime),
-                        position.latitude,
-                        position.longitude,
-                        context.read<PostProvider>().getUsername(),
-                        context.read<PostProvider>().getPassword(),
-                        context.read<PostProvider>().getProfilePicture(),
-                        context.read<PostProvider>().getSkill(),
-                        context.read<PostProvider>().getRate(),
-                        requesterName,
-                      );
+                          box.read('username'),
+                          box.read('password'),
+                          context.read<PostProvider>().getName(),
+                          contactNumber,
+                          getDate(),
+                          getTime(selectedTime),
+                          position.latitude,
+                          position.longitude,
+                          context.read<PostProvider>().getUsername(),
+                          context.read<PostProvider>().getPassword(),
+                          profilePicture,
+                          context.read<PostProvider>().getSkill(),
+                          context.read<PostProvider>().getRate(),
+                          requesterName,
+                          context.read<PostProvider>().getProfilePicture());
                       FirebaseFirestore.instance
                           .collection('Users')
                           .doc(context.read<PostProvider>().getUsername() +

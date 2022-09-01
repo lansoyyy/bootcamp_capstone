@@ -1,12 +1,18 @@
 import 'package:capston/presentation/widgets/appbar_widget.dart';
+import 'package:capston/presentation/widgets/button_widget.dart';
 import 'package:capston/presentation/widgets/drawer_widget.dart';
 import 'package:capston/presentation/widgets/text_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 
 class MyRequestPage extends StatelessWidget {
   final box = GetStorage();
+
+  var amountPaid = '';
+
+  String currentDate = DateFormat("MMM d, yyyy").format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +55,7 @@ class MyRequestPage extends StatelessWidget {
                     ExpansionTile(
                       leading: const Icon(Icons.pending),
                       title: TextBold(
-                          text: data.docs[index]['request'] +
-                              ' ' +
-                              data.docs[index]['rate'],
+                          text: data.docs[index]['request'],
                           color: Colors.black,
                           fontSize: 18),
                       subtitle: TextRegular(
@@ -64,13 +68,20 @@ class MyRequestPage extends StatelessWidget {
                             color: Colors.black,
                             fontSize: 24),
                         const SizedBox(
+                          height: 5,
+                        ),
+                        TextBold(
+                            text: data.docs[index]['rate'],
+                            color: Colors.green,
+                            fontSize: 18),
+                        const SizedBox(
                           height: 20,
                         ),
                         CircleAvatar(
                           minRadius: 40,
                           maxRadius: 40,
                           backgroundImage: NetworkImage(
-                              data.docs[index]['userProfilePicture']),
+                              data.docs[index]['workerProfilePicture']),
                         ),
                         const SizedBox(
                           height: 10,
@@ -83,6 +94,68 @@ class MyRequestPage extends StatelessWidget {
                             text: data.docs[index]['contactNumber'],
                             color: Colors.grey,
                             fontSize: 14),
+                        currentDate.compareTo(data.docs[index]['date']) > 0 ||
+                                currentDate
+                                        .compareTo(data.docs[index]['date']) ==
+                                    0
+                            ? Container()
+                            : Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                child: ButtonWidget(
+                                  text: 'Done Service',
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        barrierDismissible: true,
+                                        builder: (context) => AlertDialog(
+                                              title: const TextBold(
+                                                  text: 'Enter Amount Paid',
+                                                  color: Colors.black,
+                                                  fontSize: 14),
+                                              content: Container(
+                                                  margin: const EdgeInsets.only(
+                                                      left: 10, right: 10),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 20),
+                                                  child: TextFormField(
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    onChanged: (_input) {
+                                                      amountPaid = _input;
+                                                    },
+                                                    decoration: InputDecoration(
+                                                        suffixText: 'php',
+                                                        enabledBorder: OutlineInputBorder(
+                                                            borderSide:
+                                                                const BorderSide(
+                                                                    color: Colors
+                                                                        .black),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5)),
+                                                        labelText:
+                                                            "Amount Paid",
+                                                        border:
+                                                            const OutlineInputBorder()),
+                                                  )),
+                                              actions: <Widget>[
+                                                FlatButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context)
+                                                        .pop(true);
+                                                  },
+                                                  child: const TextBold(
+                                                      text: 'Continue',
+                                                      color: Colors.black,
+                                                      fontSize: 12),
+                                                ),
+                                              ],
+                                            ));
+                                  },
+                                ),
+                              ),
                       ],
                     ),
                   ],

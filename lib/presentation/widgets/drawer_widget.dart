@@ -1,8 +1,11 @@
 import 'package:capston/presentation/auth/login_page.dart';
+import 'package:capston/presentation/auth/signup_page.dart';
+import 'package:capston/presentation/pages/history_page.dart';
 import 'package:capston/presentation/pages/home_page.dart';
 import 'package:capston/presentation/pages/my_post..dart';
 import 'package:capston/presentation/pages/post_page/request/my_request_page.dart';
 import 'package:capston/presentation/pages/post_page/request/request_page.dart';
+import 'package:capston/presentation/utils/constant/colors.dart';
 import 'package:capston/presentation/widgets/text_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -71,6 +74,24 @@ class _MyDrawerState extends State<DrawerWidget> {
                 backgroundImage: NetworkImage(profilePicture),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: MaterialButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                color: appBarColor,
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const SignupPage()));
+                },
+                child: const Padding(
+                  padding: EdgeInsets.fromLTRB(50, 10, 50, 10),
+                  child: TextRegular(
+                      text: 'Update Profile', color: Colors.white, fontSize: 8),
+                ),
+              ),
+            ),
             ListTile(
               onTap: () {
                 Navigator.of(context).pushReplacement(
@@ -79,6 +100,15 @@ class _MyDrawerState extends State<DrawerWidget> {
               leading: const Icon(Icons.home),
               title: const TextBold(
                   text: 'Home', color: Colors.black, fontSize: 12),
+            ),
+            ListTile(
+              onTap: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const HistoryPage()));
+              },
+              leading: const Icon(Icons.history),
+              title: const TextBold(
+                  text: 'History', color: Colors.black, fontSize: 12),
             ),
             ListTile(
               onTap: () {

@@ -33,6 +33,7 @@ class _PostServiceState extends State<PostService> {
   late String profilePicture = '';
   late String password = '';
   late String username = '';
+
   late int timesHired = 0;
 
   getData() async {

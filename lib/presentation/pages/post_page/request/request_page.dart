@@ -119,8 +119,9 @@ class _ResquestPageState extends State<ResquestPage> {
                                 CircleAvatar(
                                   maxRadius: 40,
                                   minRadius: 40,
-                                  backgroundImage: NetworkImage(
-                                      data.docs[index]['userProfilePicture']),
+                                  backgroundImage: NetworkImage(data.docs[index]
+                                          ['userProfilePicture'] ??
+                                      'https://cdn-icons-png.flaticon.com/512/149/149071.png'),
                                 ),
                                 const SizedBox(
                                   height: 5,
