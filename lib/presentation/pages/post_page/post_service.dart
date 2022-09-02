@@ -226,6 +226,10 @@ class _PostServiceState extends State<PostService> {
       return 'Baby Sitter';
     } else if (_value == 18) {
       return 'Nanny Services';
+    } else if (_value == 19) {
+      return 'Make Up Artist';
+    } else if (_value == 20) {
+      return 'Massage Therapist';
     }
   }
 
