@@ -42,6 +42,7 @@ Future bookAService(
     'workerProfilePicture': workerProfilePicture,
     'archive': false,
     'employerMarkAsRead': false,
+    'employerMarkAsRead2': false,
   };
 
   await docUser.set(json);

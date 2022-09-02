@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:capston/data/providers/dataonmap_provider.dart';
 import 'package:capston/presentation/utils/constant/colors.dart';
 import 'package:capston/presentation/widgets/appbar_widget.dart';
+import 'package:capston/presentation/widgets/button_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../widgets/text_widget.dart';
 
@@ -218,6 +220,70 @@ class MapSampleState extends State<MapSample> {
                             )
                           : Container(),
                     ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 20, 30, 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: ExpansionTile(
+                            leading: const Icon(Icons.person),
+                            collapsedIconColor: Colors.black,
+                            title: const TextBold(
+                                text: 'View Customer',
+                                color: Colors.black,
+                                fontSize: 18),
+                            children: [
+                              CircleAvatar(
+                                minRadius: 40,
+                                maxRadius: 40,
+                                backgroundImage: NetworkImage(context
+                                    .read<MapDataProvider>()
+                                    .getUserProfilePicture),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextBold(
+                                  text: context
+                                      .read<MapDataProvider>()
+                                      .getRequesterName,
+                                  color: Colors.black,
+                                  fontSize: 24),
+                              TextRegular(
+                                  text: context
+                                      .read<MapDataProvider>()
+                                      .getContactNumber,
+                                  color: Colors.grey,
+                                  fontSize: 12),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              ButtonWidget(
+                                text: 'Call Me',
+                                onPressed: () async {
+                                  String driverContactNumber = context
+                                      .read<MapDataProvider>()
+                                      .getContactNumber;
+                                  final _text = 'tel:$driverContactNumber';
+                                  if (await canLaunch(_text)) {
+                                    await launch(_text);
+                                  }
+                                },
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               )

@@ -66,7 +66,7 @@ class MyRequestPage extends StatelessWidget {
                                     .collection('Booking')
                                     .doc(data.docs[index].id)
                                     .update({
-                                  'employerMarkAsRead': true,
+                                  'employerMarkAsRead2': true,
                                 });
                               },
                               backgroundColor: appBarColor,
@@ -81,7 +81,7 @@ class MyRequestPage extends StatelessWidget {
                                     .collection('Booking')
                                     .doc(data.docs[index].id)
                                     .update({
-                                  'employerMarkAsRead': false,
+                                  'employerMarkAsRead2': false,
                                 });
                               },
                               backgroundColor: Colors.green,

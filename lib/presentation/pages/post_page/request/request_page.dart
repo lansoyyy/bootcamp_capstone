@@ -226,12 +226,18 @@ class _ResquestPageState extends State<ResquestPage> {
                                         context
                                             .read<MapDataProvider>()
                                             .getMapData(
-                                              data.docs[index]['lat'],
-                                              data.docs[index]['long'],
-                                              data.docs[index].id,
-                                              position.latitude,
-                                              position.longitude,
-                                            );
+                                                data.docs[index]['lat'],
+                                                data.docs[index]['long'],
+                                                data.docs[index].id,
+                                                position.latitude,
+                                                position.longitude,
+                                                data.docs[index]
+                                                    ['requesterName'],
+                                                data
+                                                        .docs[index]
+                                                    ['userProfilePicture'],
+                                                data.docs[index]
+                                                    ['contactNumber']);
                                         Navigator.of(context).push(
                                             MaterialPageRoute(
                                                 builder: (context) =>
