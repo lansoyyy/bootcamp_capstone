@@ -861,7 +861,7 @@ class _PostServiceState extends State<PostService> {
                                   height: 10,
                                 ),
                                 TextRegular(
-                                    text: 'Add Photo of Police Clearance',
+                                    text: 'Add Photo of Barangay Clearance',
                                     color: Colors.white,
                                     fontSize: 15),
                               ],

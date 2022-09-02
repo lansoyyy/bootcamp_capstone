@@ -76,7 +76,7 @@ class OnboardingScreen2 extends StatelessWidget {
                           color: Colors.black,
                           fontSize: 26),
                       const TextRegular(
-                          text: 'Search for Whos Hiring',
+                          text: "Look Who's Hiring",
                           color: Colors.grey,
                           fontSize: 16),
                       const SizedBox(

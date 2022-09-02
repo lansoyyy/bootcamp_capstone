@@ -58,7 +58,7 @@ class MyRequestPage extends StatelessWidget {
                   startActionPane: ActionPane(
                     motion: const ScrollMotion(),
                     children: [
-                      data.docs[index]['employerMarkAsRead'] != true
+                      data.docs[index]['employerMarkAsRead2'] != true
                           ? SlidableAction(
                               onPressed: (context) {
                                 // Yaawa implement ni, okay?

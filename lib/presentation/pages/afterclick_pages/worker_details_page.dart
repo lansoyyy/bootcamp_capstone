@@ -277,7 +277,7 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
               height: 20,
             ),
             const TextRegular(
-                text: 'Police Clearance', color: Colors.grey, fontSize: 15),
+                text: 'Barangay Clearance', color: Colors.grey, fontSize: 15),
             const SizedBox(
               height: 10,
             ),
