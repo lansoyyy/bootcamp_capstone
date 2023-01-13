@@ -901,7 +901,7 @@ class _PostServiceState extends State<PostService> {
                                     color: Colors.black,
                                     fontSize: 12),
                                 actions: <Widget>[
-                                  FlatButton(
+                                  MaterialButton(
                                     onPressed: () =>
                                         Navigator.of(context).pop(true),
                                     child: const TextBold(
@@ -978,7 +978,7 @@ class _PostServiceState extends State<PostService> {
                                   color: Colors.black,
                                   fontSize: 12),
                               actions: <Widget>[
-                                FlatButton(
+                                MaterialButton(
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },

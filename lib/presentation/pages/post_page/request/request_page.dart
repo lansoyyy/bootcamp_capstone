@@ -211,7 +211,7 @@ class _ResquestPageState extends State<ResquestPage> {
                                                       color: Colors.black,
                                                       fontSize: 12),
                                                   actions: <Widget>[
-                                                    FlatButton(
+                                                    MaterialButton(
                                                       onPressed: () =>
                                                           Navigator.of(context)
                                                               .pop(true),

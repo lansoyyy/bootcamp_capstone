@@ -184,7 +184,7 @@ class MyRequestPage extends StatelessWidget {
                                                                   const OutlineInputBorder()),
                                                         )),
                                                     actions: <Widget>[
-                                                      FlatButton(
+                                                      MaterialButton(
                                                         onPressed: () {
                                                           createHistory1(
                                                               data.docs[index][
@@ -239,7 +239,7 @@ class MyRequestPage extends StatelessWidget {
                                                                             fontSize: 12),
                                                                         actions: <
                                                                             Widget>[
-                                                                          FlatButton(
+                                                                          MaterialButton(
                                                                             onPressed:
                                                                                 () async {
                                                                               FirebaseFirestore.instance.collection('Booking').doc(data.docs[index]['id']).update({

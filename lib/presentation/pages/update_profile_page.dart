@@ -196,7 +196,7 @@ class _UpdateProfileDetailsState extends State<UpdateProfileDetails> {
                               color: Colors.black,
                               fontSize: 12),
                           actions: <Widget>[
-                            FlatButton(
+                            MaterialButton(
                               onPressed: () {
                                 print(username + '-' + password);
                                 FirebaseFirestore.instance

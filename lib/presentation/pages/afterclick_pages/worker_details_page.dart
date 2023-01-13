@@ -336,7 +336,7 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
                                 color: Colors.black,
                                 fontSize: 12),
                             actions: <Widget>[
-                              FlatButton(
+                              MaterialButton(
                                 onPressed: () =>
                                     Navigator.of(context).pop(true),
                                 child: const TextBold(
@@ -361,7 +361,7 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
                                   color: Colors.black,
                                   fontSize: 12),
                               actions: <Widget>[
-                                FlatButton(
+                                MaterialButton(
                                   onPressed: () =>
                                       Navigator.of(context).pop(true),
                                   child: const TextBold(
@@ -401,7 +401,7 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
                                         border: const OutlineInputBorder()),
                                   )),
                               actions: <Widget>[
-                                FlatButton(
+                                MaterialButton(
                                   onPressed: () {
                                     CoolAlert.show(
                                       barrierDismissible: false,

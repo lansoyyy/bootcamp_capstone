@@ -216,14 +216,14 @@ class _MyDrawerState extends State<DrawerWidget> {
                               color: Colors.black,
                               fontSize: 12),
                           actions: <Widget>[
-                            FlatButton(
+                            MaterialButton(
                               onPressed: () => Navigator.of(context).pop(true),
                               child: const TextBold(
                                   text: 'Close',
                                   color: Colors.black,
                                   fontSize: 12),
                             ),
-                            FlatButton(
+                            MaterialButton(
                               onPressed: () async {
                                 await FirebaseAuth.instance.signOut();
                                 Navigator.of(context).pushReplacement(

@@ -83,7 +83,7 @@ class MyPost extends StatelessWidget {
                                       color: Colors.black,
                                       fontSize: 12),
                                   actions: <Widget>[
-                                    FlatButton(
+                                    MaterialButton(
                                       onPressed: () =>
                                           Navigator.of(context).pop(true),
                                       child: const TextBold(
@@ -91,7 +91,7 @@ class MyPost extends StatelessWidget {
                                           color: Colors.black,
                                           fontSize: 12),
                                     ),
-                                    FlatButton(
+                                    MaterialButton(
                                       onPressed: () {
                                         FirebaseFirestore.instance
                                             .collection('Service')
@@ -237,7 +237,7 @@ class MyPost extends StatelessWidget {
                                       color: Colors.black,
                                       fontSize: 12),
                                   actions: <Widget>[
-                                    FlatButton(
+                                    MaterialButton(
                                       onPressed: () =>
                                           Navigator.of(context).pop(true),
                                       child: const TextBold(
@@ -245,7 +245,7 @@ class MyPost extends StatelessWidget {
                                           color: Colors.black,
                                           fontSize: 12),
                                     ),
-                                    FlatButton(
+                                    MaterialButton(
                                       onPressed: () {
                                         FirebaseFirestore.instance
                                             .collection('Job Offer')
