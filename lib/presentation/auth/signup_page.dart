@@ -195,7 +195,7 @@ class _SignupPageState extends State<SignupPage> {
                                 width: 30,
                               ),
                               TextBold(
-                                  text: 'Cagayan De Oro',
+                                  text: 'Dagupan City',
                                   color: Colors.black,
                                   fontSize: 16),
                             ]),

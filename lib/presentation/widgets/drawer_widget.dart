@@ -188,7 +188,7 @@ class _MyDrawerState extends State<DrawerWidget> {
                       'assets/images/logo.png',
                       height: 20,
                     ),
-                    applicationLegalese: "For Cagayan De Oro only",
+                    applicationLegalese: "For Dagupan City only",
                     applicationVersion: 'v1.0');
               },
               leading: const Icon(Icons.info),
