@@ -181,29 +181,6 @@ class _MyDrawerState extends State<DrawerWidget> {
             ),
             ListTile(
               onTap: () {
-                showAboutDialog(
-                    context: context,
-                    applicationName: 'Hire Me',
-                    applicationIcon: Image.asset(
-                      'assets/images/logo.png',
-                      height: 20,
-                    ),
-                    applicationLegalese: "For Dagupan City only",
-                    applicationVersion: 'v1.0');
-              },
-              leading: const Icon(Icons.info),
-              title: const TextBold(
-                  text: 'About', color: Colors.black, fontSize: 12),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(left: 15, right: 15),
-              child: Divider(
-                color: Colors.grey,
-                thickness: 0.5,
-              ),
-            ),
-            ListTile(
-              onTap: () {
                 showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
