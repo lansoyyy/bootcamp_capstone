@@ -80,10 +80,10 @@ class LoginPage extends StatelessWidget {
                           await FirebaseAuth.instance
                               .signInWithEmailAndPassword(
                                   email: usernameController.text.trim() +
-                                      '@hireme.cdo',
+                                      '@hireme.dgp',
                                   password: passwordController.text.trim());
                           box.write('username',
-                              usernameController.text + '@hireme.cdo');
+                              usernameController.text + '@hireme.dgp');
 
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(

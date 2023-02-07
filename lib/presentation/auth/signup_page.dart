@@ -257,7 +257,7 @@ class _SignupPageState extends State<SignupPage> {
                         await FirebaseAuth.instance
                             .createUserWithEmailAndPassword(
                                 email: _usernameController.text.trim() +
-                                    '@hireme.cdo',
+                                    '@hireme.dgp',
                                 password: _passwordController.text.trim());
 
                         showDialog(
@@ -276,16 +276,16 @@ class _SignupPageState extends State<SignupPage> {
                                     MaterialButton(
                                       onPressed: () async {
                                         print(_usernameController.text +
-                                            '@hireme.cdo');
+                                            '@hireme.dgp');
 
                                         box.write(
                                             'username',
                                             _usernameController.text +
-                                                '@hireme.cdo');
+                                                '@hireme.dgp');
 
                                         createAccountFirestore(
                                             _usernameController.text +
-                                                '@hireme.cdo',
+                                                '@hireme.dgp',
                                             imageURL,
                                             _fullnameController.text);
 
